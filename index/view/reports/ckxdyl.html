@@ -1,0 +1,475 @@
+ {include file="public/headerp" /}
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">出库汇总</h3>
+				</div>
+			</div>
+		</div>
+ 
+         <script>
+            function swichx(){
+                // 使用JavaScript原生方法获取select选中的文本
+                    var selectElement = document.getElementById('yearx'); // 获取select元素
+                    var selectedText = selectElement.options[selectElement.selectedIndex].text; // 获取选中选项的文本
+                    window.location.href = '/index/reports/ckxdyl?idx=0&year='+{$year}+'&cpnamex='+selectedText;
+            }
+            
+            function ckxdyl(){
+                // 使用JavaScript原生方法获取select选中的文本
+                    var selectElement = document.getElementById('yearx'); // 获取select元素
+                    var selectedText = selectElement.options[selectElement.selectedIndex].text; // 获取选中选项的文本
+                    window.location.href = '/index/reports/ckxdyl?idx=0&year='+{$year}+'&cpnamex='+selectedText;
+            }
+        </script>
+
+
+		<div class="px-4 bg-white">
+	<body class="bg-white">
+		    
+			<div class="p-3 border-bottom">
+
+				<div class="text-muted small">
+				    <i class="fa-solid fa-layer-group me-2"></i>
+				    公司名称：<select id="yearx"  style="width:30%;font-size:1rem;padding:5px;margin:10px;">
+				        {if condition="($cpnamex=='0')"}
+				        {else}
+				        <option>{$cpnamex}</option>
+				        {/if}
+				        
+				        {volist name='scpname' id='vo'}
+				            <option>{$vo.name}</option>
+                        {/volist}
+				    </select><a href="#" onclick="return ckxdyl();" class='btn btn-success btn-sm rounded-pill small'>详单预览</a>
+					</div>
+			</div>
+
+	</body>
+
+    <!-- 引入SheetJS库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        /* 原有样式保持不变 */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #1a6dcc 0%, #0d4a9e 100%);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        .table-container {
+            overflow-x: auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        th {
+            background-color: #2c7be5;
+            color: white;
+            font-weight: 500;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e1e5eb;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        tr:hover {
+            background-color: #edf2f7;
+            transition: background 0.3s;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: #f8fafc;
+            border-top: 1px solid #e1e5eb;
+        }
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #2c7be5;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1a6dcc;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #2c7be5;
+            color: #2c7be5;
+        }
+        .btn-outline:hover {
+            background: #edf4ff;
+        }
+        
+        /* 打印专用样式 - 只在打印时生效 */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .print-container, .print-container * {
+                visibility: visible;
+            }
+            .print-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+            table {
+                min-width: 100%;
+            }
+            th {
+                background-color: #2c7be5 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            header {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="no-print">
+            <h1>{$cpnamex}出库管理表</h1>
+        </header>
+        
+        <!-- 打印容器 - 只打印此部分 -->
+        <div class="print-container">
+            <div class="table-container">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>产品</th>
+                            <th>日期</th>
+                            <th>牌号-批号</th>
+                            <th>规格</th>
+                            <th>重量（kg）</th>
+                            <th>单价（元）</th>
+                            <th>金额（元）</th>
+                            <th>备注【总备注】</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        		<?php 
+                    $amkg=0;
+			        $amje=0;
+			    ?>
+                {volist name='ddall' id='vo1'}
+                    {volist name='ddcp' id='vo2'}
+                    {if condition="($vo1['id']==$vo2['fid'])"}
+                        <tr>
+                            <td>{$vo2['cpname']}</td>
+                            <td>{$vo1['xdate']}</td>
+                            <td>{$vo2['djia']}</td>
+                            <td>{$vo2['csl']}</td>
+                            <td>{$vo2['cpnum']}</td>
+                            <td>{$vo2['danjias']}</td>
+                            <td>{$vo2['jineall']}</td>
+                            {if condition="($vo2['mytext']=='') && ($vo1['xtext']=='')"}
+                            <td></td>
+                            {else}
+                                {if condition="($vo2['mytext']!='') && ($vo1['xtext']=='')"}
+                                <td>{$vo2['mytext']}</td>
+                                {else}
+                                <td>{$vo2['mytext']}&nbsp;&nbsp;[{$vo1['xtext']}]</td>
+                                {/if}
+                            {/if}
+                        </tr>
+                        <?php
+                        $amkg=$amkg+floatval($vo2['cpnum']);
+                        $amje=$amje+floatval($vo2['jineall']);
+                        ?>
+                    {/if}
+                    {/volist}
+                {/volist}
+                        <tr>
+                            <td>合计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{$amkg}</td>
+                            <td></td>
+                            <td>{$amje}</td>
+                            <td></td>
+                        </tr>
+                        <!-- 可在此处添加更多数据行 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="actions no-print">
+            <button class="btn-primary" onclick="exportToExcel()">导出Excel</button>
+            <button class="btn-outline" onclick="printForm()">打印表单</button>
+        </div>
+    </div>
+
+    <script>
+        // 添加新行函数
+        function addNewRow() {
+            const tbody = document.querySelector('tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="date" value="${new Date().toISOString().split('T')[0]}"></td>
+                <td><input type="text" placeholder="输入药品名称"></td>
+                <td><input type="text" placeholder="输入批号"></td>
+                <td><input type="text" placeholder="输入规格"></td>
+                <td><input type="number" step="0.01" placeholder="0.00"></td>
+                <td><input type="number" step="0.01" placeholder="0.00"></td>
+                <td><input type="number" step="0.1" placeholder="0.0"></td>
+                <td><input type="text" placeholder="备注信息"></td>
+            `;
+            tbody.insertBefore(newRow, tbody.firstChild);
+        }
+
+        // 打印表单函数
+        function printForm() {
+            window.print(); // 调用浏览器打印功能
+        }
+        
+
+        
+        // 准备导出数据
+        function prepareExportData() {
+            const rows = document.querySelectorAll('tbody tr');
+            const data = [];
+            
+            rows.forEach(row => {
+                const rowData = {};
+                const cells = row.querySelectorAll('td');
+                
+                // 处理日期列
+                const dateInput = cells[0].querySelector('input');
+                rowData.产品 = dateInput ? dateInput.value : cells[0].textContent;
+                
+                // 处理牌号列
+                const brandInput = cells[1].querySelector('input');
+                rowData.日期 = brandInput ? brandInput.value : cells[1].textContent;
+                
+                // 处理批号列
+                const batchInput = cells[2].querySelector('input');
+                rowData.牌号批号 = batchInput ? batchInput.value : cells[2].textContent;
+                
+                // 处理规格列
+                const specInput = cells[3].querySelector('input');
+                rowData.规格 = specInput ? specInput.value : cells[3].textContent;
+                
+                // 处理重量列（转换为数字）
+                const weightInput = cells[4].querySelector('input');
+                const weightValue = weightInput ? weightInput.value : cells[4].textContent;
+                rowData.重量 = parseFloat(weightValue) || 0;              
+                // 处理单价列（转换为数字）
+                const priceInput = cells[5].querySelector('input');
+                const priceValue = priceInput ? priceInput.value : cells[5].textContent;
+                rowData.单价 = parseFloat(priceValue) || 0;
+                
+                // 处理金额列（转换为数字）
+                const amountInput = cells[6].querySelector('input');
+                const amountValue = amountInput ? amountInput.value : cells[6].textContent;
+                rowData.金额 = parseFloat(amountValue) || 0;
+                
+
+                
+                // 处理备注列
+                const noteInput = cells[7].querySelector('input');
+                rowData.备注 = noteInput ? noteInput.value : cells[7].textContent;
+                
+                data.push(rowData);
+            });
+            
+            return data;
+        }
+        
+        // 应用专业Excel排版样式
+        function applyExcelStyles(ws, data) {
+            // === 表头样式 ===
+            const headerStyle = {
+                font: {
+                    name: '微软雅黑',
+                    sz: 12,
+                    bold: true,
+                    color: { rgb: "FFFFFF" }
+                },
+                fill: {
+                    fgColor: { rgb: "2C7BE5" },
+                    patternType: "solid"
+                },
+                alignment: {
+                    horizontal: "center",
+                    vertical: "center",
+                    wrapText: true
+                },
+                border: {
+                    top: { style: "thin", color: { rgb: "1A5BB0" } },
+                    bottom: { style: "thin", color: { rgb: "1A5BB0" } },
+                    left: { style: "thin", color: { rgb: "1A5BB0" } },
+                    right: { style: "thin", color: { rgb: "1A5BB0" } }
+                }
+            };
+            
+            // 应用表头样式
+            const headerRange = XLSX.utils.decode_range(ws['!ref']);
+            for(let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+                const cellAddress = XLSX.utils.encode_cell({r: 0, c: col});
+                if(!ws[cellAddress]) ws[cellAddress] = {};
+                if(!ws[cellAddress].s) ws[cellAddress].s = {};
+                Object.assign(ws[cellAddress].s, headerStyle);
+            }
+            
+            // === 数据行样式 ===
+            const dataStyle = {
+                font: {
+                    name: '宋体',
+                    sz: 11
+                },
+                alignment: {
+                    vertical: "center"
+                },
+                border: {
+                    top: { style: "thin", color: { rgb: "D9E2EF" } },
+                    bottom: { style: "thin", color: { rgb: "D9E2EF" } },
+                    left: { style: "thin", color: { rgb: "D9E2EF" } },
+                    right: { style: "thin", color: { rgb: "D9E2EF" } }
+                }
+            };
+            
+            // 应用数据行样式
+            for(let row = 1; row <= data.length; row++) {
+                for(let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+                    const cellAddress = XLSX.utils.encode_cell({r: row, c: col});
+                    if(!ws[cellAddress]) ws[cellAddress] = {};
+                    if(!ws[cellAddress].s) ws[cellAddress].s = {};
+                    Object.assign(ws[cellAddress].s, dataStyle);
+                    
+                    // 金额列特殊样式（大于3000标红）
+                    if(col === 5 && parseFloat(ws[cellAddress].v) > 3000) {
+                        ws[cellAddress].s.font = {
+                            ...ws[cellAddress].s.font,
+                            color: { rgb: "FF0000" },
+                            bold: true
+                        };
+                    }
+                }
+                
+                // 隔行变色效果
+                if(row % 2 === 0) {
+                    for(let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+                        const cellAddress = XLSX.utils.encode_cell({r: row, c: col});
+                        ws[cellAddress].s.fill = {
+                            fgColor: { rgb: "F8FAFC" },
+                            patternType: "solid"
+                        };
+                    }
+                }
+            }
+            
+            // === 列宽自适应 ===
+            const colWidths = [
+                { wch: 12 },  // 日期
+                { wch: 20 },  // 牌号
+                { wch: 15 },  // 批号
+                { wch: 15 },  // 规格
+                { wch: 10 },  // 单价
+                { wch: 12 },  // 金额
+                { wch: 10 },  // 重量
+                { wch: 25 }   // 备注
+            ];
+            
+            ws['!cols'] = colWidths;
+            
+            // === 数字格式 ===
+            // 单价、金额保留两位小数
+            for(let row = 1; row <= data.length; row++) {
+                const priceCell = XLSX.utils.encode_cell({r: row, c: 4});
+                const amountCell = XLSX.utils.encode_cell({r: row, c: 5});
+                
+                if(ws[priceCell]) ws[priceCell].s.numFmt = '#,##0.00';
+                if(ws[amountCell]) ws[amountCell].s.numFmt = '#,##0.00';
+            }
+            
+            // === 冻结首行 ===
+            ws['!freeze'] = {
+                xSplit: 0,
+                ySplit: 1,
+                topLeftCell: "A2",
+                state: "frozen"
+            };
+        }
+
+        
+        // 专业Excel导出函数（带排版）
+        function exportToExcel() {
+            // 1. 准备导出的数据
+            const data = prepareExportData();
+            
+            // 2. 创建工作表
+            const ws = XLSX.utils.json_to_sheet(data);
+            
+            // 3. 设置专业排版样式
+            applyExcelStyles(ws, data);
+            
+            // 4. 创建工作簿
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "{$cpnamex}出库管理表");
+            
+            // 5. 导出Excel文件
+            XLSX.writeFile(wb, `{$cpnamex}出库管理表_${new Date().toISOString().slice(0,10)}.xlsx`);
+        }    
+        
+        
+
+    </script>
+
+         {include file="public/footer" /}
+

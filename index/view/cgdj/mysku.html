@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+	</head>
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div>
+			<div class="header header-fixed header-auto-show header-logo-app"><a href="#" data-back-button=""
+					class="header-title header-subtitle">库存汇总</a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+
+			<div class="page-content">
+				<div class="page-title page-title-small">
+					<h2>库存汇总</h2>
+				</div>
+				<div class="card header-card" data-card-height="150">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+
+
+						    <form action="javascript:;" method="POST">
+						        
+                                <div class="input-style input-style-2 has-icon input-required card card-style"><i
+								class="input-icon fa fa-search"></i><input class="form-control"
+								type="name"  placeholder="批号" id="inputId" autofocus onkeydown="handleEnter(event)"></div>
+
+					        </form>
+<script>
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+</script>
+<body class="bg-light">
+		<div class="card card-style mb-1 mt-1 p-1">
+		    <div class="row px-4 pt-0 pb-0 m-1">
+    		    <a href="/index/cgdj/clrklist?id=rk&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">材料入库列表</a>
+    		    <a href="/index/cgdj/cprklist?id=rk&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">成品入库列表</a>
+    		    <a href="/index/cgdj/calrklist?id=rk&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">残料入库列表</a>
+    		    <a href="/index/cgdj/qtrklist?id=rk&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">其他入库列表</a>
+                <a href="/index/cgdj/cgthrklist?id=ck&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">采购物品退回列表</a>
+    		
+    		</div>
+    		<div class="row px-4 pt-0 pb-0 m-1">
+        		<a href="/index/cgdj/jglylist?id=ck&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">加工领用出库列表</a>
+        		<a href="/index/cgdj/wwlylist?id=ck&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">外委领用出库列表</a>
+        		<a href="/index/cgdj/cklist?id=ck&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">销售出库列表</a>
+        	</div>
+    		<div class="row px-4 pt-0 pb-0 m-1">
+    		<a href="/index/cgdj/thrklist?id=ck&y={$y}&m={$m}" class="btn btn-outline-primary btn-sm col-4">退回入库列表</a>
+    		</div>
+		</div>
+
+<div class="card card-style m-2 p-2">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0  text-white">列表</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group">
+                            {volist name="categories" id="category"}
+                            <li class="list-group-item category-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>{$category.indent}├─ {$category.name}[{$category.kcl}]</span>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/index/cgdj/skulist?id={$category.id}&y=0&m=0"><button class="btn btn-outline-primary btn-sm">
+                                            <i class="fa fa-edit"></i>详细
+                                        </button></a>
+                                    </div>
+                                </div>
+                                
+                                {if !empty($category.children)}
+                                <div class="category-children">
+                                    <ul class="list-group">
+                                        {volist name="category.children" id="child"}
+                                        <li class="list-group-item category-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span>{$child.indent}├─ {$child.name}[{$child.kcl}]</span>
+                                                <div class="btn-group btn-group-sm">
+                                                  <a href="/index/cgdj/skulist?id={$child.id}&y=0&m=0"><button class="btn btn-outline-primary btn-sm">
+                                                    <i class="fa fa-edit"></i>详细
+                                                </button></a>
+                                                </div>
+                                            </div>
+                                            
+                                            {if !empty($child.children)}
+                                            <div class="category-children">
+                                                <ul class="list-group">
+                                                    {volist name="child.children" id="grandchild"}
+                                                    <li class="list-group-item category-item">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <span>{$grandchild.indent}├─ {$grandchild.name}[{$grandchild.kcl}]</span>
+                                                            <div class="btn-group btn-group-sm">
+                                                                <a href="/index/cgdj/skulist?id={$grandchild.id}&y=0&m=0"><button class="btn btn-outline-primary btn-sm">
+                                                                    <i class="fa fa-edit"></i>详细
+                                                                </button></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {/volist}
+                                                </ul>
+                                            </div>
+                                            {/if}
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                </div>
+                                {/if}
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+		</div>
+		<div class="pt-5 pb-5"></div>
+    <div class="pt-4 pb-5"></div>
+ {include file="public/footer4" /}
+
+        

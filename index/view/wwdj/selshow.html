@@ -1,0 +1,973 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<script type="text/javascript">
+            function chdate(){
+                var xy=document.getElementById("xy").value;
+                var xm=document.getElementById("xm").value;
+                var xd=document.getElementById("xd").value;
+                document.getElementById("xdate").value=xy+"-"+xm+"-"+xd;
+            }
+	    </script>
+<style>
+   .input-group {
+            margin-bottom: 20px;
+        }
+        #symbolModal {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 10px;
+        }
+        .symbol-box {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: lightgray;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .symbol-box:hover {
+            background-color: gray;
+            color: white;
+        }
+    </style>
+		
+<script>
+
+		function reok(){
+		    let cv1 = document.getElementById("vbb1");
+            let cv2 = document.getElementById("vbb2");
+		    let cv3 = document.getElementById("vbb3");
+		    let cv4 = document.getElementById("vbb4");
+		    let cv5 = document.getElementById("vbb5");
+		    let cv6 = document.getElementById("vbb6");
+		    let cv7 = document.getElementById("vbb7");
+		    let cv8 = document.getElementById("vbb8");
+		    let cv9 = document.getElementById("vbb9");
+		    let cv10 = document.getElementById("vbb10");
+		    
+		    var vbb1=document.getElementById('vbb1').value;
+		    if (vbb1==""){
+		        alert("批号1不能为空！");
+		        cv1.focus();
+		        return false;
+		    }
+
+            if(cv2 != null){
+               var vbb2=document.getElementById('vbb2').value;
+               if (vbb2==""){
+		        alert("批号2不能为空！");
+		        cv2.focus();
+		        return false;
+		    }
+            }
+            if(cv3 != null){
+               var vbb3=document.getElementById('vbb3').value;
+               if (vbb3==""){
+		        alert("批号3不能为空！");
+		        cv3.focus();
+		        return false;
+		    }
+            }
+            if(cv4 != null){
+               var vbb4=document.getElementById('vbb4').value;
+               if (vbb4==""){
+		        alert("批号4不能为空！");
+		        cv4.focus();
+		        return false;
+		    }
+            }
+            if(cv5 != null){
+               var vbb5=document.getElementById('vbb5').value;
+               if (vbb5==""){
+		        alert("批号5不能为空！");
+		        cv5.focus();
+		        return false;
+		    }
+            }
+            if(cv6 != null){
+               var vbb6=document.getElementById('vbb6').value;
+               if (vbb6==""){
+		        alert("批号6不能为空！");
+		        cv6.focus();
+		        return false;
+		    }
+            }
+            if(cv7 != null){
+               var vbb7=document.getElementById('vbb7').value;
+               if (vbb7==""){
+		        alert("批号7不能为空！");
+		        cv7.focus();
+		        return false;
+		    }
+            }
+            if(cv8 != null){
+               var vbb8=document.getElementById('vbb8').value;
+               if (vbb8==""){
+		        alert("批号8不能为空！");
+		        cv8.focus();
+		        return false;
+		    }
+            }
+            if(cv9 != null){
+               var vbb9=document.getElementById('vbb9').value;
+               if (vbb9==""){
+		        alert("批号9不能为空！");
+		        cv9.focus();
+		        return false;
+		    }
+            }
+            if(cv10 != null){
+               var vbb10=document.getElementById('vbb10').value;
+               if (vbb10==""){
+		        alert("批号10不能为空！");
+		        cv10.focus();
+		        return false;
+		    }
+            }
+            
+		    
+		    
+		    let element2 = document.getElementById("numericInput2");
+		    let element3 = document.getElementById("numericInput3");
+		    let element4 = document.getElementById("numericInput4");
+		    let element5 = document.getElementById("numericInput5");
+		    let element6 = document.getElementById("numericInput6");
+		    let element7 = document.getElementById("numericInput7");
+		    let element8 = document.getElementById("numericInput8");
+		    let element9 = document.getElementById("numericInput9");
+		    let element10 = document.getElementById("numericInput10");
+		    
+		    var mzl1=document.getElementById('numericInput1').value;
+		    if (mzl1==""){
+		        alert("重量1不能为空！");
+		        mzl1.focus();
+		        return false;
+		    }
+
+            if(element2 != null){
+               var mzl2=document.getElementById('numericInput2').value;
+               if (mzl2==""){
+		        alert("重量2不能为空！");
+		        mzl2.focus();
+		        return false;
+		    }
+            }
+            if(element3 != null){
+               var mzl3=document.getElementById('numericInput3').value;
+               if (mzl3==""){
+		        alert("重量3不能为空！");
+		        mzl3.focus();
+		        return false;
+		    }
+            }
+            if(element4 != null){
+               var mzl4=document.getElementById('numericInput4').value;
+               if (mzl4==""){
+		        alert("重量4不能为空！");
+		        mzl4.focus();
+		        return false;
+		    }
+            }
+            if(element5 != null){
+               var mzl5=document.getElementById('numericInput5').value;
+               if (mzl5==""){
+		        alert("重量5不能为空！");
+		        mzl5.focus();
+		        return false;
+		    }
+            }
+            if(element6 != null){
+               var mzl6=document.getElementById('numericInput6').value;
+               if (mzl6==""){
+		        alert("重量6不能为空！");
+		        mzl6.focus();
+		        return false;
+		    }
+            }
+            if(element7 != null){
+               var mzl7=document.getElementById('numericInput7').value;
+               if (mzl7==""){
+		        alert("重量7不能为空！");
+		        mzl7.focus();
+		        return false;
+		    }
+            }
+            if(element8 != null){
+               var mzl8=document.getElementById('numericInput8').value;
+               if (mzl8==""){
+		        alert("重量8不能为空！");
+		        mzl8.focus();
+		        return false;
+		    }
+            }
+            if(element9 != null){
+               var mzl9=document.getElementById('numericInput9').value;
+               if (mzl9==""){
+		        alert("重量9不能为空！");
+		        mzl9.focus();
+		        return false;
+		    }
+            }
+            if(element10 != null){
+               var mzl10=document.getElementById('numericInput10').value;
+               if (mzl10==""){
+		        alert("重量10不能为空！");
+		        mzl10.focus();
+		        return false;
+		    }
+            }
+            
+
+            
+            // 获取表单和按钮元素
+
+            const submitButton = document.getElementById('submitButton');
+
+            // 禁用按钮
+            submitButton.disabled = true;
+
+            // 提交表单
+            form.submit();
+
+            // 可选：显示提示信息
+            //alert('表单已提交，请稍候...');
+			//询问框
+
+		        //alert("提交成功！");
+
+		}
+
+</script>
+
+		<script>
+            function username(ix){
+                var xc11= document.getElementById('va'+ix).value;
+                var xc12= document.getElementById('vb'+ix).value;
+                var xc13= document.getElementById('vc'+ix).value;
+                document.getElementById('textInput'+ix).value=xc11+"x"+xc12+"x"+xc13; 
+            }
+            function username2(ix){
+                var xc11= document.getElementById('vba'+ix).value;
+                var xc12= document.getElementById('vbb'+ix).value;
+                document.getElementById('vdX'+ix).value=xc11+"&"+xc12; 
+            }
+            function decrun(ix){
+                document.getElementById('vbb'+ix).value=document.getElementById('vbb'+ix).value+"-";
+                document.getElementById('vbb'+ix).focus();
+            }
+            function danjia(ix){
+                var danjia= document.getElementById('danjia'+ix).value;
+                var numericInputx= document.getElementById('numericInput'+ix).value;
+                document.getElementById('jineall'+ix).value=(danjia*numericInputx).toFixed(2); 
+            }  
+		</script>
+	    
+        <script src="/public/mainstyle/static/css/3.3.3"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#6B7280',
+                        light: '#F3F4F6',
+                        dark: '#1F2937'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+	<style>
+
+		.batch-input-container {
+			position: relative;
+		}
+		.result-item-hover {
+			transition: all duration-200 hover:bg-primary/5 hover:text-primary cursor-pointer;
+		}
+		.input-active {
+			border-primary ring-2 ring-primary/20;
+		}
+		.search-shadow {
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		}
+
+
+	</style>
+	    
+	    
+	</head>
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div>
+			<div class="header header-fixed header-auto-show header-logo-app"><a href="#" data-back-button=""
+					class="header-title header-subtitle">
+			        {if condition="$id=='ck'"}
+					    外委出库信息
+                    {else/}
+                        外委入库信息
+                    {/if}
+                    </a><a href="#" data-back-button=""
+					class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+
+			<div >
+				<div class="page-title page-title-small">
+					<h2><a href="#" data-back-button=""><i class="fa fa-arrow-left"></i></a>
+			        {if condition="$id=='ck'"}
+					    外委出库信息
+                    {else/}
+                        外委入库信息
+                    {/if}
+                    </h2><a
+						href="#" data-menu="menu-main" class="bg-fade-gray1-dark shadow-xl preload-img"
+						data-src="/public/static/newassets/picture/4s.png"></a>
+				</div>
+				<div class="card header-card" data-card-height="150">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+
+		<div class="m-0 p-1">
+		<form class="am-form" action="{:url('Index/wwdj/upadd')}" id="myForm" name="form" method="post">
+            <?php $v=1; ?>
+			{volist name='vpud' id='vo'}
+					<div class="card card-style mx-1 mb-1 bg-white rounded-4 shadow overflow-hidden p-4">
+            				<div>
+            				<label class="form-label">【{$v}.{$vo.num}】</label>
+            				
+            					<div class="input-group mb-1">
+            					<span class="input-group-text p-0">
+            					        <select id="vba<?php echo $v;?>"  onchange="username2(<?php echo $v;?>);" >
+            								{volist name='allphao' id='voph'}
+                        				        <option>{$voph.name}</option>
+                        				    {/volist}
+            							</select></span>
+            							{if condition="$phaox==''"}
+                                            <!--手工批号-->
+                                            <div class="relative batch-input-container">
+                                                <div class="relative">
+                                                    <input 
+                                                        type="text" 
+                                                        class="shadow-none form-control" 
+                                                        placeholder="批号" 
+                                                        id="vbb<?php echo $v;?>" 
+                                                        value="{$phaox}" 
+                                                        onchange="username2(<?php echo $v;?>);"
+                                                        data-batch-input
+                                                        autocomplete="off" 
+                                                        
+                                                    >
+                                            
+                                                    
+                                                    <!-- 清除按钮 -->
+                                                   <button type="button" class="clear-button absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-dark transition-colors hidden">
+                                                        <i class="fa fa-times-circle"></i>
+                                                   </button>
+                                                </div>
+                                                
+                                                <!-- 结果列表 -->
+                                                <div 
+                                                    class="results-list absolute left-0 right-0 mt-2 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto z-10 hidden border border-gray-100"
+                                                >
+                                                    <div class="loading-indicator p-4 text-center text-secondary hidden">
+                                                        <i class="fa fa-circle-o-notch fa-spin mr-2"></i>正在搜索...
+                                                    </div>
+                                                    <div class="no-results p-4 text-center text-secondary hidden">
+                                                        <i class="fa fa-search-minus mr-2"></i><scan style="color:#f91414">未找到匹配的批号</scan>
+                                                    </div>
+                                                    <ul class="results-container divide-y divide-gray-100"></ul>
+                                                </div>
+                                            </div>
+            							<!--手工批号-->
+                                        {else/}
+            							<input type="text" class="shadow-none form-control"
+            							placeholder="批号" id="vbb<?php echo $v;?>" value="{$phaox}<?php echo $v;?>" onchange="username2(<?php echo $v;?>);">
+                                        {/if}
+            					</div>
+            							<input type="hidden" name="phao<?php echo $v;?>"  id="vdX<?php echo $v;?>"/>
+            							
+        					<div class="input-group mb-2">
+            							{if condition="$oldph==1"}
+            							<input type="text" class="shadow-none form-control"
+            							placeholder="原始批号" name="oldph<?php echo $v;?>" value="">
+                                        {else/}
+            							<input type="text" style="display:none;" name="oldph<?php echo $v;?>" value="0">
+                                        {/if}
+            					</div>
+            							
+            				<div class="input-group mb-2">
+            					    
+                                <!-- 修改后 -->
+                                <div class="relative batch-input-container">
+                                    <div class="relative">
+                                        <input 
+                                            type="text" 
+                                            class="shadow-none form-control" 
+                                            placeholder="规格" 
+                                            name="csl<?php echo $v;?>" 
+                                            data-spec-input
+                                            autocomplete="off" 
+                                            id="specInput<?php echo $v;?>"
+                                            onchange="this.dispatchEvent(new Event('change'))" 
+                                        >
+                                        <button type="button" class="clear-button absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-dark transition-colors hidden">
+                                            <i class="fa fa-times-circle"></i>
+                                        </button>
+                                    </div>
+                                    <div class="results-list absolute left-0 right-0 mt-2 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto z-10 hidden border border-gray-100">
+                                        <div class="loading-indicator p-4 text-center text-secondary hidden">
+                                            <i class="fa fa-circle-o-notch fa-spin mr-2"></i>正在搜索...
+                                        </div>
+                                        <div class="no-results p-4 text-center text-secondary hidden">
+                                            <i class="fa fa-search-minus mr-2"></i><scan style="color:#f91414">未找到匹配的规格</scan>
+                                        </div>
+                                        <ul class="results-container divide-y divide-gray-100"></ul>
+                                    </div>
+                                </div>
+                                
+            						
+            						<div style="margin-right:10px;margin-left:10px;font-size:16px;border:solid 1px #666;padding:7px 7px 0 7px;" onclick="openSymbolModal('specInput<?php echo $v;?>')">符号</div>
+            					</div>
+            					
+            					<div class="input-group mb-2">
+                				<input type="text"  placeholder="重量"  id="numericInput<?php echo $v;?>" name="num<?php echo $v;?>" onkeyup="danjia(<?php echo $v;?>);" class="form-control bg-white border-md"  style="float:left;"/>
+                				<select  style="width:10%;float:right;" name="jldw<?php echo $v;?>" class="form-control custom-select bg-white border-md">
+                                        {volist name='alljldw' id='vojl'}
+                    				        <option value="{$vojl.name}">{$vojl.name}</option>
+                    				    {/volist}
+                    				    
+                    			</select>
+                				<input type="checkbox" name="hjzl<?php echo $v;?>" style="margin-right:10px;margin-left:10px;font-size:28px;" checked="checked"/>
+                				</div>
+                				
+                                <div class="input-group mb-2">
+                				<input type="text" name="danjia<?php echo $v;?>" id="danjia<?php echo $v;?>" onkeyup="danjia(<?php echo $v;?>);" style="width:40%;float:left;margin-right:5px;" placeholder="单价" class="form-control bg-white border-md"/>
+                    			<input  type="text" name="jineall<?php echo $v;?>" id="jineall<?php echo $v;?>" onchange="danjia(<?php echo $v;?>);" style="width:40%;float:left;margin-right:5px;" placeholder="金额" class="form-control bg-white border-md"/>
+                    			</div>
+                                <div class="input-group mb-2">
+                				<div class="input-group-prepend">
+                					<span class="input-group-text bg-white px-4 border-md border-right-0">
+                						备注
+                					</span>
+                				</div>
+                				<input  type="text" name="mytext<?php echo $v;?>" class="form-control bg-white border-md">
+                    			</div>
+                				
+                				
+                				</div>
+            					
+            				</div>
+            		</div>
+			        <input class="price" type="hidden" name="name<?php echo $v;?>" value="{$vo.name}" />
+				<script>
+                function validateDecimal(el) {
+                    var value = el.value;
+                    if (!/^-?\d+(\.\d+)?$/.test(value)) {
+                        el.classList.add('invalid-input');
+                    } else {
+                        el.classList.remove('invalid-input');
+                    }
+                }
+                username2(<?php echo $v;?>);
+                </script>
+				<script>
+                    document.getElementById('numericInput<?php echo $v;?>').addEventListener('input', function (e) {
+                        const validPattern = /^-?\d+(\.\d+)?$/;
+                        if (!validPattern.test(this.value)) {
+                            //this.value = this.value.replace(/[^0-9]/g, '');
+                             //先把非数字的都替换掉
+                            this.value = this.value.replace(/[^\d.]/g,"");
+                            //必须保证第一个为数字而不是
+                            this.value = this.value.replace(/^\./g,""); 
+                            //只有出现一个.而没有多个. 
+                            this.value = this.value.replace(/\.{2,}/g,"."); 
+                             //.只出现一次，而不能出现两次以上
+                            this.value = this.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+                        }
+                    });
+                </script>
+				
+				<input class="price" type="hidden" name="id<?php echo $v;?>" value="{$vo.id}"/>
+				<input class="price" type="hidden" name="jinec<?php echo $v;?>" value="0"/>
+				<?php $v=$v+1; ?>
+			{/volist}
+
+		<!-- 商品列表 - 结束 -->
+		<!-- 订单备注 - 开始 -->
+		<div class="card card-style m-1 p-2">
+		<textarea name="bm_text"  placeholder="总备注"  class="form-control bg-white border-md" ></textarea>
+		</div>
+		<!-- 订单备注 - 结束 -->
+		
+		<input class="price" type="hidden" name="id" value="{$id}"/>
+		<input class="price" type="hidden" name="phone" value="{$phone}"/>
+		<input class="price" type="hidden" name="all" value="{$all}"/>
+		<input class="price" type="hidden" name="jine" value="{$alljine}"/>
+		<input class="price" type="hidden" name="add" value="{$add}"/>
+		<input class="price" type="hidden" name="name" value="{$name}"/>
+		<input class="price" type="hidden" name="xdate" value="{$xdate}"/>
+		<input class="price" type="hidden" name="jgfs" value="{$jgfs}"/>
+		</from>
+		
+		<div class="d-grid"><button type="button" class="btn btn-success btn-lg rounded-pill"
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="submitButton"  onclick="return reok()">提交订单</button>
+		</div>
+        </div>
+						
+    <div class="overlay" id="overlay"></div>
+    <div id="symbolModal">
+        <div class="symbol-grid">
+            {volist name='symbol' id='symbol'}
+                    				    
+            <div class="symbol-box" onclick="selectSymbol('{$symbol.name}')">{$symbol.name}</div>
+            
+            {/volist}
+        </div>
+    </div>
+    <script>//特殊符号选项
+        let currentInputId;
+
+        function openSymbolModal(inputId) {
+            currentInputId = inputId;
+            document.getElementById('symbolModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+
+        }
+
+        function closeSymbolModal() {
+            document.getElementById('symbolModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function selectSymbol(symbol) {
+            const inputField = document.getElementById(currentInputId);
+            if (inputField) {
+                // 保留光标位置插入符号
+                const startPos = inputField.selectionStart;
+                const endPos = inputField.selectionEnd;
+                const currentValue = inputField.value;
+                
+                // 在光标位置插入符号
+                inputField.value = currentValue.substring(0, startPos) + 
+                                  symbol + 
+                                  currentValue.substring(endPos);
+                
+                // 恢复光标位置并聚焦
+                inputField.focus();
+                inputField.setSelectionRange(startPos + symbol.length, startPos + symbol.length);
+            }
+            closeSymbolModal();
+        }
+
+        // Close modal when clicking outside of it
+        document.getElementById('overlay').addEventListener('click', closeSymbolModal);
+</script>
+<script>
+        // 从ThinkPHP后端接收批号数据
+        // 注意：在实际项目中，确保$result是经过处理的安全数据
+        const batchNumbers = <?php echo json_encode($result ?? []); ?>;
+
+        // 新增规格数据集
+        const specificationNumbers = <?php echo json_encode($resultgg ?? []); ?>;
+        // 当前激活的输入框
+        let activeInput = null;
+
+        // 防抖函数
+        function debounce(func, delay = 300) {
+            let timeoutId;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        // 搜索匹配的批号
+        function searchBatchNumbers(query) {
+            if (!query.trim() || !batchNumbers || batchNumbers.length === 0) return [];
+            
+            const lowerQuery = query.toLowerCase();
+            return batchNumbers.filter(number => 
+                number.toLowerCase().includes(lowerQuery)
+            );
+        }
+
+        // 渲染结果列表
+        function renderResults(inputElement, results) {
+            const container = inputElement.closest('.batch-input-container');
+            const resultsContainer = container.querySelector('.results-container');
+            const noResults = container.querySelector('.no-results');
+            
+            resultsContainer.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsContainer.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            // 在renderResults函数中保持现有逻辑，但确认inputElement.onchange存在
+            results.forEach(number => {
+                const li = document.createElement('li');
+                li.className = 'px-4 py-3 result-item-hover';
+                li.textContent = number;
+                
+                li.addEventListener('click', () => {
+                    inputElement.value = number;
+                    // 确保触发onchange事件
+                    if (inputElement.onchange) {
+                        inputElement.onchange();
+                    } else {
+                        // 兼容处理：手动触发change事件
+                        inputElement.dispatchEvent(new Event('change'));
+                    }
+                    hideResults(inputElement);
+                    showClearButton(inputElement);
+                });
+                
+                resultsContainer.appendChild(li);
+            });
+        }
+
+        // 显示结果列表
+        function showResults(inputElement) {
+            const container = inputElement.closest('.batch-input-container');
+            const resultsList = container.querySelector('.results-list');
+            resultsList.classList.remove('hidden');
+        }
+
+        // 隐藏结果列表
+        function hideResults(inputElement) {
+            const container = inputElement.closest('.batch-input-container');
+            const resultsList = container.querySelector('.results-list');
+            resultsList.classList.add('hidden');
+        }
+
+        // 显示加载状态
+        function showLoading(inputElement) {
+            const container = inputElement.closest('.batch-input-container');
+            const loadingIndicator = container.querySelector('.loading-indicator');
+            const noResults = container.querySelector('.no-results');
+            const resultsContainer = container.querySelector('.results-container');
+            
+            loadingIndicator.classList.remove('hidden');
+            noResults.classList.add('hidden');
+            resultsContainer.classList.add('hidden');
+        }
+
+        // 隐藏加载状态
+        function hideLoading(inputElement) {
+            const container = inputElement.closest('.batch-input-container');
+            const loadingIndicator = container.querySelector('.loading-indicator');
+            loadingIndicator.classList.add('hidden');
+        }
+
+        // 显示清除按钮
+        function showClearButton(inputElement) {
+            const container = inputElement.closest('.batch-input-container');
+            const clearButton = container.querySelector('.clear-button');
+            clearButton.classList.remove('hidden');
+        }
+
+        // 隐藏清除按钮
+        function hideClearButton(inputElement) {
+            const container = inputElement.closest('.batch-input-container');
+            const clearButton = container.querySelector('.clear-button');
+            clearButton.classList.add('hidden');
+        }
+
+        // 处理输入事件
+        const handleInput = debounce(function() {
+            const query = this.value.trim();
+            
+            if (query) {
+                showClearButton(this);
+                showResults(this);
+                showLoading(this);
+                
+                setTimeout(() => {
+                    const results = searchBatchNumbers(query);
+                    hideLoading(this);
+                    renderResults(this, results);
+                }, 300);
+            } else {
+                hideClearButton(this);
+                hideResults(this);
+            }
+        });
+
+        // 输入框激活处理
+        function activateInput(inputElement) {
+            document.querySelectorAll('[data-batch-input]').forEach(input => {
+                if (input !== inputElement) {
+                    input.classList.remove('input-active');
+                    hideResults(input);
+                }
+            });
+            
+            activeInput = inputElement;
+            inputElement.classList.add('input-active');
+            
+            const query = inputElement.value.trim();
+            if (query) {
+                handleInput.call(inputElement);
+            }
+        }
+        
+        //----规格-------------
+        // 规格搜索函数
+        function searchSpecificationNumbers(query) {
+            if (!query.trim() || !specificationNumbers || specificationNumbers.length === 0) return [];
+            
+            const lowerQuery = query.toLowerCase();
+            return specificationNumbers.filter(number => 
+                number.toLowerCase().includes(lowerQuery)
+            );
+        }
+        
+        // 规格输入事件处理（复制handleInput逻辑并替换searchBatchNumbers为searchSpecificationNumbers）
+        const handleSpecInput = debounce(function() {
+            const query = this.value.trim();
+            
+            if (query) {
+                showClearButton(this);
+                showResults(this);
+                showLoading(this);
+                
+                setTimeout(() => {
+                    const results = searchSpecificationNumbers(query);  // 使用新搜索函数
+                    hideLoading(this);
+                    renderResults(this, results);
+                }, 300);
+            } else {
+                hideClearButton(this);
+                hideResults(this);
+            }
+        });
+        
+        
+        //------规格------------
+
+        // 事件委托 - 处理焦点事件
+        document.addEventListener('focus', function(e) {
+            if (e.target.hasAttribute('data-batch-input')) {
+                // 批号输入框逻辑
+                activateInput(e.target);
+            } else if (e.target.hasAttribute('data-spec-input')) {
+                // 规格输入框逻辑
+                activeInput = e.target;
+                e.target.classList.add('input-active');
+                const query = e.target.value.trim();
+                if (query) {
+                    handleSpecInput.call(e.target);
+                }
+            }
+        }, true);
+
+
+        
+        // 处理规格输入事件
+        document.addEventListener('input', function(e) {
+            if (e.target.hasAttribute('data-spec-input') && e.target === activeInput) {
+                handleSpecInput.call(e.target);
+            }
+        });
+
+
+
+        // 事件委托 - 处理清除按钮点击
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.clear-button')) {
+                const clearButton = e.target.closest('.clear-button');
+                //const inputElement = clearButton.closest('.batch-input-container').querySelector('[data-batch-input]');
+                // 同时支持批号和规格输入框
+                const inputElement = clearButton.closest('.batch-input-container').querySelector('[data-batch-input], [data-spec-input]');
+                inputElement.value = '';
+                hideClearButton(inputElement);
+                hideResults(inputElement);
+                inputElement.focus();
+            }
+            
+            if (!e.target.closest('.batch-input-container') && activeInput) {
+                hideResults(activeInput);
+            }
+        });
+
+        // 事件委托 - 处理输入事件
+        document.addEventListener('input', function(e) {
+            if (e.target.hasAttribute('data-batch-input') && e.target === activeInput) {
+                handleInput.call(e.target);
+            }
+        });
+
+        // 键盘事件处理
+        document.addEventListener('keydown', function(e) {
+            if (!activeInput) return;
+            
+            const container = activeInput.closest('.batch-input-container');
+            const resultsList = container.querySelector('.results-list');
+            const results = container.querySelectorAll('.results-container li');
+            const activeItem = container.querySelector('.results-container li.bg-primary/10');
+            
+            if (resultsList.classList.contains('hidden')) return;
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                
+                if (results.length === 0) return;
+                
+                if (activeItem) {
+                    activeItem.classList.remove('bg-primary/10', 'text-primary');
+                    const nextItem = activeItem.nextElementSibling || results[0];
+                    nextItem.classList.add('bg-primary/10', 'text-primary');
+                    nextItem.scrollIntoView({ block: 'nearest' });
+                } else {
+                    results[0].classList.add('bg-primary/10', 'text-primary');
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                
+                if (results.length === 0) return;
+                
+                if (activeItem) {
+                    activeItem.classList.remove('bg-primary/10', 'text-primary');
+                    const prevItem = activeItem.previousElementSibling || results[results.length - 1];
+                    prevItem.classList.add('bg-primary/10', 'text-primary');
+                    prevItem.scrollIntoView({ block: 'nearest' });
+                } else {
+                    results[results.length - 1].classList.add('bg-primary/10', 'text-primary');
+                }
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                
+                if (activeItem) {
+                    activeInput.value = activeItem.textContent;
+                    hideResults(activeInput);
+                    showClearButton(activeInput);
+                }
+            } else if (e.key === 'Escape') {
+                hideResults(activeInput);
+            }
+        });
+        
+        function handleInputBlur(inputElement) {
+            setTimeout(() => {
+                const container = inputElement.closest('.batch-input-container');
+                const resultsContainer = container.querySelector('.results-container');
+                const noResults = container.querySelector('.no-results');
+                
+                // 仅当无搜索结果时才隐藏
+                if (document.activeElement !== inputElement && !noResults.classList.contains('hidden')) {
+                    hideResults(inputElement);
+                }
+            }, 200);
+        }
+        
+        document.addEventListener('blur', function(e) {
+            if (e.target.hasAttribute('data-batch-input') || e.target.hasAttribute('data-spec-input')) {
+                handleInputBlur(e.target);
+            }
+        }, true);
+        
+
+        // 初始化检查
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!batchNumbers || batchNumbers.length === 0) {
+                console.warn('批号数据为空，请检查后端$result变量是否正确传递');
+            }
+        });
+        
+        // 页面加载完成后初始化材质同步功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取第一个材质选择框（ID为vba1）
+            const firstMaterialSelect = document.getElementById('vba1');
+            
+            if (firstMaterialSelect) {
+                // 监听第一个选择框的变更事件
+                firstMaterialSelect.addEventListener('change', function() {
+                    const selectedValue = this.value;
+                    
+                    // 获取所有材质选择框（ID以vba开头且非vba1）
+                    document.querySelectorAll('[id^="vba"]').forEach(select => {
+                        // 排除第一个选择框本身，避免循环触发
+                        if (select.id !== 'vba1') {
+                            // 保存当前值用于比较，避免不必要的变更
+                            const currentValue = select.value;
+                            
+                            if (currentValue !== selectedValue) {
+                                // 设置选中值
+                                select.value = selectedValue;
+                                
+                                // 手动触发原有onchange事件（执行username2函数）
+                                if (typeof select.onchange === 'function') {
+                                    select.onchange();
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+        });
+        
+    </script>
+
+<div class="m-4">&nbsp;</div>
+<div class="m-4">&nbsp;</div>
+<div class="m-4">&nbsp;</div>
+ {include file="public/footer3" /}
+
+ 
+ 

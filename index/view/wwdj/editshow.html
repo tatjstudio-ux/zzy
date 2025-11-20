@@ -1,0 +1,311 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+        <script>
+    		function reok(){
+    			//询问框
+    			  form.submit();
+    		}
+        </script>
+		<script>
+            function username(ix){
+                var xc11= document.getElementById('va'+ix).value;
+                var xc12= document.getElementById('vb'+ix).value;
+                var xc13= document.getElementById('vc'+ix).value;
+                document.getElementById('vd'+ix).value=xc11+"x"+xc12+"x"+xc13; 
+            }
+            function username2(ix){
+                var xc11= document.getElementById('vba'+ix).value;
+                var xc12= document.getElementById('vbb'+ix).value;
+                document.getElementById('vdX'+ix).value=xc11+"&"+xc12; 
+            }
+            
+            
+            function decrun(ix){
+                document.getElementById('vbb'+ix).value=document.getElementById('vbb'+ix).value+"-";
+                document.getElementById('vbb'+ix).focus();
+            }
+            function danjia(ix){
+                var danjia= document.getElementById('danjia'+ix).value;
+                var numericInputx= document.getElementById('numericInput'+ix).value;
+                document.getElementById('jineall'+ix).value=(danjia*numericInputx).toFixed(2); 
+            }  
+            
+            
+		</script>
+		<script type="text/javascript">
+            function chdate(){
+                var xy=document.getElementById("xy").value;
+                var xm=document.getElementById("xm").value;
+                var xd=document.getElementById("xd").value;
+                document.getElementById("xdate").value=xy+"-"+xm+"-"+xd;
+            }
+	    </script>
+	</head>
+	
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div class="p-2">
+			<div class="header header-fixed header-auto-show header-logo-app">
+			    <a href="#" data-back-button=""
+					class="header-title header-subtitle">
+			        {if condition="$id=='ck'"}
+					    编辑加工出库信息
+                    {else/}
+                        编辑加工入库信息
+                    {/if}
+                    </a><a href="#" data-back-button=""
+					class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+
+			<div class="page-content">
+				<div class="page-title page-title-small">
+					<h2><a href="#" data-back-button=""><i class="fa fa-arrow-left"></i></a>
+			        {if condition="$id=='ck'"}
+					    编辑加工出库信息
+                    {else/}
+                        编辑加工入库信息
+                    {/if}
+                    </h2><a
+						href="#" data-menu="menu-main" class="bg-fade-gray1-dark shadow-xl preload-img"
+						data-src="/public/static/newassets/picture/4s.png"></a>
+				</div>
+				<div class="card header-card" data-card-height="150">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+
+		<div class="card card-style m-1 p-3">
+		<form class="am-form" action="{:url('Index/wwdj/upaddedit')}" id="fall" name="form" method="post">
+
+				<div class="mb-3" style="display:none;"><label class="form-label text-muted">日期</label>
+				<div class="input-group mb-3">
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xy"  onchange="return chdate()">
+            	        <?php
+            	            echo "<option>".$dateArray[0]."</option>";
+            	            for($j=2024;$j<2100;$j++){
+            	                echo "<option value='".$j."'>".$j."</option>";
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xm"  onchange="return chdate()">
+            	        <?php
+            	        echo "<option>".$dateArray[1]."</option>";
+            	            for($n=1;$n<13;$n++){
+            	                if($n<10){
+            	                echo "<option value='0".$n."'>0".$n."</option>";
+            	                }else{
+            	                echo "<option value='$n'>".$n."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xd"  onchange="return chdate()">
+            	        <?php
+            	            echo "<option>".$dateArray[2]."</option>";
+            	            for($ivb=1;$ivb<32;$ivb++){
+            	                if($ivb<10){
+            	                echo "<option value='0".$ivb."'>0".$ivb."</option>";
+            	                }else{
+            	                echo "<option value='$ivb'>".$ivb."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				</div>
+				</div>
+				<div disabled style="display:none;">
+		            <input name="xdate" type="text" data-role="datebox" format="yyyy-mm-dd"  id="xdate" class="form-control bg-white border-left-0 border-md" value="{$allcx[0]['xdate']}">
+		        </div>	
+
+				<div class="input-group mb-3 pt-2">
+				    <span class="input-group-text p-1">
+				    <select class="form-select border-0" id="jgfs" name="jgfs">
+				                    <option value="{$allcx[0]['madd']}">{$allcx[0]['madd']}</option>
+                                    {volist name='jgfs' id='jg'}
+                                    <option value="{$jg.name}">{$jg.name}</option>
+                                    {/volist}
+					</select>
+					</span>
+				</div>
+
+
+				<div>
+					<div class="input-group mb-3">
+					    <span class="input-group-text p-1">
+					    <select class="form-select border-0" aria-label="Default select example" id="bm_name" name="bm_name">
+					        <option value="{$allcx[0]['myname']}">{$allcx[0]['myname']}</option>
+                            {volist name='scpname' id='vo'}
+                                <option value="{$vo.name}">{$vo.name}</option>
+                            {/volist}
+						</select>
+						</span>
+					</div>
+				</div>
+
+		<!-- 商品列表 - 开始 -->
+		<div>
+	    <?php $ivb=1;?>
+	     {volist name='vpud' id='vo'}
+                <label>【{$ivb}.{$vo.name}】</label>
+				<input class="price" type="hidden" name="name<?php echo $ivb;?>" value="{$vo.name}"/>
+				
+				<div class="input-group"><span class="input-group-text p-0">
+				        <select class="border-0" id="vba<?php echo $ivb;?>"  onchange="username2(<?php echo $ivb;?>);" >
+				            <?php
+    				            $str = $vo['mypath'];
+    				            if (strstr($str, '&') !== false) {
+                                    $array = explode('&', $str);
+                                }else{
+                                    $array = explode('-', $str);
+                                }
+                                echo "<option>".$array[0]."</option>";
+				            ?>
+							{volist name='allphao' id='voph'}
+        				        <option>{$voph.name}</option>
+        				    {/volist}
+						</select></span><input type="text" class="shadow-none form-control"
+						placeholder="批号" id="vbb<?php echo $ivb;?>" value="<?php echo $array[1]; ?>" onchange="username2(<?php echo $ivb;?>);"></div>
+						
+				<div class="input-group mb-4">
+
+				<input type="text" name="danjia<?php echo $ivb;?>"  id="vdX<?php echo $ivb;?>"  value="{$vo.mypath}"  class="form-control bg-white border-left-0 border-md" style="display:none;" />
+				</div>
+				
+				 {if condition="($setting[0]['oldph']==1)"}
+    				<div class="input-group mb-4">
+    					<div class="input-group-prepend">
+    						<span class="input-group-text bg-white px-4 border-md border-right-0">
+    							原始批号
+    						</span>
+    					</div>
+    					<input type="text" class="shadow-none form-control"
+    						placeholder="原始批号"  name="oldph<?php echo $ivb;?>" value="{$vo.oldph}" >
+    				</div>
+                 {else}
+    				<div class="input-group mb-4" style="display:none;">
+    					<div class="input-group-prepend">
+    						<span class="input-group-text bg-white px-4 border-md border-right-0">
+    							原始批号
+    						</span>
+    					</div>
+    					<input type="text" class="shadow-none form-control"
+    						placeholder="原始批号"  name="oldph<?php echo $ivb;?>" value="{$vo.oldph}" >
+    				</div>
+                 {/if}
+				
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格
+						</span>
+					</div>
+				<input type="text" name="csl<?php echo $ivb;?>"  id="vd<?php echo $ivb;?>"  value="{$vo.jine}"  class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							重&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量
+						</span>
+					</div>
+				<input type="text" id="numericInput<?php echo $ivb;?>"  name="num<?php echo $ivb;?>"  value="{$vo.num}" onkeyup="danjia(<?php echo $ivb;?>);"  class="form-control bg-white border-left-0 border-md"/>
+				<select  style="width:10%;float:right;" name="jldw<?php echo $ivb;?>" class="form-control custom-select bg-white border-left-0 border-md">
+				    {if condition="($vo.jldw==0)"}
+                            <option value="kg">kg</option>
+                    {else}
+                            <option value="{$vo.jldw}">{$vo.jldw}</option>
+                    {/if}
+                        <?php 
+                            for($ivbx=0;$ivbx<count($alljldw);$ivbx++){
+                                echo "<option value=".$alljldw[$ivbx]['name'].">".$alljldw[$ivbx]['name']."</option>";
+                            }
+                        
+                        ?>
+    				    
+    			</select>
+    			 {if condition="($vo.hjzl==1)"}
+                    	<input type="checkbox" name="hjzl<?php echo $ivb;?>" style="margin-right:10px;margin-left:10px;font-size:28px;" checked="checked"/>
+                 {else}
+                    	<input type="checkbox" name="hjzl<?php echo $ivb;?>" style="margin-right:10px;margin-left:10px;font-size:28px;"/>
+                 {/if}
+				
+				
+				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价
+						</span>
+					</div>
+				<input type="text" name="danjias<?php echo $ivb;?>"  value="{$vo.danjias}"  id="danjia<?php echo $ivb;?>" onkeyup="danjia(<?php echo $ivb;?>);" class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额
+						</span>
+					</div>
+				<input type="text" name="jineall<?php echo $ivb;?>"  value="{$vo.jineall}"  id="jineall<?php echo $ivb;?>" onkeyup="danjia(<?php echo $ivb;?>);" class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注
+						</span>
+					</div>
+				<input type="text" name="mytext<?php echo $ivb;?>"  value="{$vo.mytext}" class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				<input class="price" type="hidden" name="id<?php echo $ivb;?>" value="{$vo.jine}"/>
+				<input class="price" type="hidden" name="jinec<?php echo $ivb;?>" value="0"/>
+				<input class="price" type="hidden" name="cpid<?php echo $ivb;?>" value="{$vo.id}"/>
+				<input class="price" type="hidden" name="dhaox" value="{$allcx[0]['dhao']}"/>
+				<?php $ivb=$ivb+1;?>
+				<hr/>
+			{/volist}
+		</div>
+
+		<!-- 商品列表 - 结束 -->
+
+		<!-- 订单备注 - 开始 -->
+		<textarea class="col-lg-12" name="bm_text" placeholder="备注信息">{$mytext}</textarea>
+		<!-- 订单备注 - 结束 -->
+		
+		<input class="price" type="hidden" name="id" value="{$id}"/>
+		<input class="price" type="hidden" name="all" value="{$all}"/>
+		<input class="price" type="hidden" name="jine" value="{$alljine}"/>
+		</from>
+		<div class="d-grid">
+		    <button type="button" class="btn btn-success btn-lg"  style="margin-bottom:60px;" 
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop"  onclick="return reok()">保存修改</button></div>
+</div>
+		<!-- 结算模块 - 结束 -->
+	
+ {include file="public/footer3" /}

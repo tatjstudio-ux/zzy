@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>产品明细数据 - 带加权平均计算</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="history.back()" class="inline-block px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                返回列表
+            </button>
+            <h1 class="text-2xl font-bold">产品明细数据</h1>
+            <a href="/index/reports/phcldetail?csl={$csl}&cpname={$cpname}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                查看牌号明细
+            </a>
+        </div>
+        
+        <!-- 筛选条件 -->
+        <div class="bg-white rounded-md p-4 mb-6">
+            <div class="flex flex-wrap gap-4 items-center">
+                <!-- 批号实时搜索表单 -->
+                <form class="flex items-center gap-2" method="get" action="">
+                    <input type="hidden" name="csl" value="{$csl}">
+                    <input type="hidden" name="cpname" value="{$cpname}">
+                    <input type="text" name="batch" placeholder="输入批号搜索" 
+                        value="{$batch}" autocomplete="off" 
+                        class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        oninput="debounceSearch(event)">
+                </form>
+                
+                <div>
+                    <span class="text-gray-600">产品名称:</span>
+                    <span class="font-medium ml-2">{$cpname}</span>
+                </div>
+                <div>
+                    <span class="text-gray-600">规格值:</span>
+                    <span class="font-medium ml-2">{$csl}</span>
+                </div>
+                <div>
+                    <span class="text-gray-600">总入库重量:</span>
+                    <span class="font-medium ml-2 text-green-600">{$totalInStock}</span>
+                </div>
+                <div>
+                    <span class="text-gray-600">总出库重量:</span>
+                    <span class="font-medium ml-2 text-red-600">{$totalOutStock}</span>
+                </div>
+                <div>
+                    <span class="text-gray-600">当前库存:</span>
+                    <span class="font-medium ml-2 font-bold">{$totalCpnum}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 数据表格 -->
+        <div class="bg-white rounded-md shadow-md overflow-hidden mb-6">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">日期</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">牌号</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">批号</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">入库重量</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">出库重量</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">同批号剩余量</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">规格</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">单价</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">金额</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {volist name="stockData" id="item"}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">{$item.xdate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 rounded-full text-xs {eq name='item.stock_type' value='入库'}bg-green-100 text-green-800{else}bg-red-100 text-red-800{/eq}">
+                                {$item.stock_type}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$item.brand}</td>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">{$item.batch}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-green-600">{$item.in_stock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-red-600">{$item.out_stock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap font-bold <?php if($item['pihaoall'] < 0): ?>text-red-600<?php else: ?>text-blue-600<?php endif; ?>">
+                            {$item.pihaoall}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$item.csl}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$item.danjias}</td>
+                        <td class="px-6 py-4 whitespace-nowrap <?php if($item['jineall'] < 0): ?>text-red-600<?php endif; ?>">{$item.jineall}</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><a href="/index/cgdj/editshow?id={$item.fid}">编辑</a></td>
+                    </tr>
+                    {/volist}
+                    <!-- 合计行 -->
+                    <tr class="bg-gray-50 font-bold">
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap">合计</td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-green-600">{$totalInStock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-red-600">{$totalOutStock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$weightedAvg}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$totalJineall}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 防抖函数
+        let searchTimer = null;
+        function debounceSearch(event) {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                event.target.form.submit();
+            }, 300);
+        }
+
+        // 页面加载后聚焦并定位光标到文本末尾
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.querySelector('input[name="batch"]');
+            if (input) {
+                input.focus();
+                // 将光标定位到文本末尾
+                const length = input.value.length;
+                input.setSelectionRange(length, length);
+            }
+        });
+    </script>
+</body>
+</html>

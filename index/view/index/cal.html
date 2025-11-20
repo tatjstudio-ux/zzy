@@ -1,0 +1,357 @@
+ <!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min2.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick-theme.css">
+		<link href="/public/mainstyle/static/css/all.min.css" rel="stylesheet">
+		<link href="/public/mainstyle/static/css/demo.css" rel="stylesheet">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/style.css">
+	</head>
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">材料计算器</h3>
+				</div>
+			</div>
+		</div>
+
+
+
+<div class="px-4">
+
+    <style>
+
+        
+        .calculator-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+            padding: 5px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #343a40;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .form-control {
+            border-radius: 6px;
+            padding: 0.75rem 0.75rem;
+            height: auto;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        
+        .input-group-text {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+            color: #495057;
+        }
+        
+        .btn-calc {
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .btn-calc.active {
+            background-color: #28a745;
+            border-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
+        }
+        
+        .result-display {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc3545;
+        }
+        
+        .note-section {
+            background-color: #fff3cd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            color: #856404;
+        }
+        
+        .note-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .note-section p {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 280px) {
+            .calculator-container {
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            .section-title {
+                font-size: 0.5rem;
+            }
+            
+            .btn-calc {
+                padding: 0.75rem;
+                font-size: 1rem;
+            }
+            
+            .result-value {
+                font-size: 1.25rem;
+            }
+            
+            /* 在小屏幕上让输入框独占一行 */
+            .dual-input .form-label {
+                margin-top: 1rem;
+            }
+        }
+
+        
+        
+    </style>
+</head>
+<body>
+    <div class="container calculator-container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 外径(长度)和第二外径(长度)在同一行 -->
+                <div class="row dual-input mb-3">
+                    <div class="col-md-6">
+                        <label for="num1" class="form-label">外径(长度)：</label>
+                        <input type="text" class="form-control" id="num1" onkeyup="calculate();" placeholder="请输入外径">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="num11" class="form-label">第二外径(长度)：</label>
+                        <input type="text" class="form-control" id="num11" value="0" onkeyup="calculate();" placeholder="请输入第二外径">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="num2" class="form-label">内径(宽度)：</label>
+                    <input type="text" class="form-control" id="num2" value="0" onkeyup="calculate();" placeholder="请输入内径">
+                </div>
+                
+                <!-- 两个厚度在同一行 -->
+                <div class="row dual-input mb-3">
+                    <div class="col-md-6">
+                        <label for="num3" class="form-label">厚度：</label>
+                        <input type="text" class="form-control" id="num3" onkeyup="calculate();" placeholder="请输入厚度">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="num33" class="form-label">厚度：</label>
+                        <input type="text" class="form-control" id="num33" value="0" onkeyup="calculate();" placeholder="请输入厚度">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="num4" value="4.51" onkeyup="calculate();" placeholder="请输入密度">
+                        <span class="input-group-text">密度[g/cm³]</span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="num5" onkeyup="calculate();" placeholder="请输入单价">
+                        <span class="input-group-text">单价 [元/kg]</span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">运算方式：</label>
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-success btn-calc active w-100 mb-2 mr-2" id="huanBtn" onclick="setMode('huan');">
+                                <i class="fa fa-circle-o-notch"></i>环 管 圆板 高颈
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-outline-success btn-calc w-100 mr-2" id="banBtn" onclick="setMode('ban');">
+                                <i class="fa fa-square-o mr-2"></i>板
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-display">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">质量为：</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control result-value" id="result" readonly>
+                                <span class="input-group-text">kg</span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">价格为：</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control result-value" id="price" readonly>
+                                <span class="input-group-text">元</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-section">
+                    <h3>计算器备注:</h3>
+                    <p>1. 若算圆饼质量，请将内径(宽度)填为0</p>
+                    <p>2. 密度单位：g/cm³</p>
+                    <p>3. 长度单位：mm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // 当前计算模式，默认为"huan"（环/管/圆板/高颈）
+        let currentMode = "huan";
+        
+        // 设置当前计算模式
+        function setMode(mode) {
+            currentMode = mode;
+            // 更新按钮样式
+            document.getElementById("huanBtn").classList.toggle("active", mode === "huan");
+            document.getElementById("banBtn").classList.toggle("active", mode === "ban");
+            document.getElementById("huanBtn").classList.toggle("btn-success", mode === "huan");
+            document.getElementById("huanBtn").classList.toggle("btn-outline-success", mode !== "huan");
+            document.getElementById("banBtn").classList.toggle("btn-success", mode === "ban");
+            document.getElementById("banBtn").classList.toggle("btn-outline-success", mode !== "ban");
+            // 重新计算
+            calculate();
+        }
+        
+        // 输入验证函数
+        function validateInput(value) {
+            if (value === "") return 0;
+            const num = parseFloat(value);
+            return isNaN(num) ? 0 : num;
+        }
+        
+        // 格式化数字，保留三位小数
+        function formatNumber(num) {
+            return num.toFixed(3);
+        }
+        
+        // 使用您提供的原始算法 - 环/管/圆板/高颈计算函数
+        function calculateHuan() {
+            const nv1 = validateInput(document.getElementById("num1").value);
+            const nv2 = validateInput(document.getElementById("num2").value);
+            const nv3 = validateInput(document.getElementById("num3").value);
+            const nv11 = validateInput(document.getElementById("num11").value);
+            const nv33 = validateInput(document.getElementById("num33").value);
+            const nv4 = validateInput(document.getElementById("num4").value);
+            const nv5 = validateInput(document.getElementById("num5").value);
+            
+            // 使用原始算法中的公式
+            const rv = (parseFloat(nv1) - (parseFloat(nv1)/2 + parseFloat(nv2)/2)) * 3.14 * 
+                      (parseFloat(nv1)/2 + parseFloat(nv2)/2) * parseFloat(nv3) * parseFloat(nv4) / 1000000;
+                      
+            const rv1 = (parseFloat(nv11) - (parseFloat(nv11)/2 + parseFloat(nv2)/2)) * 3.14 * 
+                       (parseFloat(nv11)/2 + parseFloat(nv2)/2) * parseFloat(nv33) * parseFloat(nv4) / 1000000;
+            
+            const mass = rv + rv1;
+            const price = mass * parseFloat(nv5);
+            
+            return { mass, price };
+        }
+        
+        // 使用您提供的原始算法 - 板计算函数
+        function calculateBan() {
+            const nv1 = validateInput(document.getElementById("num1").value);
+            const nv2 = validateInput(document.getElementById("num2").value);
+            const nv3 = validateInput(document.getElementById("num3").value);
+            const nv4 = validateInput(document.getElementById("num4").value);
+            const nv5 = validateInput(document.getElementById("num5").value);
+            
+            // 使用原始算法中的公式
+            const rv = parseFloat(nv1) * parseFloat(nv2) * parseFloat(nv3) * parseFloat(nv4) / 1000000;
+            const mass = rv;
+            const price = rv * parseFloat(nv5);
+            
+            return { mass, price };
+        }
+        
+        // 主计算函数
+        function calculate() {
+            let result;
+            if (currentMode === "huan") {
+                result = calculateHuan();
+            } else {
+                result = calculateBan();
+            }
+            // 更新结果显示
+            document.getElementById("result").value = formatNumber(result.mass);
+            document.getElementById("price").value = formatNumber(result.price);
+        }
+        
+        // 初始化计算
+        window.onload = calculate;
+    </script>
+    <script>
+        // 示例：使用IntersectionObserver实现图片懒加载
+        document.addEventListener('DOMContentLoaded', () => {
+          const lazyImages = document.querySelectorAll('img[data-src]');
+          
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                observer.unobserve(img);
+              }
+            });
+          });
+          
+          lazyImages.forEach(img => observer.observe(img));
+        });    
+        // 示例：使用Web Worker处理复杂计算
+        if (window.Worker) {
+          const worker = new Worker('worker.js');
+          
+          // 主线程发送数据
+          worker.postMessage({ data: largeArray });
+          
+          // 接收计算结果
+          worker.onmessage = (e) => {
+            renderResults(e.data);
+          };
+        }
+    </script>
+    
+    
+</body>
+</html>
+        

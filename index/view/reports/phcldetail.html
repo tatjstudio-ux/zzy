@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$cpname} - {$csl} 库存明细</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#64748b',
+                        success: '#10b981',
+                        danger: '#ef4444',
+                        warning: '#f59e0b',
+                        info: '#3b82f6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .table-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .batch-card {
+                @apply bg-white rounded-lg border border-gray-200 overflow-hidden mb-6 transition-all hover:shadow-lg;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-primary text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fa fa-cubes mr-2 text-xl"></i>
+                    <span class="font-bold text-xl">库存管理系统</span>
+                </div>
+                <div class="flex items-center">
+                    <button onclick="history.back()" class="flex items-center text-white hover:text-gray-200 mr-4">
+                        <i class="fa fa-arrow-left mr-1"></i> 返回
+                    </button>
+                    <span class="text-sm opacity-80">当前用户: 管理员</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 页面标题 -->
+        <div class="mb-8">
+            <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800">{$cpname}</h1>
+            <p class="text-gray-600 mt-1">规格: {$csl}</p>
+            <div class="flex flex-wrap gap-4 mt-4">
+                <a href="ggcldetail?csl={$csl}&cpname={$cpname}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-info hover:bg-info/90">
+                    <i class="fa fa-arrow-circle-left mr-2"></i> 返回库存明细
+                </a>
+                <button onclick="window.print()" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                    <i class="fa fa-print mr-2"></i> 打印报表
+                </button>
+            </div>
+        </div>
+
+        <!-- 批号分组数据 -->
+        <div class="space-y-6">
+            {volist name="batchGroups" id="group" key="index"}
+            <!-- 批号分组卡片 -->
+            <div class="batch-card">
+                <!-- 分组头部 -->
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                    <div class="flex flex-wrap justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-800">
+                            <i class="fa fa-tags text-primary mr-2"></i>
+                            批号: {$group.batch ?: '未指定批号'}
+                        </h2>
+                        <div class="text-sm text-gray-600 mt-2 sm:mt-0">
+                            <span class="mr-4"><i class="fa fa-id-card-o mr-1"></i> 牌号: {$group.brand}</span>
+                            <span><i class="fa fa-calculator mr-1"></i> 加权平均单价: {$group.weightedAvg}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 表格内容 -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">牌号</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">质量(CPNUM)</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">规格(CSL)</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">单价(DANJIAS)</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">金额(JINEALL)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {volist name="group.items" id="item"}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {if $item.stock_type == '入库'}bg-success/10 text-success{else}bg-danger/10 text-danger{/if}">
+                                        {$item.stock_type}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{$item.brand}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{$item.cpnum}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{$item.csl}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{$item.danjias}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm {if $item.jineall < 0}text-danger font-medium{else}text-success font-medium{/if}">
+                                    {$item.jineall}
+                                </td>
+                            </tr>
+                            {/volist}
+
+                            <!-- 分组合计行 -->
+                            <tr class="bg-gray-50 font-bold border-t-2 border-gray-300">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    <i class="fa fa-calculator mr-1"></i> 本批号合计
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{$group.totalCpnum}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{$group.weightedAvg}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{$group.totalJineall}</td>
+                            </tr>                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {/volist}
+
+            <!-- 无数据提示 -->
+            {if empty($batchGroups)}
+            <div class="bg-white rounded-lg border border-gray-200 p-8 text-center">
+                <i class="fa fa-search text-gray-300 text-5xl mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-900">未找到数据</h3>
+                <p class="mt-1 text-gray-500">没有找到符合条件的库存记录</p>
+            </div>
+            {/if}
+        </div>
+
+        <!-- 页脚信息 -->
+        <footer class="mt-12 text-center text-sm text-gray-500">
+            <p>© 2025 库存管理系统 - 报表生成时间: {date('Y-m-d H:i:s')}</p>
+            <p class="mt-1">数据仅供参考，请以实际库存为准</p>
+        </footer>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为每个批号组添加动画效果
+            const batchCards = document.querySelectorAll('.batch-card');
+            batchCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+            
+            // 初始化批号组样式
+            batchCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,824 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<script type="text/javascript">
+            function chdate(){
+                var xy=document.getElementById("xy").value;
+                var xm=document.getElementById("xm").value;
+                var xd=document.getElementById("xd").value;
+                document.getElementById("xdate").value=xy+"-"+xm+"-"+xd;
+            }
+	    </script>
+	</head>
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div>
+			<div class="header header-fixed header-auto-show header-logo-app mobile-only"><a href="#" data-back-button=""
+					class="header-title header-subtitle">
+					{if condition="$id=='ck'"}
+					    销售出库信息
+                    {/if}
+					{if condition="$id=='jgly'"}
+					    加工领用
+                    {/if}
+					{if condition="$id=='wwly'"}
+					    外委领用
+                    {/if}
+					{if condition="$id=='cl'"}
+					    材料入库信息
+                    {/if}
+					{if condition="$id=='cp'"}
+					    成品入库信息
+                    {/if}
+					{if condition="$id=='th'"}
+					    出库退回信息
+                    {/if}
+					{if condition="$id=='cgth'"}
+					    入库退回信息
+                    {/if}
+                    {if condition="$id=='cal'"}
+					    残料入库信息
+                    {/if}
+                    {if condition="$id=='qt'"}
+					    其他入库信息
+                    {/if}
+                    </a><a href="#" data-back-button=""
+					class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+
+			<div class="page-content">
+				<div class="page-title page-title-small">
+					<h2><a href="#" data-back-button="" class="mobile-only"><i class="fa fa-arrow-left"></i></a>
+					{if condition="$id=='ck'"}
+					    销售出库信息
+                    {/if}
+					{if condition="$id=='jgly'"}
+					    加工领用
+                    {/if}
+					{if condition="$id=='wwly'"}
+					    外委领用
+                    {/if}
+					{if condition="$id=='cl'"}
+					    材料入库信息
+                    {/if}
+					{if condition="$id=='cp'"}
+					    成品入库信息
+                    {/if}
+					{if condition="$id=='th'"}
+					    出库退回信息
+                    {/if}
+					{if condition="$id=='cgth'"}
+					    入库退回信息
+                    {/if}
+                    {if condition="$id=='cal'"}
+					    残料入库信息
+                    {/if}
+                    {if condition="$id=='qt'"}
+					    其他入库信息
+                    {/if}
+                    </h2><a
+						href="#" data-menu="menu-main" class="bg-fade-gray1-dark shadow-xl preload-img"
+						data-src="/public/static/newassets/picture/4s.png"></a>
+				</div>
+				<div class="card header-card" data-card-height="150">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+
+		<div class="card card-style m-1 p-2">
+			<form action="{:url('Index/cgdj/selshow')}" id="fall" name="form" method="post">
+				<div class="mb-3"><label class="form-label">日期</label>
+				<div class="input-group mb-3">
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xy"  onchange="return chdate()">
+            	        <?php
+            	            echo "<option>".date('Y')."</option>";
+            	            for($i=2024;$i<2100;$i++){
+            	                echo "<option value='".$i."'>".$i."</option>";
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xm"  onchange="return chdate()">
+            	        <?php
+            	        echo "<option>".date('m')."</option>";
+            	            for($i=1;$i<13;$i++){
+            	                if($i<10){
+            	                echo "<option value='0".$i."'>0".$i."</option>";
+            	                }else{
+            	                echo "<option value='$i'>".$i."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xd"  onchange="return chdate()">
+            	        <?php
+            	            echo "<option>".date('d')."</option>";
+            	            for($i=1;$i<32;$i++){
+            	                if($i<10){
+            	                echo "<option value='0".$i."'>0".$i."</option>";
+            	                }else{
+            	                echo "<option value='$i'>".$i."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				</div>
+				</div>
+				<div disabled style="display:none;">
+		            <input name="xdate" type="text" data-role="datebox" format="yyyy-mm-dd"  id="xdate" class="form-control bg-white border-left-0 border-md" value="{$xdate}">
+		        </div>
+				<div>
+					<div class="input-group mb-3">
+					    <span class="input-group-text p-0">
+					    <select class="form-select border-0" aria-label="Default select example" id="jgfs" name="jgfs">
+                                        {volist name='jgfs' id='jg'}
+                                        <option value="{$jg.name}">{$jg.name}</option>
+                                        {/volist}
+						</select>
+						</span>
+					</div>
+				</div>
+				
+				{if condition="$setting[0]['xiaoshou']==1"}
+				{if condition="$id=='ck'"}
+				<div>
+					<div class="input-group mb-3">
+					    <span class="input-group-text p-0">
+					    <select class="form-select border-0" aria-label="Default select example" id="xiaoshou" name="xiaoshou">
+                                        {volist name='xiaoshou' id='xiaoshou'}
+                                        <option value="{$xiaoshou.bm_id}">{$xiaoshou.bm_name}</option>
+                                        {/volist}
+						</select>
+						</span>
+					</div>
+				</div>
+				{/if}
+				{/if}
+<style>
+.search-select-wrapper {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-input-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 65px 12px 16px; /* 右侧内边距容纳清除按钮和下拉箭头 */
+            font-size: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .dropdown-arrow {
+            position: absolute;
+            right: 40px; /* 为清除按钮腾出空间 */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 24px; /* 明确设置点击区域大小 */
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dropdown-arrow:hover {
+            color: #4f46e5;
+        }
+        
+        /* 清除按钮样式 */
+        .clear-button {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none; /* 默认隐藏 */
+            width: 24px; /* 明确设置点击区域大小 */
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .clear-button:hover {
+            color: #ef4444; /* 红色强调 */
+        }
+        
+        .dropdown-list {
+            position: absolute;
+            font-size: 0.9rem;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 8px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .dropdown-list.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .dropdown-item:hover, 
+        .dropdown-item.highlighted {
+            background-color: #f1f5f9;
+        }
+        
+        .dropdown-item.selected {
+            color: #4f46e5;
+            font-weight: 500;
+        }
+        
+        .no-results {
+            padding: 12px 16px;
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        /* 原生select元素隐藏但保留在DOM中 */
+        .native-select {
+            position: absolute;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            overflow: hidden;
+        }
+</style>
+
+
+
+
+    <div class="search-select-wrapper mb-3">
+        <!-- 原生select元素用于存储数据和表单提交 -->
+        <select class="native-select" id="nativeSelect" name="bm_name">
+            <option value="">请选择名称</option>
+        	{volist name='scpname' id='vo'}
+        	<option value="{$vo.name}">{$vo.name}</option>
+        	{/volist}
+        </select>
+        
+        <!-- 自定义搜索输入框 -->
+        <div class="search-input-container">
+            <input type="text" class="search-input" placeholder="搜索名称..." id="searchInput">
+            <div class="dropdown-arrow" id="dropdownArrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <!-- 清除按钮 -->
+            <div class="clear-button" id="clearButton">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <!-- 自定义下拉列表 -->
+        <div class="dropdown-list" id="dropdownList">
+            <!-- 选项将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const dropdownList = document.getElementById('dropdownList');
+            const dropdownArrow = document.getElementById('dropdownArrow');
+            const clearButton = document.getElementById('clearButton');
+            const nativeSelect = document.getElementById('nativeSelect');
+            
+            // 当前高亮的选项索引
+            let highlightedIndex = -1;
+            let isDropdownVisible = false;
+            // 是否是用户主动选择选项
+            let isUserSelecting = false;
+            // 是否是通过箭头按钮打开下拉列表
+            let openedByArrow = false;
+            // 保存初始选项状态，用于重置
+            const initialOptions = Array.from(nativeSelect.options).map(option => ({
+                value: option.value,
+                text: option.text,
+                selected: option.selected
+            }));
+            
+            // 初始化下拉列表
+            function initDropdown() {
+                const options = Array.from(nativeSelect.options);
+                
+                // 清空下拉列表
+                dropdownList.innerHTML = '';
+                
+                // 添加所有选项到自定义下拉列表
+                options.forEach((option, index) => {
+                    if (option.value === '') return; // 跳过占位选项
+                    
+                    const item = document.createElement('div');
+                    item.className = 'dropdown-item';
+                    item.textContent = option.text;
+                    item.dataset.value = option.value;
+                    
+                    // 标记已选中的项
+                    if (option.selected) {
+                        item.classList.add('selected');
+                    }
+                    
+                    item.addEventListener('click', function() {
+                        // 设置用户主动选择标志
+                        isUserSelecting = true;
+                        
+                        // 更新搜索输入框的值
+                        searchInput.value = this.textContent;
+                        
+                        // 更新原生select的值
+                        nativeSelect.value = this.dataset.value;
+                        
+                        // 更新选中状态
+                        updateSelectedItem(this);
+                        
+                        // 隐藏下拉列表
+                        hideDropdown();
+                        
+                        // 显示清除按钮
+                        toggleClearButton();
+                        
+                        // 延迟重置标志位，确保blur事件能检测到
+                        setTimeout(() => {
+                            isUserSelecting = false;
+                        }, 300);
+                    });
+                    
+                    dropdownList.appendChild(item);
+                });
+                
+                // 默认选中第一个选项
+                if (nativeSelect.selectedIndex <= 0 && options.length > 1) {
+                    selectFirstOption();
+                }
+                
+                // 初始化清除按钮显示状态
+                toggleClearButton();
+            }
+            
+            // 更新选中项样式
+            function updateSelectedItem(selectedElement) {
+                const items = dropdownList.querySelectorAll('.dropdown-item');
+                items.forEach(item => {
+                    item.classList.remove('selected');
+                });
+                selectedElement.classList.add('selected');
+            }
+            
+            // 选中第一个选项
+            function selectFirstOption() {
+                const firstOption = nativeSelect.options[1]; // 跳过占位选项
+                if (firstOption) {
+                    nativeSelect.value = firstOption.value;
+                    searchInput.value = firstOption.text;
+                    
+                    // 更新下拉列表中选中状态
+                    const items = dropdownList.querySelectorAll('.dropdown-item');
+                    if (items.length > 0) {
+                        updateSelectedItem(items[0]);
+                    }
+                }
+            }
+            
+            // 选中第一个可见选项
+            function selectFirstVisibleOption() {
+                const visibleItems = dropdownList.querySelectorAll('.dropdown-item:not([style*="display: none"])');
+                if (visibleItems.length > 0) {
+                    const firstVisibleItem = visibleItems[0];
+                    searchInput.value = firstVisibleItem.textContent;
+                    nativeSelect.value = firstVisibleItem.dataset.value;
+                    updateSelectedItem(firstVisibleItem);
+                }
+            }
+            
+            // 显示下拉列表（带过滤）
+            function showDropdown() {
+                filterOptions();
+                dropdownList.classList.add('visible');
+                isDropdownVisible = true;
+                updateArrowIcon();
+                openedByArrow = false; // 重置标志
+            }
+            
+            // 显示所有选项（不带过滤）
+            function showAllOptions() {
+                const items = dropdownList.querySelectorAll('.dropdown-item');
+                items.forEach(item => {
+                    item.style.display = 'block';
+                });
+                
+                // 移除无结果提示
+                const noResults = dropdownList.querySelector('.no-results');
+                if (noResults) {
+                    dropdownList.removeChild(noResults);
+                }
+                
+                // 高亮第一个选项
+                highlightFirstVisibleOption();
+                
+                dropdownList.classList.add('visible');
+                isDropdownVisible = true;
+                updateArrowIcon();
+            }
+            
+            // 隐藏下拉列表
+            function hideDropdown() {
+                dropdownList.classList.remove('visible');
+                isDropdownVisible = false;
+                highlightedIndex = -1;
+                updateArrowIcon();
+                openedByArrow = false; // 重置标志
+            }
+            
+            // 切换下拉列表状态（点击箭头时使用）
+            function toggleDropdownByArrow() {
+                if (isDropdownVisible) {
+                    hideDropdown();
+                } else {
+                    openedByArrow = true;
+                    showAllOptions(); // 显示所有选项
+                }
+            }
+            
+            // 更新箭头图标
+            function updateArrowIcon() {
+                const icon = dropdownArrow.querySelector('i');
+                if (isDropdownVisible) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            }
+            
+            // 过滤选项
+            function filterOptions() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const items = dropdownList.querySelectorAll('.dropdown-item');
+                let hasVisibleItems = false;
+                
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    const isMatch = text.includes(searchTerm);
+                    
+                    // 控制显示/隐藏而非删除元素
+                    item.style.display = isMatch ? 'block' : 'none';
+                    
+                    if (isMatch) {
+                        hasVisibleItems = true;
+                    }
+                });
+                
+                // 显示"无结果"提示
+                let noResults = dropdownList.querySelector('.no-results');
+                if (!hasVisibleItems) {
+                    if (!noResults) {
+                        noResults = document.createElement('div');
+                        noResults.className = 'no-results';
+                        noResults.textContent = '没有找到匹配的结果';
+                        dropdownList.appendChild(noResults);
+                    }
+                } else if (noResults) {
+                    dropdownList.removeChild(noResults);
+                }
+                
+                // 高亮第一个可见选项
+                highlightFirstVisibleOption();
+            }
+            
+            // 高亮第一个可见选项
+            function highlightFirstVisibleOption() {
+                const visibleItems = dropdownList.querySelectorAll('.dropdown-item:not([style*="display: none"])');
+                if (visibleItems.length > 0) {
+                    highlightedIndex = 0;
+                    visibleItems[0].classList.add('highlighted');
+                } else {
+                    highlightedIndex = -1;
+                }
+            }
+            
+            // 更新高亮选项
+            function updateHighlight(direction) {
+                const visibleItems = Array.from(dropdownList.querySelectorAll('.dropdown-item:not([style*="display: none"])'));
+                
+                if (visibleItems.length === 0) return;
+                
+                // 移除之前的高亮
+                visibleItems.forEach(item => item.classList.remove('highlighted'));
+                
+                // 计算新的高亮索引
+                highlightedIndex += direction;
+                
+                // 边界检查
+                if (highlightedIndex < 0) {
+                    highlightedIndex = visibleItems.length - 1;
+                } else if (highlightedIndex >= visibleItems.length) {
+                    highlightedIndex = 0;
+                }
+                
+                // 添加新的高亮
+                visibleItems[highlightedIndex].classList.add('highlighted');
+                
+                // 滚动到可见区域
+                visibleItems[highlightedIndex].scrollIntoView({ block: 'nearest' });
+            }
+            
+            // 选中当前高亮的选项
+            function selectHighlightedOption() {
+                if (highlightedIndex === -1) return;
+                
+                const visibleItems = Array.from(dropdownList.querySelectorAll('.dropdown-item:not([style*="display: none"])'));
+                if (visibleItems.length > 0 && highlightedIndex < visibleItems.length) {
+                    // 设置用户主动选择标志
+                    isUserSelecting = true;
+                    
+                    const selectedItem = visibleItems[highlightedIndex];
+                    searchInput.value = selectedItem.textContent;
+                    nativeSelect.value = selectedItem.dataset.value;
+                    updateSelectedItem(selectedItem);
+                    hideDropdown();
+                    toggleClearButton(); // 确保清除按钮状态正确
+                    
+                    // 延迟重置标志位
+                    setTimeout(() => {
+                        isUserSelecting = false;
+                    }, 300);
+                }
+            }
+            
+            // 切换清除按钮显示/隐藏
+            function toggleClearButton() {
+                clearButton.style.display = searchInput.value ? 'flex' : 'none';
+            }
+            
+            // 清除输入框内容
+            function clearInput() {
+                // 清空输入框
+                searchInput.value = '';
+                
+                // 重置原生select到初始状态（不选中任何选项）
+                nativeSelect.value = '';
+                
+                // 重新过滤选项以显示全部
+                filterOptions();
+                
+                // 隐藏清除按钮
+                toggleClearButton();
+                
+                // 清除后输入框获得焦点
+                searchInput.focus();
+                
+                // 清除下拉列表中的选中状态
+                const items = dropdownList.querySelectorAll('.dropdown-item');
+                items.forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                // 如果下拉列表是隐藏的，显示它
+                if (!isDropdownVisible) {
+                    showDropdown();
+                }
+            }
+            
+            // 事件监听 - 下拉箭头点击（显示所有选项）
+            dropdownArrow.addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止事件冒泡
+                toggleDropdownByArrow(); // 使用新的切换函数
+            });
+            
+            // 点击输入框显示下拉列表（带过滤）
+            searchInput.addEventListener('focus', function() {
+                if (!isDropdownVisible) {
+                    // 如果不是通过箭头打开，使用过滤后的选项
+                    if (!openedByArrow) {
+                        showDropdown();
+                    }
+                }
+            });
+            
+            // 输入框内容变化时过滤选项
+            searchInput.addEventListener('input', function() {
+                filterOptions();
+                toggleClearButton(); // 输入变化时更新清除按钮状态
+                
+                // 如果下拉列表是隐藏的，显示它
+                if (!isDropdownVisible) {
+                    showDropdown();
+                }
+            });
+            
+            // 失去焦点时选择第一个可见选项
+            searchInput.addEventListener('blur', function() {
+                // 使用setTimeout避免与点击选项冲突
+                setTimeout(function() {
+                    // 只有当不是用户主动选择且下拉列表已经隐藏时才自动选择
+                    if (!isUserSelecting && !isDropdownVisible) {
+                        selectFirstVisibleOption();
+                        toggleClearButton(); // 确保清除按钮状态正确
+                    }
+                }, 200);
+            });
+            
+            // 键盘导航
+            searchInput.addEventListener('keydown', function(e) {
+                switch(e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        updateHighlight(1); // 向下高亮
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        updateHighlight(-1); // 向上高亮
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (isDropdownVisible) {
+                            selectHighlightedOption(); // 选中高亮选项
+                        } else {
+                            showDropdown(); // 显示下拉列表
+                        }
+                        break;
+                    case 'Escape':
+                        hideDropdown(); // 隐藏下拉列表
+                        break;
+                }
+            });
+            
+            // 点击页面其他地方隐藏下拉列表
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && 
+                    !dropdownList.contains(e.target) && 
+                    !dropdownArrow.contains(e.target) &&
+                    !clearButton.contains(e.target)) { // 排除清除按钮
+                    hideDropdown();
+                }
+            });
+            
+            // 清除按钮点击事件 - 防止事件冒泡
+            clearButton.addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止事件冒泡到document
+                clearInput();
+            });
+            
+            // 初始化
+            initDropdown();
+        });
+    </script>
+  
+    
+<!-------------------->
+
+
+			{volist name='allcls' id='vocls'}
+    				{if condition="$vocls.id>4"}
+					    <div id="row{$vocls.id}" style="display:none;">
+                    {else/}
+                        <div>
+                    {/if}
+    					<div class="input-group mb-3">
+    					    <span class="input-group-text p-0 input-group">
+    					    <select class="form-select border-0" aria-label="Default select example" name="{$vocls.id}">
+    					        <option value="">{$vocls.name}</option>
+
+                                {volist name="categories" id="category"}
+                                    <option value="{$category.id}">{$category.indent}├─ {$category.name}[{$category.kcl}]</option>
+                                    {if !empty($category.children)}
+                                            {volist name="category.children" id="child"}
+                                                <option value="{$child.id}">{$child.indent}├─ {$child.name}[{$child.kcl}]</option>
+                                                {if !empty($child.children)}
+                                                        {volist name="child.children" id="grandchild"}
+                                                            <option value="{$grandchild.id}">{$grandchild.indent}├─ {$grandchild.name}[{$grandchild.kcl}]</option>
+                                                        {/volist}
+                                                {/if}
+                                            {/volist}
+                                    {/if}
+                                {/volist}
+
+    						</select>
+            				<input class="price" type="hidden" name="{$vo.id}x" value="{$vo.jine}"/>
+        					<input class="price" type="hidden" name="{$vo.id}xv" value="{$vo.id}"/>
+        					<input type="text" name="mytext{$vo.id}" value="{$vo.mytext}" style="display:none;"/>
+    						</span>
+    					</div>
+    				</div>
+				{/volist}
+				
+				
+				<input class="price" type="hidden" name="id" value="{$id}"/>
+                <input class="price" type="hidden" name="phone" value="{$phone}"/>
+                <div class="d-flex justify-content-str mb-3">
+                    <button type="button" class="btn btn-primary btn-sm" id="addRowBtn">增加行</button>
+                </div>
+				<div class="d-grid"><button type="button" class="btn btn-success btn-lg rounded-pill"
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="return reok()">下一步</button></div>
+			</form>
+		</div>
+<div class="m-4">&nbsp;</div>
+<div class="m-4">&nbsp;</div>
+<div class="m-4">&nbsp;</div>	
+<!-- 头部区域 - 结束 -->
+<script>
+let currentRow = 4; // 当前显示的行数
+const maxRows = 10; // 最大行数
+
+document.getElementById('addRowBtn').addEventListener('click', function() {
+	if (currentRow < maxRows) {
+		currentRow++;
+		document.getElementById('row' + currentRow).style.display = 'block';
+		
+		// 如果达到最大行数，禁用按钮
+		if (currentRow >= maxRows) {
+			this.disabled = true;
+			this.textContent = '已达最大行数';
+		}
+	}
+});
+</script>
+
+<script>
+
+		function reok(){
+		        bm_name=document.createElement('searchInput').value;
+                if(bm_name=='')
+                {
+                alert("供应商栏不能为空！");
+                return false;
+                }else{
+                   form.submit(); 
+                }
+
+		}
+        // 检测是否为移动设备
+        function isMobileDevice() {
+          return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // 如果不是移动设备（即为电脑端），隐藏指定内容
+        if (!isMobileDevice()) {
+          const elements = document.getElementsByClassName('mobile-only');
+          for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = 'none';
+          }
+        }
+</script>
+		
+ {include file="public/footer4" /}
+

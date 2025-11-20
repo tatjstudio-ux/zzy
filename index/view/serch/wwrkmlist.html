@@ -1,0 +1,172 @@
+ {include file="public/headerp" /}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick-theme.css">
+		<link href="/public/mainstyle/static/css/all.min.css" rel="stylesheet">
+		<link href="/public/mainstyle/static/css/demo.css" rel="stylesheet">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/style.css">
+	</head>
+<script>
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+
+
+function del(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要作废这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/del')}?idx="+idx+"&id={$id}";
+	}
+  });
+  }
+  
+ function reprint(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要重新打印这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('index/wwserch/rprint')}?idx="+idx+"&id={$id}&y={$y}&m={$m}";
+	}
+  });
+  }
+</script>
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">外委单据入库记录共计[{$bs}]笔</h3>
+				</div>
+			</div>
+		</div>
+		<div class="px-4">
+		    <form action="javascript:;" method="POST">
+			<div class="input-group bg-white rounded-pill overflow-hidden border p-1 mb-3"><span
+					class="input-group-text border-0 bg-white"><i
+						class="fa-solid fa-magnifying-glass text-danger"></i></span><input type="text"
+					class="shadow-none form-control border-0" placeholder="批号" id="inputId" autofocus onkeydown="handleEnter(event)"></div></form>
+			<script>var sallkg=0;var salljine=0;</script>
+			{volist name='all' id='vo'}
+						{if condition="($vo.she==1)"}
+    						{if condition="($vo.zf==1)"}
+    						{else}
+                    			<div class="bg-white my-3">
+                    				<div class="card rounded-4 border overflow-hidden">
+                    					<div class="card-header p-3 border-bottom">
+                    						<div class="d-flex justify-content-between">
+                    						    
+                                					{if condition="($vo.cku==2)"}
+                                        				<div class="d-flex gap-2" onclick="window.location.href='/index/wwdj/dtle?id={$vo.id}'">
+                                								<div><img src="/public/static/newskin/picture/ck.png" alt=""
+                                										class="img-fluid rounded-pill ch-50"></div>
+                                								<div>
+                                									<h5 class="mb-1">{$vo.myname}</h5>
+                                									<p class="text-muted my-0">单号：[{$vo.dhao}]</p>
+                                									<div class="text-muted small">加工方式：{$vo.madd}</div>
+                                								</div>
+                            							</div>
+                        						    {else}
+                                        				<div class="d-flex gap-2" onclick="window.location.href='/index/wwdj/dtle?id={$vo.id}'">
+                            								<div><img src="/public/static/newskin/picture/rk.png" alt=""
+                            										class="img-fluid rounded-pill ch-50"></div>
+                            								<div>
+                            									<h5 class="mb-1">{$vo.myname}</h5>
+                            									<p class="text-muted my-0">单号：[{$vo.dhao}]</p>
+                            									<div class="text-muted small">加工方式：{$vo.madd}</div>
+                            								</div>
+                            							</div>
+                        						    
+                        						    {/if}
+
+                    						</div>
+                    					</div>
+                    					<div class="card-body">
+                    					    
+            							<script>var allkg=0;var alljine=0;</script>
+                    					{volist name='db2' id='vox'}
+                    					    {if condition="($vo.id==$vox.fid)"}
+                        					    <div class="d-flex align-items-center gap-2 mb-3">
+                        							<div><img src="/public/mainstyle/static/picture/veg.jpeg" alt="" class="img-fluid ch-20"></div>
+                        							<div>[{$vox.cpname}]({$vox.djia})[{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}*{$vox.danjias}={$vox.jineall}元]</div>
+                        						</div>
+                    						<script>
+                    						    {if condition="($vox.hjzl==1)"}
+                    						        allkg=allkg+{$vox.cpnum};
+                    						    {/if}
+                    						    alljine=alljine+{$vox.jineall};
+                    						</script>
+                    						{/if}
+                    						
+                    					{/volist}
+
+                    						<hr><a href="#" class="text-decoration-none link-dark">
+                    							<div class="d-flex justify-content-between">
+                    								<div class="text-muted">合计量:<script>document.write(allkg.toFixed(2));</script>
+                    								</div>
+                    								<div class="fw-bold">合计:<script>
+            							    document.write(alljine.toFixed(2));
+            							</script>元
+                    								</div>
+                    							</div>
+                    						</a>
+                    						<hr>
+                    						<div class="d-flex align-items-center justify-content-between">
+                    							<div class="text-muted">操作员：{$vo.name}
+                    							</div>
+                    							<div><a href="/index/wwdj/editshow?id={$vo.id}" class="btn btn-success btn-sm rounded-pill small">&nbsp;修改&nbsp;</a>&nbsp;<a href="#" onclick="del({$vo.id})" class="btn btn-danger btn-sm rounded-pill small">&nbsp;作废&nbsp;</a>&nbsp;<a href="{:url('index/wwserch/rprint')}?idx={$vo.id}&id={$id}&y={$y}&m={$m}" " class="btn btn-sm rounded-pill small"style="background-color:#bdbdbd;">&nbsp;补打&nbsp;</a></div>
+                    						</div>
+                    					</div>
+                    				</div>
+                    			</div>
+      							<script>
+        							    sallkg=sallkg+allkg;
+        							    salljine=salljine+alljine;
+        						</script>
+    						{/if}
+
+						{/if}
+
+			{/volist}
+
+		</div>
+
+		<div class="pt-5 pb-5 card-body card rounded-4 border overflow-hidden fs-3">
+		<div style="padding:10px;">总出货重量:【<script>document.write(sallkg.toFixed(2));</script>】kg</div> 
+		<div style="padding:10px;">&nbsp;&nbsp;&nbsp;&nbsp;共计金额:【<script>document.write(salljine.toFixed(2));</script>】元</div>
+		    
+		</div>
+		
+		
+ {include file="public/footer2" /}
+ 
+
+
+        

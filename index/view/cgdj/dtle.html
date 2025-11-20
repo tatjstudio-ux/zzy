@@ -1,0 +1,67 @@
+ {include file="public/header" /}
+<div class="px-4">
+
+                                {volist name='all' id='vo'}
+
+                                <div style="font-size:14px;line-height:30px;">
+                                    <hr/>
+                                    <span style="font-size:16px;color:green;">类型：{$ckuname}</span><br/><hr/>
+                                    <span style="font-size:16px;color:green;">公司名称：{$vo.myname}</span><br/><hr/>
+                                    <div style="font-size:14px;line-height:30px;">
+                                    <span style="font-size:16px;color:green;">单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：{$vo.dhao}</span><br/><hr/>
+            						{volist name='db2' id='vox'}
+            							<span style="font-size:16px;">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：{$vox.cpname}({$i})</span><br/>
+            							<span style="font-size:16px;color:green;">牌号-批号：{$vox.djia}</span><br/>
+            							{if condition="($setting[0]['oldph']==1)"}
+                                            <span style="font-size:16px;color:green;">原始批号：{$vox.oldph}</span><br/>
+                                        {/if}
+            							<span style="font-size:16px;">规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：{$vox.csl}</span><br/>
+                                        <span style="font-size:16px;color:blue;">重&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</span><br/>
+                                        <span style="font-size:16px;color:green;">单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：{$vox.danjias}&nbsp;&nbsp;元</span><br/>
+                                        <span style="font-size:16px;color:red;">合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计：{$vox.jineall}&nbsp;&nbsp;元</span><br/>
+                                        <span style="font-size:16px;">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：{$vox.mytext}&nbsp;&nbsp;</span><br/>
+            							<hr>
+            							
+            							{if condition="$vo.cku==5"}
+                    					 <a href="/index/cgdj/zhuanku?id={$vox.id}&fid={$vox.cpid}&phone={$xphone}&cku={$vo.cku}&sid={$vox.id}">
+                							<button type="button" class="btn btn-success btn-lg "
+                						data-bs-toggle="modal" data-bs-target="#staticBackdrop">转库分配</button>
+                						</a>
+                                        {/if}
+                    					{if condition="$vo.cku==6"}
+                    					 <a href="/index/cgdj/zhuanku?id={$vox.id}&fid={$vox.cpid}&phone={$xphone}&cku={$vo.cku}&sid={$vox.id}">
+                							<button type="button" class="btn btn-success btn-lg "
+                						data-bs-toggle="modal" data-bs-target="#staticBackdrop">转库分配</button>
+                						</a>
+                                        {/if}
+            							<hr>
+
+            						{/volist}
+                                    
+                                    <div style="font-size:16px;">
+                                    备注:{$vo.xtext}<br/>
+									</div>
+                                    </div>
+            						<hr/>
+
+						<a href="/index/cgdj/editshow?id={$vo.id}">
+							<button type="button" class="btn btn-success btn-lg rounded-pill"
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop">修改订单</button>
+						</a>
+						<a href="/index/cgdj/rprint?idx={$vo.id}&id={$id}">
+							<button type="button" class="btn btn-success btn-lg rounded-pill"
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop">补打订单</button>
+						</a>
+            			
+
+			{/volist}
+				    
+
+
+		</div>
+		<div class="pt-5 pb-5"></div>
+    <div class="pt-4 pb-5"></div>
+        			
+
+ {include file="public/footer4" /}
+        

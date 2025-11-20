@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick-theme.css">
+		<link href="/public/mainstyle/static/css/all.min.css" rel="stylesheet">
+		<link href="/public/mainstyle/static/css/demo.css" rel="stylesheet">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/style.css">
+<style>
+   .input-group {
+            margin-bottom: 20px;
+        }
+        #symbolModal {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 10px;
+        }
+        .symbol-box {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: lightgray;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .symbol-box:hover {
+            background-color: gray;
+            color: white;
+        }
+    </style>	
+		
+<script>
+
+		function reok(){
+		    let cv1 = document.getElementById("vbb1");
+            let cv2 = document.getElementById("vbb2");
+		    let cv3 = document.getElementById("vbb3");
+		    let cv4 = document.getElementById("vbb4");
+		    let cv5 = document.getElementById("vbb5");
+		    let cv6 = document.getElementById("vbb6");
+		    let cv7 = document.getElementById("vbb7");
+		    let cv8 = document.getElementById("vbb8");
+		    let cv9 = document.getElementById("vbb9");
+		    let cv10 = document.getElementById("vbb10");
+		    
+		    var vbb1=document.getElementById('vbb1').value;
+		    if (vbb1==""){
+		        alert("批号1不能为空！");
+		        cv1.focus();
+		        return false;
+		    }
+
+            if(cv2 != null){
+               var vbb2=document.getElementById('vbb2').value;
+               if (vbb2==""){
+		        alert("批号2不能为空！");
+		        cv2.focus();
+		        return false;
+		    }
+            }
+            if(cv3 != null){
+               var vbb3=document.getElementById('vbb3').value;
+               if (vbb3==""){
+		        alert("批号3不能为空！");
+		        cv3.focus();
+		        return false;
+		    }
+            }
+            if(cv4 != null){
+               var vbb4=document.getElementById('vbb4').value;
+               if (vbb4==""){
+		        alert("批号4不能为空！");
+		        cv4.focus();
+		        return false;
+		    }
+            }
+            if(cv5 != null){
+               var vbb5=document.getElementById('vbb5').value;
+               if (vbb5==""){
+		        alert("批号5不能为空！");
+		        cv5.focus();
+		        return false;
+		    }
+            }
+            if(cv6 != null){
+               var vbb6=document.getElementById('vbb6').value;
+               if (vbb6==""){
+		        alert("批号6不能为空！");
+		        cv6.focus();
+		        return false;
+		    }
+            }
+            if(cv7 != null){
+               var vbb7=document.getElementById('vbb7').value;
+               if (vbb7==""){
+		        alert("批号7不能为空！");
+		        cv7.focus();
+		        return false;
+		    }
+            }
+            if(cv8 != null){
+               var vbb8=document.getElementById('vbb8').value;
+               if (vbb8==""){
+		        alert("批号8不能为空！");
+		        cv8.focus();
+		        return false;
+		    }
+            }
+            if(cv9 != null){
+               var vbb9=document.getElementById('vbb9').value;
+               if (vbb9==""){
+		        alert("批号9不能为空！");
+		        cv9.focus();
+		        return false;
+		    }
+            }
+            if(cv10 != null){
+               var vbb10=document.getElementById('vbb10').value;
+               if (vbb10==""){
+		        alert("批号10不能为空！");
+		        cv10.focus();
+		        return false;
+		    }
+            }
+            
+		    
+		    
+		    let element2 = document.getElementById("numericInput2");
+		    let element3 = document.getElementById("numericInput3");
+		    let element4 = document.getElementById("numericInput4");
+		    let element5 = document.getElementById("numericInput5");
+		    let element6 = document.getElementById("numericInput6");
+		    let element7 = document.getElementById("numericInput7");
+		    let element8 = document.getElementById("numericInput8");
+		    let element9 = document.getElementById("numericInput9");
+		    let element10 = document.getElementById("numericInput10");
+		    
+		    var mzl1=document.getElementById('numericInput1').value;
+		    if (mzl1==""){
+		        alert("重量1不能为空！");
+		        mzl1.focus();
+		        return false;
+		    }
+
+            if(element2 != null){
+               var mzl2=document.getElementById('numericInput2').value;
+               if (mzl2==""){
+		        alert("重量2不能为空！");
+		        mzl2.focus();
+		        return false;
+		    }
+            }
+            if(element3 != null){
+               var mzl3=document.getElementById('numericInput3').value;
+               if (mzl3==""){
+		        alert("重量3不能为空！");
+		        mzl3.focus();
+		        return false;
+		    }
+            }
+            if(element4 != null){
+               var mzl4=document.getElementById('numericInput4').value;
+               if (mzl4==""){
+		        alert("重量4不能为空！");
+		        mzl4.focus();
+		        return false;
+		    }
+            }
+            if(element5 != null){
+               var mzl5=document.getElementById('numericInput5').value;
+               if (mzl5==""){
+		        alert("重量5不能为空！");
+		        mzl5.focus();
+		        return false;
+		    }
+            }
+            if(element6 != null){
+               var mzl6=document.getElementById('numericInput6').value;
+               if (mzl6==""){
+		        alert("重量6不能为空！");
+		        mzl6.focus();
+		        return false;
+		    }
+            }
+            if(element7 != null){
+               var mzl7=document.getElementById('numericInput7').value;
+               if (mzl7==""){
+		        alert("重量7不能为空！");
+		        mzl7.focus();
+		        return false;
+		    }
+            }
+            if(element8 != null){
+               var mzl8=document.getElementById('numericInput8').value;
+               if (mzl8==""){
+		        alert("重量8不能为空！");
+		        mzl8.focus();
+		        return false;
+		    }
+            }
+            if(element9 != null){
+               var mzl9=document.getElementById('numericInput9').value;
+               if (mzl9==""){
+		        alert("重量9不能为空！");
+		        mzl9.focus();
+		        return false;
+		    }
+            }
+            if(element10 != null){
+               var mzl10=document.getElementById('numericInput10').value;
+               if (mzl10==""){
+		        alert("重量10不能为空！");
+		        mzl10.focus();
+		        return false;
+		    }
+            }
+            
+
+            
+            // 获取表单和按钮元素
+
+            const submitButton = document.getElementById('submitButton');
+
+            // 禁用按钮
+            submitButton.disabled = true;
+
+            // 提交表单
+            form.submit();
+
+            // 可选：显示提示信息
+            //alert('表单已提交，请稍候...');
+			//询问框
+
+		        //alert("提交成功！");
+
+		}
+</script>
+		<script>
+            function username(ix){
+                var xc11= document.getElementById('va'+ix).value;
+                var xc12= document.getElementById('vb'+ix).value;
+                var xc13= document.getElementById('vc'+ix).value;
+                document.getElementById('vd'+ix).value=xc11+"x"+xc12+"x"+xc13; 
+            }
+            function username2(ix){
+                var xc11= document.getElementById('vba'+ix).value;
+                var xc12= document.getElementById('vbb'+ix).value;
+                document.getElementById('vdX'+ix).value=xc11+"-"+xc12; 
+            }
+            function decrun(ix){
+                document.getElementById('vbb'+ix).value=document.getElementById('vbb'+ix).value+"-";
+                document.getElementById('vbb'+ix).focus();
+            }
+            function danjia(ix){
+                var danjia= document.getElementById('danjia'+ix).value;
+                var numericInputx= document.getElementById('numericInput'+ix).value;
+                document.getElementById('jineall'+ix).value=(danjia*numericInputx).toFixed(2); 
+            }  
+		</script>
+	</head>
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					{if condition="$id=='ck'"}
+					<h3 class="fw-bold m-0">销售出库信息</h3>
+                    {else/}
+                     <h3 class="fw-bold m-0">入库信息</h3>
+                    {/if}
+					
+				</div>
+			</div>
+		</div>
+		
+
+		<hr style="border: none;border-top: 1px solid #666;">
+		<form class="am-form" action="{:url('Index/cgdj/rezhuankuup')}" id="fall" name="form" method="post">
+			<?php $v=1; ?>
+			{volist name='vpud' id='vo'}
+					<div class="mx-4 mb-4 bg-white rounded-4 shadow overflow-hidden p-4">
+            				<div><label class="form-label text-muted">【{$v}.{$vo.num}】</label>
+            					<div class="input-group mb-3"><span class="input-group-text p-0">
+            					        <select class="form-select border-0" aria-label="Default select example"  id="vba<?php echo $v;?>"  onchange="username2(<?php echo $v;?>);" >
+            								{volist name='allphao' id='voph'}
+                        				        <option>{$voph.name}</option>
+                        				    {/volist}
+            							</select></span>
+            							{if condition="$phaox==''"}
+            							<input type="text" class="shadow-none form-control"
+            							placeholder="批号" id="vbb<?php echo $v;?>" value="{$phaox}" onchange="username2(<?php echo $v;?>);">
+                                        {else/}
+            							<input type="text" class="shadow-none form-control"
+            							placeholder="批号" id="vbb<?php echo $v;?>" value="{$phaox}-<?php echo $v;?>" onchange="username2(<?php echo $v;?>);">
+                                        {/if}
+            							
+            					</div>
+            							<input type="hidden" name="phao<?php echo $v;?>"  id="vdX<?php echo $v;?>"/>
+            					<div class="input-group col-lg-12 mb-4" style="display:none;">
+            					    <input type="text"
+            						class="shadow-none form-control" placeholder="规格" name="csl<?php echo $v;?>" id="textInput<?php echo $v;?>" ><div style="margin-right:10px;margin-left:10px;font-size:16px;border:solid 1px #666;padding:7px 7px 0 7px;" onclick="openSymbolModal('textInput<?php echo $v;?>')">符号</div>
+            					</div>
+            					
+            					<div class="input-group col-lg-12 mb-4">
+                				<input type="text"  placeholder="重量"  id="numericInput<?php echo $v;?>" name="num<?php echo $v;?>" onkeyup="danjia(<?php echo $v;?>);" class="form-control bg-white border-left-0 border-md"  style="float:left;"/>
+                				<select  style="width:10%;float:right;" name="jldw<?php echo $v;?>" class="form-control custom-select bg-white border-left-0 border-md">
+                                        {volist name='alljldw' id='vojl'}
+                    				        <option value="{$vojl.name}">{$vojl.name}</option>
+                    				    {/volist}
+                    				    
+                    			</select>
+                				<input type="checkbox" name="hjzl<?php echo $v;?>" style="margin-right:10px;margin-left:10px;font-size:28px;" checked="checked"/>
+                				</div>
+                				
+                                <div class="input-group col-lg-12 mb-4" style="display:none;">
+                				<input type="text" name="danjia<?php echo $v;?>" id="danjia<?php echo $v;?>" onkeyup="danjia(<?php echo $v;?>);" style="width:40%;float:left;margin-right:5px;" placeholder="单价" class="form-control bg-white border-left-0 border-md"/>
+                    			<input  type="text" name="jineall<?php echo $v;?>" id="jineall<?php echo $v;?>" onchange="danjia(<?php echo $v;?>);" style="width:40%;float:left;margin-right:5px;" placeholder="金额" class="form-control bg-white border-left-0 border-md"/>
+                    			</div>
+                                <div class="input-group col-lg-12 mb-4">
+                				<div class="input-group-prepend">
+                					<span class="input-group-text bg-white px-4 border-md border-right-0">
+                						备注
+                					</span>
+                				</div>
+                				<input  type="text" name="mytext<?php echo $v;?>" class="form-control bg-white border-left-0 border-md">
+                    			</div>
+                				
+                				
+                				</div>
+            					
+            				</div>
+            		</div>
+                    <input class="price" type="hidden" name="xid<?php echo $v;?>" value="{$vo.id}"/>
+            		<input class="price" type="hidden" name="id<?php echo $v;?>" value="{$vo.id}"/>
+				    <input class="price" type="hidden" name="jinec<?php echo $v;?>" value="0"/>
+			        <input class="price" type="hidden" name="name<?php echo $v;?>" value="{$vo.name}" />
+	
+                <div>
+
+
+				<script>
+                function validateDecimal(el) {
+                    var value = el.value;
+                    if (!/^-?\d+(\.\d+)?$/.test(value)) {
+                        el.classList.add('invalid-input');
+                    } else {
+                        el.classList.remove('invalid-input');
+                    }
+                }
+                username2(<?php echo $v;?>);
+                </script>
+				<script>
+                    document.getElementById('numericInput<?php echo $v;?>').addEventListener('input', function (e) {
+                        const validPattern = /^-?\d+(\.\d+)?$/;
+                        if (!validPattern.test(this.value)) {
+                            //this.value = this.value.replace(/[^0-9]/g, '');
+                             //先把非数字的都替换掉
+                            this.value = this.value.replace(/[^\d.]/g,"");
+                            //必须保证第一个为数字而不是
+                            this.value = this.value.replace(/^\./g,""); 
+                            //只有出现一个.而没有多个. 
+                            this.value = this.value.replace(/\.{2,}/g,"."); 
+                             //.只出现一次，而不能出现两次以上
+                            this.value = this.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+                        }
+                    });
+                </script>
+				
+				<hr style="border: none;border-top: 1px solid #666;">
+				<?php $v=$v+1; ?>
+			{/volist}
+			</ul>
+		</div>
+		<!-- 商品列表 - 结束 -->
+		<!-- 订单备注 - 开始 -->
+		<div class="input-group col-lg-12 mb-4">
+		<textarea name="bm_text"  placeholder="总备注"  class="form-control bg-white border-left-0 border-md" ></textarea>
+		</div>
+		<!-- 订单备注 - 结束 -->
+		
+		<input class="price" type="hidden" name="id" value="{$id}"/>
+		<input class="price" type="hidden" name="phone" value="{$phone}"/>
+		<input class="price" type="hidden" name="all" value="{$all}"/>
+		<input class="price" type="hidden" name="jine" value="{$alljine}"/>
+		<input class="price" type="hidden" name="add" value="{$add}"/>
+		<input class="price" type="hidden" name="name" value="{$name}"/>
+		<input class="price" type="hidden" name="xdate" value="{$xdate}"/>
+		<input class="price" type="hidden" name="jgfs" value="{$jgfs}"/>
+		<input class="price" type="hidden" name="fid" value="{$fid}"/>
+		<input class="price" type="hidden" name="xcku" value="{$xcku}"/>
+		<input class="price" type="hidden" name="sid" value="{$sid}"/>
+		</from>
+		
+		<div class="d-grid"><button type="button" class="btn btn-success btn-lg rounded-pill"
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop"  id="submitButton"    onclick="return reok()">提交订单</button></div>
+						
+    <div class="overlay" id="overlay"></div>
+    <div id="symbolModal">
+        <div class="symbol-grid">
+            <div class="symbol-box" onclick="selectSymbol('□')">□</div>
+            <div class="symbol-box" onclick="selectSymbol('∮')">∮</div>
+            <div class="symbol-box" onclick="selectSymbol('#')">#</div>
+            <div class="symbol-box" onclick="selectSymbol('*')">*</div>
+            <div class="symbol-box" onclick="selectSymbol('-')">-</div>
+        </div>
+    </div>
+    <script>//特殊符号选项
+        let currentInputId;
+
+        function openSymbolModal(inputId) {
+            currentInputId = inputId;
+            document.getElementById('symbolModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+
+        }
+
+        function closeSymbolModal() {
+            document.getElementById('symbolModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function selectSymbol(symbol) {
+            const inputField = document.getElementById(currentInputId);
+            if (inputField) {
+                inputField.value += symbol;
+            }
+            closeSymbolModal();
+        }
+
+        // Close modal when clicking outside of it
+        document.getElementById('overlay').addEventListener('click', closeSymbolModal);
+</script>
+ {include file="public/footer4" /}

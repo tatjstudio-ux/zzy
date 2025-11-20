@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$selectedDate}【加工】</title>
+    <!-- 替换为阿里云CDN的qrcode库（更稳定） -->
+    <script src="https://cdn.staticfile.org/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "Arial", sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            padding: 15px;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .page-title {
+            text-align: left;
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .qr-code-container {
+            width: 80px;
+            height: 80px;
+        }
+        .date-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 8px;
+        }
+        .date-tag {
+            display: inline-block;
+            background-color: #e8f4f8;
+            color: #4299e1;
+            padding: 3px 10px;
+            border-radius: 14px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        .date-picker {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .date-btn {
+            padding: 8px 16px;
+            background-color: #4299e1;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .date-btn:hover {
+            background-color: #3b82f6;
+        }
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .detail-card {
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .card-header h3 svg {
+            margin-right: 6px;
+            margin-left: 2px;
+            width: 18px;
+            height: 18px;
+        }
+        .ruku-header {
+            color: #22c55e;
+            background-color: #f0fdf4;
+            border-bottom-color: #dcfce7;
+        }
+        .chuku-header {
+            color: #3b82f6;
+            background-color: #eff6ff;
+            border-bottom-color: #dbeafe;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 10px 4px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        td {
+            color: #666;
+            border-bottom: 1px solid #f5f5f5;
+            padding: 10px 4px;
+            white-space: nowrap;
+        }
+        .ruku-table td {
+            color: #166534;
+        }
+        .chuku-table td {
+            color: #1e40af;
+        }
+        .company-row td {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .total-row td {
+            font-weight: 600;
+            color: #dc2626 !important;
+            background-color: #fef6f6;
+        }
+        .global-total-row td {
+            font-weight: 700;
+            color: #b91c1c !important;
+            background-color: #fee2e2;
+            font-size: 14px;
+        }
+        .empty-row {
+            height: 80px;
+            color: #999;
+            font-size: 13px;
+            text-align: center;
+        }
+        /* 表格横向滚动容器（手机端必备） */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* 优化iOS滚动体验 */
+        }
+        /* 平板及以上设备样式 */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .page-header {
+                justify-content: center;
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+            .page-title {
+                text-align: center;
+                font-size: 24px;
+            }
+            .date-container {
+                width: auto;
+                margin-top: 0;
+            }
+            .detail-row {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .detail-card {
+                flex: 1;
+                min-width: 500px;
+            }
+            th, td {
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+            td:nth-child(3), td:nth-child(5), td:nth-child(6) {
+                padding-right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题+日期选择器+二维码 -->
+    <div class="page-header">
+        <h1 class="page-title">当日出入库统计</h1>
+        <div class="qr-code-container" id="qrCode"></div>
+        <div class="date-container">
+            <input type="date" class="date-picker" id="datePicker" value="{$selectedDate}">
+            <button class="date-btn" id="queryBtn">查询</button>
+        </div>
+    </div>
+
+    <!-- 入库明细卡片 -->
+    <div class="detail-card">
+        <div class="card-header ruku-header">
+            <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                入库明细【{$selectedDate}】
+            </h3>
+        </div>
+        <!-- 手机端横向滚动容器 -->
+        <div class="table-container">
+            <table class="ruku-table">
+                <thead>
+                    <tr>
+                        <th>公司名</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="rukuGroups"}
+                        {foreach name="rukuGroups" id="group" key="company"}
+                            <!-- 公司名行 -->
+                            <tr>
+                                <td rowspan="<?php echo count($group['list']) + 2; ?>" style="text-align:center;">{$company}</td>
+                                <td>产品明细</td>
+                                <td>总重量</td>
+                                <td>规格</td>
+                                <td>加权单价</td>
+                                <td>总金额</td>
+                            </tr>
+                            <!-- 公司下的产品明细 -->
+                            {volist name="group.list" id="item"}
+                            <tr>
+                                <td>{$item.cpname|default='--'}</td>
+                                <td>{$item.cpnum|default=0}</td>
+                                <td>{$item.csl|default='--'}</td>
+                                <td>¥{$item.danjias|default=0}</td>
+                                <td>¥{$item.jineall|default=0}</td>
+                            </tr>
+                            {/volist}
+                            <!-- 公司合计行 -->
+                            <tr class="total-row">
+                                <td>合计</td>
+                                <td>{$group.totalCpnum}</td>
+                                <td>-</td>
+                                <td>¥{$group.avgPrice}</td>
+                                <td>¥{$group.totalJine}</td>
+                            </tr>
+                        {/foreach}
+                        <!-- 入库全局总合计行 -->
+                        <tr class="global-total-row">
+                            <td style="text-align:center;">总合计</td>
+                            <td>-</td>
+                            <td>{$rukuTotalCpnum}</td>
+                            <td>-</td>
+                            <td>¥{$rukuAvgPrice}</td>
+                            <td>¥{$rukuTotalJine}</td>
+                        </tr>
+                    {/notempty}
+                    {empty name="rukuGroups"}
+                        <tr>
+                            <td colspan="6" class="empty-row">暂无入库明细</td>
+                        </tr>
+                    {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 出库明细卡片 -->
+    <div class="detail-card">
+        <div class="card-header chuku-header">
+            <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                出库明细【{$selectedDate}】
+            </h3>
+        </div>
+        <!-- 手机端横向滚动容器 -->
+        <div class="table-container">
+            <table class="chuku-table">
+                <thead>
+                    <tr>
+                        <th>公司名</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notempty name="chukuGroups"}
+                        {foreach name="chukuGroups" id="group" key="company"}
+                            <!-- 公司名行 -->
+                            <tr class="company-row">
+                                <td rowspan="<?php echo count($group['list']) + 2; ?>" style="text-align:center;">{$company}</td>
+                                <td>产品明细</td>
+                                <td>总重量</td>
+                                <td>规格</td>
+                                <td>加权单价</td>
+                                <td>总金额</td>
+                            </tr>
+                            <!-- 公司下的产品明细 -->
+                            {volist name="group.list" id="item"}
+                            <tr>
+                                <td>{$item.cpname|default='--'}</td>
+                                <td>{$item.cpnum|default=0}</td>
+                                <td>{$item.csl|default='--'}</td>
+                                <td>¥{$item.danjias|default=0}</td>
+                                <td>¥{$item.jineall|default=0}</td>
+                            </tr>
+                            {/volist}
+                            <!-- 公司合计行 -->
+                            <tr class="total-row">
+                                <td>合计</td>
+                                <td>{$group.totalCpnum}</td>
+                                <td>-</td>
+                                <td>¥{$group.avgPrice}</td>
+                                <td>¥{$group.totalJine}</td>
+                            </tr>
+                        {/foreach}
+                        <!-- 出库全局总合计行 -->
+                        <tr class="global-total-row">
+                            <td style="text-align:center;">总合计</td>
+                            <td>-</td>
+                            <td>{$chukuTotalCpnum}</td>
+                            <td>-</td>
+                            <td>¥{$chukuAvgPrice}</td>
+                            <td>¥{$chukuTotalJine}</td>
+                        </tr>
+                    {/notempty}
+                    {empty name="chukuGroups"}
+                        <tr>
+                            <td colspan="6" class="empty-row">暂无出库明细</td>
+                        </tr>
+                    {/empty}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 日期选择逻辑脚本 + 二维码生成脚本（适配新库） -->
+    <script>
+        // 页面加载完成后生成二维码（适配qrcodejs库）
+        window.onload = function() {
+            const currentUrl = window.location.href;
+            // 初始化二维码生成器
+            new QRCode(document.getElementById('qrCode'), {
+                text: currentUrl,
+                width: 80,    // 二维码宽度
+                height: 80,   // 二维码高度
+                colorDark: '#000000',  // 前景色
+                colorLight: '#ffffff', // 背景色
+                correctLevel: QRCode.CorrectLevel.L // 容错级别（L/M/Q/H，L级最快）
+            });
+        };
+
+        // 日期查询逻辑
+        document.getElementById('queryBtn').addEventListener('click', function() {
+            const selectedDate = document.getElementById('datePicker').value;
+            window.location.href = '/index/reports/dayrtp.html?id=' + selectedDate;
+        });
+
+        // 日期选择器回车触发查询
+        document.getElementById('datePicker').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('queryBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

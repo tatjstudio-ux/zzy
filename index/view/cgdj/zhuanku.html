@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick-theme.css">
+		<link href="/public/mainstyle/static/css/all.min.css" rel="stylesheet">
+		<link href="/public/mainstyle/static/css/demo.css" rel="stylesheet">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/style.css">
+		<script type="text/javascript">
+            function chdate(){
+                var xy=document.getElementById("xy").value;
+                var xm=document.getElementById("xm").value;
+                var xd=document.getElementById("xd").value;
+                document.getElementById("xdate").value=xy+"-"+xm+"-"+xd;
+            }
+	    </script>
+	</head>
+
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">库存分配</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="mx-4 mb-4">
+			<form action="{:url('Index/cgdj/rezhuanku')}" id="fall" name="form" method="post">
+				<div class="mb-3"><label class="form-label text-muted">日期</label>
+				<div class="input-group mb-3">
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xy"  onchange="return chdate()">
+            	        <?php
+            	            echo "<option>".date('Y')."</option>";
+            	            for($i=2024;$i<2100;$i++){
+            	                echo "<option value='".$i."'>".$i."</option>";
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xm"  onchange="return chdate()">
+            	        <?php
+            	        echo "<option>".date('m')."</option>";
+            	            for($i=1;$i<13;$i++){
+            	                if($i<10){
+            	                echo "<option value='0".$i."'>0".$i."</option>";
+            	                }else{
+            	                echo "<option value='$i'>".$i."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="input-group-text p-0">
+				    <select class="form-select border-0" aria-label="Default select example" id="xd"  onchange="return chdate()">
+            	        <?php
+            	            echo "<option>".date('d')."</option>";
+            	            for($i=1;$i<32;$i++){
+            	                if($i<10){
+            	                echo "<option value='0".$i."'>0".$i."</option>";
+            	                }else{
+            	                echo "<option value='$i'>".$i."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				</div>
+				</div>
+				<div disabled style="display:none;">
+		            <input name="xdate" type="text" data-role="datebox" format="yyyy-mm-dd"  id="xdate" class="form-control bg-white border-left-0 border-md" value="{$xdate}">
+		        </div>
+				<!--<div>
+					<div class="input-group mb-3">
+					    <span class="input-group-text p-0">
+					    <select class="form-select border-0" aria-label="Default select example" id="jgfs" name="jgfs">
+                                        {volist name='jgfs' id='jg'}
+                                        <option value="{$jg.name}">{$jg.name}</option>
+                                        {/volist}
+						</select>
+						</span>
+					</div>
+				</div>-->
+				<div>
+					<div class="input-group mb-3">
+					    <span class="input-group-text p-0">
+					    <select class="form-select border-0" aria-label="Default select example" id="bm_name" name="bm_name">
+                            {volist name='scpname' id='vo'}
+                                <option value="{$vo.name}">{$vo.name}</option>
+                            {/volist}
+						</select>
+						</span>
+					</div>
+				</div>
+			
+				{volist name='allcls' id='vocls'}
+    				<div>
+    				    
+    					<div class="input-group mb-3">
+    					    <span class="input-group-text p-0 input-group">
+    					    <select class="form-select border-0" aria-label="Default select example" name="{$vocls.id}">
+    					        <option value="">{$vocls.name}</option>
+
+                                {volist name="categories" id="category"}
+                                    <option value="{$category.name}">{$category.indent}├─ {$category.name}[{$category.kcl}]</option>
+                                    {if !empty($category.children)}
+                                            {volist name="category.children" id="child"}
+                                                <option value="{$child.name}">{$child.indent}├─ {$child.name}[{$child.kcl}]</option>
+                                                {if !empty($child.children)}
+                                                        {volist name="child.children" id="grandchild"}
+                                                            <option value="{$grandchild.name}">{$grandchild.indent}├─ {$grandchild.name}[{$grandchild.kcl}]</option>
+                                                        {/volist}
+                                                {/if}
+                                            {/volist}
+                                    {/if}
+                                {/volist}
+
+    						</select>
+            				<input class="price" type="hidden" name="{$vo.id}x" value="{$vo.jine}"/>
+        					<input class="price" type="hidden" name="{$vo.id}xv" value="{$vo.id}"/>
+        					<input type="text" name="mytext{$vo.id}" value="{$vo.mytext}" style="display:none;"/>
+    						</span>
+    					</div>
+    				</div>
+				{/volist}
+				
+				
+				<input class="price" type="hidden" name="id" value="{$id}"/>
+				<input class="price" type="hidden" name="fid" value="{$fid}"/>
+                <input class="price" type="hidden" name="phone" value="{$phone}"/>
+                <input class="price" type="hidden" name="xcku" value="{$xcku}"/>
+                <input class="price" type="hidden" name="sid" value="{$sid}"/>
+				<div class="d-grid"><button type="button" class="btn btn-success btn-lg rounded-pill"
+						data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="return reok()">下一步</button></div>
+			</form>
+		</div>
+
+		
+<!-- 头部区域 - 结束 -->
+<script>
+
+		function reok(){
+                if(bm_name=='')
+                {
+                alert("供应商栏不能为空！");
+                return false;
+                }
+    			    form.submit();
+			
+		}
+
+</script>
+		
+ {include file="public/footer4" /}
+
+

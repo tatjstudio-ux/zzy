@@ -1,0 +1,35 @@
+
+<?php
+$y=date('Y');
+$m=date('m');
+?>
+			<div id="footer-bar" class="footer-bar-5">
+			            <a href="#" onclick="window.location.href='{:url('Index/index/mylist')}?id=rk&y=0&m=0'" class="active-nav"><i data-feather="smartphone"
+						data-feather-line="1" data-feather-size="21" data-feather-color="red2-dark"
+						data-feather-bg="red2-fade-light"></i><span>加工</span></a>
+						
+						<a href="#" onclick="window.location.href='{:url('Index/wwdj/mylist')}?id=rk&y=0&m=0'" ><i
+						data-feather="image" data-feather-line="1" data-feather-size="21"
+						data-feather-color="green1-dark"
+						data-feather-bg="green1-fade-light"></i><span>外委</span></a>
+						
+						<a href="#" onclick="window.location.href='{:url('Index/upphone')}'" ><i
+						data-feather="home" data-feather-line="1" data-feather-size="21" data-feather-color="blue2-dark"
+						data-feather-bg="blue2-fade-light"></i><span>主页</span></a>
+						
+						<a href="#" onclick="window.location.href='{:url('Index/cgdj/mysku')}?id=rk'" ><i
+						data-feather="file" data-feather-line="1" data-feather-size="21"
+						data-feather-color="brown1-dark"
+						data-feather-bg="brown1-fade-light"></i><span>库存</span></a>
+						
+						<a href="#" onclick="window.location.href='{:url('/Admin/index')}?id=<?php echo cookie('xphone');?>'" ><i
+						data-feather="settings" data-feather-line="1" data-feather-size="21"
+						data-feather-color="gray2-dark" data-feather-bg="gray2-fade-light"></i><span>设置</span></a>
+			</div>
+			
+		</div>
+		<script type="text/javascript" src="/public/static/newassets/js/jquery.js"></script>
+		<script type="text/javascript" src="/public/static/newassets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/public/static/newassets/js/custom.js"></script>
+	</body>
+</html>

@@ -1,0 +1,196 @@
+ {include file="public/header" /}
+
+    <link rel="stylesheet" type="text/css" href="/public/static/pic/css/base.css">
+    <script src="/public/static/pic/js/jquery-1.11.3.min.js"></script>
+    <script src="/public/static/pic/js/base.js"></script>
+    <!-- 字体库 -->
+    <link rel="stylesheet" type="text/css" href="/public/static/pic/css/iconfont.css">
+
+    <script src="/public/static/pic/js/shoppingCart.js"></script>
+    <!-- 加减进入购物车接口 - 开始 -->
+    <script type="text/javascript" src="/public/static/pic/js/goodsCarData.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="/public/static/pic/css/orderSubmit.css">
+		<script src="/public/static/pic/js/orderSubmit.js"></script>
+
+</head>
+<body>
+
+<script>
+
+		function reok(){
+			//询问框
+			  form.submit();
+		}
+
+</script>
+
+
+		<!-- 头部区域 - 开始 -->
+		<div class="otherTop bb">
+			<i class="iconfont icon-jiantouzuo back" onclick="history.go(-1);"></i>
+			<font class="title">编辑订单</font>
+		</div>
+		<!-- 头部区域 - 结束 -->
+
+		<form class="am-form" action="{:url('Index/cgdj/upaddedit')}" id="fall" name="form" method="post">
+
+		<!-- 地址模块 - 开始 -->
+		<div class="position">
+		</div>
+		<!-- 地址模块 - 结束 -->
+
+		<!-- 商品列表 - 开始 -->
+		<div class="goodsList">
+			<ul>
+			{volist name='vpud' id='vo'}
+				<li>
+					<div class="goods">
+						<div class="dis">
+							<div>
+								<span><font>【{$vo.name}】</font></span>
+							</div>
+						</div>
+					</div>
+				</li>
+		<script>
+            function username(ix){
+                var xc11= document.getElementById('va'+ix).value;
+                var xc12= document.getElementById('vb'+ix).value;
+                var xc13= document.getElementById('vc'+ix).value;
+                document.getElementById('vd'+ix).value=xc11+"x"+xc12+"x"+xc13; 
+            }
+            function username2(ix){
+                var xc11= document.getElementById('vba'+ix).value;
+                var xc12= document.getElementById('vbb'+ix).value;
+                document.getElementById('vdX'+ix).value=xc11+"-"+xc12; 
+            }
+            
+             
+            function decrun(ix){
+                document.getElementById('vbb'+ix).value=document.getElementById('vbb'+ix).value+"-";
+                document.getElementById('vbb'+ix).focus();
+            }
+            function danjia(ix){
+                var danjia= document.getElementById('danjia'+ix).value;
+                var numericInputx= document.getElementById('numericInput'+ix).value;
+                document.getElementById('jineall'+ix).value=(danjia*numericInputx).toFixed(2); 
+            }   
+		</script>
+				<input class="price" type="hidden" name="name<?php echo $i;?>" value="{$vo.name}"/>
+				
+				<!--<select  id="vba<?php echo $i;?>"  onchange="username2(<?php echo $i;?>);" style="width:30%;float:left;">
+				    <option>TC4</option>
+				    <option>TA2</option>
+				    <option>TA1</option>
+				    <option>TA3</option>
+				    <option>TA10</option>
+				    <option>TA15</option>
+				    <option>TC2</option>
+				    <option>TC17</option>
+				    <option>702</option>
+				    <option>705</option>
+				</select>
+			<!--	<input class="price" type="text" id="vba<?php echo $i;?>" onchange="username2(<?php echo $i;?>);" style="width:30%;float:left;" placeholder="牌号"/>
+				<input class="price" type="text" id="vbb<?php echo $i;?>" onchange="username2(<?php echo $i;?>);" style="width:30%;float:left;" placeholder="批号"/>
+				<div style="clear:both;"></div> -->
+				<div class="input-group col-lg-12 mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							批号-牌号
+						</span>
+					</div>
+				<input type="text" name="danjia<?php echo $i;?>"  id="vdX<?php echo $i;?>"  value="{$vo.mypath}"  class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				<!--<input class="price" type="text" id="va<?php echo $i;?>" onchange="username(<?php echo $i;?>);" style="width:30%;float:left;" placeholder="长"/>
+    			<input class="price" type="text" id="vb<?php echo $i;?>" onchange="username(<?php echo $i;?>);" style="width:30%;float:left;" placeholder="宽"/>
+    			<input class="price" type="text" id="vc<?php echo $i;?>" onchange="username(<?php echo $i;?>);" style="width:30%;float:left;" placeholder="高"/>-->
+				<div class="input-group col-lg-12 mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格
+						</span>
+					</div>
+				<input type="text" name="csl<?php echo $i;?>"  id="vd<?php echo $i;?>"  value="{$vo.jine}"  class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+<div class="input-group col-lg-12 mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							重&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量
+						</span>
+					</div>
+				<input type="text" id="numericInput<?php echo $i;?>"  name="num<?php echo $i;?>"  value="{$vo.num}" onkeyup="danjia(<?php echo $i;?>);"  class="form-control bg-white border-left-0 border-md"/>
+				<select  style="width:10%;float:right;" name="jldw<?php echo $i;?>" class="form-control custom-select bg-white border-left-0 border-md">
+                            <option value="{$vo.jldw}">{$vo.jldw}</option>
+                        <?php 
+                            for($ix=0;$ix<count($alljldw);$ix++){
+                                echo "<option value=".$alljldw[$ix]['name'].">".$alljldw[$ix]['name']."</option>";
+                            }
+                        
+                        ?>
+    				    
+    			</select>
+    			 {if condition="($vo.hjzl==1)"}
+                    	<input type="checkbox" name="hjzl<?php echo $i;?>" style="margin-right:10px;margin-left:10px;font-size:28px;" checked="checked"/>
+                 {else}
+                    	<input type="checkbox" name="hjzl<?php echo $i;?>" style="margin-right:10px;margin-left:10px;font-size:28px;"/>
+                 {/if}
+				
+				</div>
+				<div class="input-group col-lg-12 mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价
+						</span>
+					</div>
+				<input type="text" name="danjias<?php echo $i;?>"  value="{$vo.danjias}"  id="danjia<?php echo $i;?>" onkeyup="danjia(<?php echo $i;?>);" class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				
+				<div class="input-group col-lg-12 mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额
+						</span>
+					</div>
+				<input type="text" name="jineall<?php echo $i;?>"  value="{$vo.jineall}"  id="jineall<?php echo $i;?>" onkeyup="danjia(<?php echo $i;?>);" class="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				<div class="input-group col-lg-12 mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text bg-white px-4 border-md border-right-0">
+							备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注
+						</span>
+					</div>
+				<input type="text" name="mytext<?php echo $i;?>"  value="{$vo.mytext}" lass="form-control bg-white border-left-0 border-md"/>
+				</div>
+				
+				<input class="price" type="hidden" name="id<?php echo $i;?>" value="{$vo.jine}"/>
+				<input class="price" type="hidden" name="jinec<?php echo $i;?>" value="0"/>
+				<input class="price" type="hidden" name="cpid<?php echo $i;?>" value="{$vo.id}"/>
+			{/volist}
+			</ul>
+		</div>
+
+		<!-- 商品列表 - 结束 -->
+
+		<!-- 订单备注 - 开始 -->
+		<textarea class="remarks" name="bm_text" placeholder="备注信息">{$mytext}</textarea>
+		<!-- 订单备注 - 结束 -->
+		<div class="h_50"></div>
+		
+		<input class="price" type="hidden" name="id" value="{$id}"/>
+		<input class="price" type="hidden" name="all" value="{$all}"/>
+		<input class="price" type="hidden" name="jine" value="{$alljine}"/>
+		</from>
+		
+		<!-- 结算模块 - 开始 -->
+		<div class="settlement">
+			<!--<span class="total">金额：<font id="allTotal">¥{$alljine}元</font></span>-->
+			<a href="#" onclick="return reok()">提交订单</a>
+		</div>
+		<!-- 结算模块 - 结束 -->
+		
+ {include file="public/footer2" /}

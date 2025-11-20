@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html lang=zh>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+<script>
+isdt();
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+function isDesktop() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  // 检测是否是移动设备的常见关键词
+  const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'windows phone'];
+  
+  // 如果包含移动设备关键词，则不是电脑端
+  for (const keyword of mobileKeywords) {
+    if (userAgent.includes(keyword)) {
+      return false;
+    }
+  }
+  
+  return true;
+}
+function isdt(){
+// 使用示例
+if (isDesktop()) {
+window.location.href = "{:url('pc/index/index')}?id=1&phone={$phone}";
+} else {
+  console.log('这是移动端访问');
+}
+}
+</script>
+
+<style>
+    :root {
+        --third-height: 0; /* 初始值 */
+    }
+    .third {
+        margin-top: var(--third-height); /* 使用CSS变量 */
+    }
+</style>
+
+<script>
+    window.onload = function() {
+        var screenHeight = window.innerHeight; // 获取屏幕高度
+        var thirdHeight = screenHeight / 4; // 计算三分之一的高度
+        document.documentElement.style.setProperty('--third-height', thirdHeight + 'px'); // 设置CSS变量值
+        
+    }
+</script>
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+	</head>
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div>
+			<div class="header header-fixed header-auto-show header-logo-app"><a href="#" 
+					class="header-title header-subtitle">系统主页</a><a href="#" 
+					class="header-icon header-icon-1"><i
+						data-feather="home" data-feather-line="1" data-feather-size="25"></i></a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+			<div class="page-content  card">
+				<div class="page-title page-title-large">
+					<h4 data-username="{$myname}" class="greeting-text"></h4><br/><a  href="#" onclick="window.location.href='{:url('/Admin/user/main')}?id=1&user=<?php echo cookie('xphone');?>'"  data-menu="menu-main"
+						class="bg-fade-gray1-dark shadow-xl preload-img" data-src="/public/static/newassets/picture/4s.png"></a>
+				</div>
+				<div class="card header-card shape-rounded" data-card-height="210">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+				<div class="single-slider-boxed text-center owl-no-dots owl-carousel">
+					<div class="card rounded-l shadow-l" data-card-height="320">
+						<div class="card-bottom">
+							<h1 class="font-24 font-700">升级公告</h1>
+							<p class="boxed-text-xl">当前版本2.2.337,本次主要修复了数据加载异常的问题，新增公司搜索功能，详细升级日志可以点击后查看. </p>
+						</div>
+						<div class="card-overlay bg-gradient-fade"></div>
+						<div class="card-bg owl-lazy" data-src="/public/static/newassets/picture/16m.jpg"></div>
+					</div>
+					<div class="card rounded-l shadow-l" data-card-height="320">
+						<div class="card-bottom">
+							<h1 class="font-24 font-700">使用手册</h1>
+							<p class="boxed-text-xl">本手册将软件常用的一些功能做了分类，不分内容可以参见操作视频!</p>
+						</div>
+						<div class="card-overlay bg-gradient-fade"></div>
+						<div class="card-bg owl-lazy" data-src="/public/static/newassets/picture/3m.jpg"></div>
+					</div>
+					<div class="card rounded-l shadow-l" data-card-height="320">
+						<div class="card-bottom">
+							<h1 class="font-24 font-700">常见问题解答</h1>
+							<p class="boxed-text-xl">如果您再使用过程中出现了一些问题，这些问题可能我们也遇到过，这里提供了常见问题的解决办法!</p>
+						</div>
+						<div class="card-overlay bg-gradient-fade"></div>
+						<div class="card-bg owl-lazy" data-src="/public/static/newassets/picture/1s.jpg"></div>
+					</div>
+				</div>
+
+                <div class="row text-center mb-0">
+					<a href="#"  onclick="window.location.href='{:url('index/index/myku')}?idx=rk&phone={$phone}'" class="col-6 pr-2">
+						<div class="card card-style mr-0 mb-3">
+							<h1 class="center-text pt-4">
+								<i data-feather="file" data-feather-line="1" data-feather-size="50"
+									data-feather-color="blue2-dark" data-feather-bg="blue2-fade-light">
+								</i>
+							</h1>
+							<h4 class="color-theme font-600">加工入</h4>
+							<p class="mt-n2 font-11 color-highlight">
+								本月{$s1}条
+							</p>
+						</div>
+					</a>
+					<a href="#"  onclick="window.location.href='{:url('index/index/myku')}?idx=ck&phone={$phone}'" class="col-6 pr-2">
+						<div class="card card-style ml-0 mb-3">
+							<h1 class="center-text pt-4">
+								<i data-feather="smartphone" data-feather-line="1" data-feather-size="50"
+									data-feather-color="blue2-dark" data-feather-bg="blue2-fade-light">
+								</i>
+							</h1>
+							<h4 class="color-theme font-600">加工出</h4>
+							<p class="mt-n2 font-11 color-highlight">
+								本月{$s2}条
+							</p>
+						</div>
+					</a>
+					<a href="#" onclick="window.location.href='{:url('index/wwdj/myku')}?idx=rk&phone={$phone}'" class="col-6 pr-2">
+						<div class="card card-style mr-0 mb-3">
+							<h1 class="center-text pt-4">
+								<i data-feather="box" data-feather-line="1" data-feather-size="50"
+									data-feather-color="magenta1-dark" data-feather-bg="magenta1-fade-light">
+								</i>
+							</h1>
+							<h4 class="color-theme font-600">外委入</h4>
+							<p class="mt-n2 font-11 color-highlight">
+								本月{$s3}条
+							</p>
+						</div>
+					</a>
+					<a href="#" onclick="window.location.href='{:url('index/wwdj/myku')}?idx=ck&phone={$phone}'" class="col-6 pl-2">
+						<div class="card card-style ml-0 mb-3">
+							<h1 class="center-text pt-4">
+								<i data-feather="zap" data-feather-line="1" data-feather-size="50"
+									data-feather-color="magenta1-dark" data-feather-bg="magenta1-fade-light">
+								</i>
+							</h1>
+							<h4 class="color-theme font-600">外委出</h4>
+							<p class="mt-n2 font-11 color-highlight">
+								本月{$s4}条
+							</p>
+						</div>
+					</a>
+					<a href="#" data-bs-toggle="modal" data-bs-target="#inventoryModal2-5" class="col-6 pr-2">
+						<div class="card card-style mr-0 mb-3">
+							<h1 class="center-text pt-4">
+								<i data-feather="shopping-bag" data-feather-line="1" data-feather-size="50"
+									data-feather-color="brown2-dark" data-feather-bg="brown2-fade-light">
+								</i>
+							</h1>
+							<h4 class="color-theme font-600">入库</h4>
+							<p class="mt-n2 font-11 color-highlight">
+								本月{$s5}条
+							</p>
+						</div>
+					</a>
+					<a href="#" data-bs-toggle="modal" data-bs-target="#inventoryModal3"class="col-6 pl-2">
+						<div class="card card-style ml-0 mb-3">
+							<h1 class="center-text pt-4">
+								<i data-feather="globe" data-feather-line="1" data-feather-size="50"
+									data-feather-color="brown2-dark" data-feather-bg="brown2-fade-light">
+								</i>
+							</h1>
+							<h4 class="color-theme font-600">出库</h4>
+							<p class="mt-n2 font-11 color-highlight">
+								本月{$s6}条
+							</p>
+						</div>
+					</a>
+				</div>
+
+				
+				<div class="card mt-4 preload-img" data-src="/public/static/newassets/picture/1s.jpg">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+				</div>
+				
+				<div class="card card-style preload-img" data-src="/public/static/newassets/picture/18s.jpg" data-card-height="350">
+					<div class="card-center text-center">
+						<p class="line-height-xl font-19 font-300 color-white pl-3 pr-3 mb-2">这里可以快速看到加工报表，外委报表和所有的物品出入的报表</p>
+						<p class="opacity-50 color-white">点击按钮可以快速实现相应功能</p>
+						<a href="#"   onclick="window.location.href='{:url('index/reports/index')}?phone={$phone}'"  class="btn btn-m rounded-s btn-border color-white border-white text-uppercase font-900">查看报表</a>
+					</div>
+					<div class="card-overlay bg-highlight opacity-95"></div>
+				</div>
+
+
+				<div class="card card-style mt-4 shadow-l" data-card-height="150">
+					<div class="card-center pl-3 pr-3">
+						<h4 class="color-white">如何操作?</h4>
+						<p class="color-white mb-0 opacity-60">如果有使用过程中问题，可以致电客户服务!</p>
+					</div>
+					<div class="card-overlay bg-highlight opacity-90"></div>
+				</div>
+			</div>
+			</div>
+
+	<!-- Bootstrap 模态框 -->
+	<div class="modal fade third" id="inventoryModal2-5" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">选择入库类型</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">x</button>
+				</div>
+				<div class="modal-body">
+					<div class="d-grid gap-2 row">
+						<a href="/index/cgdj/myku?idx=cl&phone={$phone}" class="btn btn-primary col-md-4 m-2 p-3">
+							材料入库
+						</a>
+						<a href="/index/cgdj/myku?idx=cp&phone={$phone}" class="btn btn-success col-md-4 m-2 p-3">
+							成品入库
+						</a>
+						<a href="/index/cgdj/myku?idx=cal&phone={$phone}" class="btn btn-success col-md-4 m-2 p-3">
+							残料入库
+						</a>
+						<a href="/index/cgdj/myku?idx=qt&phone={$phone}" class="btn btn-success col-md-4 m-2 p-3">
+							其他入库
+						</a>
+						<a href="/index/cgdj/myku?idx=cgth&phone={$phone}"
+							class="btn btn-primary modal-link col-md-4 m-2 p-3">
+							退回出库
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 引入Bootstrap JS 及其依赖 -->
+
+
+
+	<!-- Bootstrap 模态框 -->
+	<div class="modal fade third" id="inventoryModal3" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">选择出库类型</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">x</button>
+				</div>
+				<div class="modal-body">
+					<div class="d-grid gap-2">
+						<a href="/index/cgdj/myku?idx=ck&phone={$phone}" class="btn btn-primary  col-md-4 m-2 p-3">
+							销售出库
+						</a>
+						<a href="/index/cgdj/myku?idx=jgly&phone={$phone}" class="btn btn-success col-md-4 m-2 p-3">
+							加工领用
+						</a>
+						<a href="/index/cgdj/myku?idx=wwly&phone={$phone}" class="btn btn-primary col-md-4 m-2 p-3">
+							外委领用
+						</a>
+						<a href="/index/cgdj/myku?idx=th&phone={$phone}" class="btn btn-primary col-md-4 m-2 p-3">
+							退回入库
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- 引入Bootstrap JS 及其依赖 -->
+<script src="/public/stc/bootstrap.bundle.min.js"></script>
+{include file="public/footer" /}

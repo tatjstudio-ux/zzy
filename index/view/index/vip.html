@@ -1,0 +1,241 @@
+ {include file="public/header" /}
+ <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+<script>
+		window.onload=function(){
+			var call;
+			var cdj=document.getElementById("product0").value;
+				cdj=SplitDemo(cdj);
+				call=cdj*1;
+				document.getElementById("call").value=call;
+		 }
+		var xnum=0;
+		function add() {
+			var trObj = document.createElement("tr");
+			trObj.id = new Date().getTime();
+			xnum=xnum+1;
+			var xstrx="<td><select name='product"+xnum+"' style='width: 90%;margin-bottom:5px;' id='product"+xnum+"' onchange='schange()'/><option value='0-请选择'>请选择</option>{$xstr}</select></td><td><input type='button' value='-' onclick=dec('"+xnum+"')><input name='num"+xnum+"' style='width: 35%;margin-left:4px;margin-right:4px;' value='1' id='x"+xnum+"' onkeyup='isnumx("+xnum+")' onafterpaste='isnumx("+xnum+")'/><input type='button' value='+' onclick=plus('"+xnum+"')></td><td><div class='btn am-btn am-btn-danger inpt-del' onclick='del(this,"+xnum+")'>删除</div></td>";
+			trObj.innerHTML = xstrx;
+			document.getElementById("tb").appendChild(trObj);
+			schange();
+			return false;
+		}
+
+		function del(obj,x) {
+			var trId = obj.parentNode.parentNode.id;
+			var trObj = document.getElementById(trId);
+			document.getElementById("tb").removeChild(trObj);
+			if(xnum==x-1){
+				xnum=xnum-1;
+			}
+			schange();
+		}
+		function plus(x) {
+			var num= document.getElementById("x"+x).value;
+			num=Number(num)+1;
+			document.getElementById("x"+x).value=num;
+			schange(x);
+		}
+		function dec(x) {
+			var num= document.getElementById("x"+x).value;
+			if(num>1){
+				num=Number(num)-1;
+				document.getElementById("x"+x).value=num;
+				schange(x);
+			}
+		}
+		function schange(v){
+			var call=0;
+			if(xnum==0){
+				var cdj=document.getElementById("product0").value;
+				cdj=SplitDemo(cdj);
+				var cnum=document.getElementById("x0").value;
+					call=cdj*cnum;
+			}else{
+				for(var i=0;i<xnum+1;i++){
+					var xcall=0;
+					if (document.getElementById("product"+i)) {
+					　　	var cdj=document.getElementById("product"+i).value;
+						cdj=SplitDemo(cdj);
+						var cnum=document.getElementById("x"+i).value;
+						xcall=cdj*cnum;
+						call=call+xcall;
+					}
+				}
+			}
+				call=call.toFixed(2);
+				document.getElementById("call").value=call;	
+		}
+		function reok(){
+			//询问框
+
+			var bm_name=document.getElementById("bm_name").value;
+			var bm_add=document.getElementById("bm_add").value;
+			var vxcall=document.getElementById("call").value;
+			
+			if(vxcall==0){
+				alert("请至少选择一个产品！");
+				return false;
+			}
+			document.getElementById("all_cp").value=xnum+1;
+			var pudall="";
+			for(var i=0;i<xnum+1;i++){
+					var xcall=0;
+					if (document.getElementById("product"+i)) {
+						var cdjx=document.getElementById("product"+i);
+							index = cdjx.selectedIndex
+							cdj=cdjx.options[index].text
+							var cdjv=document.getElementById("product"+i).value;
+								cdjv=SplitDemo(cdjv);
+							if(cdjv==0){
+								alert("您有未选择的项目！");
+								return false;
+							}
+						var cnum=document.getElementById("x"+i).value;
+						pudall=pudall+cdj+"&nbsp;x&nbsp;"+cnum+"</br>"
+					}
+			}
+			  layer.open({
+			    content: "<p style='text-align:left;font-size:10pt;line-height:14pt;'>请确认您的订单信息？<br/>订单信息:</br>"+pudall+"</p><hr><p style='text-align:left;font-size:10pt;line-height:14pt;'>配送信息:</br>姓名:"+bm_name+"<br/>电话:{$phone}<br/>地址:"+bm_add+"<br/></p><span style='color:red;font-size:14pt;text-align:left;'>合计:"+vxcall+"元</span>"
+			    ,btn: ['确认', '取消']
+			    ,yes: function(index){
+				  layer2();
+			      var form = document.getElementById('fall');
+			      form.submit();
+			    }
+			  });
+			  return false;
+		}
+		function layer2(){
+			  layer.open({
+			    type: 2,
+				shadeClose: false,
+				content: '提交中...'
+			  });
+		}
+		function SplitDemo(s){
+		  var s, ss;
+		  ss = s.split("-");
+		  return(ss[0]);
+		}
+		function isnumx(v){
+		var cnum=document.getElementById("x"+v);
+		if(cnum.value.length==1){
+			cnum.value=cnum.value.replace(/[^1-9]/g,'');
+			}else{
+				cnum.value=cnum.value.replace(/\D/g,'');
+			}
+			schange();
+		}
+</script>
+
+	<div id="register-b">
+		<!--html5 nav-->
+		<nav class="j-nav navbar">
+	        <div class="logo fl">
+				<a href="#"></a>
+			</div>
+			<span class="user-title">请填写您的订单</span>
+	    </nav>
+		
+		<div class="register-box mb-1">
+			<form class="am-form" action="{:url('Index/index/upadd')}" id="fall" name="form" method="post" onsubmit="return check();">
+				<fieldset>
+					
+					<!--<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							订单号:
+						</label>
+						<input type="text" id="bm_danhao" name="bm_danhao" class="inpt-lag" value="SG{$sdate}-{$ddnum}" readonly="readonly"/>
+					</div>-->
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							姓名：
+						</label>
+						<input type="text" id="bm_name" name="bm_name" class="inpt-lag" value="{$select[0]['bm_name']}" placeholder="姓名"/>
+					</div>
+					<div class="am-form-group">
+						<textarea id="bm_add" name="bm_add" class="inpt-lag"  placeholder="地址(例：高新大道88号)">{$select[0]['bm_add']}</textarea>
+						
+					</div>
+					<div class="am-form-group">
+						<textarea id="bm_text" name="bm_text" class="inpt-lag"  placeholder="备注写在这里"></textarea>
+					</div>
+					<table width="100%">
+						<thead>
+							<tr>
+								<td width="50%">品名/价格</td>
+								<td width="30%">数量</td>
+								<td width="25%">操作</td>
+							</tr>
+						</thead>
+						<tbody id="tb">
+							<tr id="1st">
+								<td>
+									<select name='product0' id="product0" style="width: 90%;margin-bottom:5px;" onchange="schange()"/>
+									<option value="0-请选择">请选择</option>
+										{volist name='all' id='vo'}
+										    {if condition="($vo.vjine!=0)"}
+											<option value="{$vo.vjine}-{$vo.name}">{$vo.name}[会员:{$vo.vjine}]</option>
+											{/if}
+										{/volist}
+									</select>
+								</td>
+								<td>
+									<input type="button" value="-" onclick="dec('0')">
+									<input name='num0' style="width: 35%;" value="1" id="x0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')};schange()" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')};schange()"/>
+									<input type="button" value="+" onclick="plus('0')">
+								</td>
+								<td><div class="btn am-btn am-btn-danger inpt-del" onclick="del(this)">删除</div></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="btn am-btn am-btn-success inpt-add" onclick="add()">增加产品</div>
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							合计：
+						</label>
+						<input type="text" id="call" name="bm_call" class="inpt-lag" value="" readonly="readonly"/>
+						<input type="text" name="bm_phone" class="inpt-lag" value="{$phone}" style="display: none;"/>
+						<input type="text" name="all_cp" id="all_cp" class="inpt-lag" style="display: none;"/>
+						<input type="text" name="sh_id" id="sh_id" value="{$id}" class="inpt-lag" style="display: none;"/>
+					</div>
+					<div class="text-left">
+						<div id="msg" class="msg"></div>
+					</div>	
+				    <button class="btn am-btn am-btn-primary but-lag" onclick="return reok()">提交订单</button>
+				</fieldset>
+			</form>
+		</div>
+		
+	</div>
+	<style>
+	.mb-1{
+		margin-bottom: 120px;
+	}
+	.inpt-del{
+		text-align: center;
+	}
+	.inpt-add{
+		height: 60px;
+		padding-top: 15px;
+		width: 35%;
+		font-size:20px;
+		margin-top: 10px;
+		text-align: center;
+	}
+		.inpt-lag{
+			height: 80px;
+			font-size: 24px;
+		}
+		.but-lag{
+			height: 80px;
+			width: 100%;
+			font-size:20px;
+			margin-top: 10px;
+		}
+		.msg{
+			color: red;
+			font-size: 18px;
+		}
+	</style>
+ {include file="public/footer" /}

@@ -1,0 +1,709 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+	</head>
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div>
+			<div class="header header-fixed header-auto-show header-logo-app"><a href="#" data-back-button=""
+					class="header-title header-subtitle">物品库存记录[{$kcspname}]</a><a href="#" data-back-button=""
+					class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+
+			<div class="page-content">
+				<div class="page-title page-title-small">
+					<h2><a href="#" data-back-button=""><i class="fa fa-arrow-left"></i></a>物品库存记录[{$kcspname}]</h2>
+				</div>
+				<div class="card header-card shape-rounded" data-card-height="150">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+
+    <style>
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #4b5563;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #3b82f6;
+        }
+        .active-nav {
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        .search-input {
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+        .table-row:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+
+		<script src="/public/mainstyle/static/css/3.3.3"></script>
+		<link rel="stylesheet" href="/public/mainstyle/mytab/css/element.min.css">
+	</head>
+<script>
+
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+</head>
+
+<script>
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+
+function del(idx,id) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要作废这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('index/cgdj/del')}?idx="+idx+"&id="+id;
+	}
+  });
+  }
+  
+ function reprint(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要重新打印这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('index/cgdj/rprint')}?idx="+idx+"&id={$id}&y={$y}&m={$m}";
+	}
+  });
+  }
+
+
+function chdate(){
+    var xy=document.getElementById("xy").value;
+    var xm=document.getElementById("xm").value;
+    var yd=xy+"-"+xm;
+    window.location.href = '/index/cgdj/skulist?id={$id}&y='+xy+'&m='+xm;
+}
+</script>
+<body class="min-h-screen">
+    <!-- 头部导航 -->
+    <header class="sticky-header py-3 px-4">
+        <div class="flex items-center">
+            <div class="flex items-center gap-3">
+                <a href="#" class="text-green-500 text-2xl">
+                    <i class="fas fa-box-open"></i>
+                </a>
+                <h3 class="font-bold text-lg">物品库存记录[{$kcspname}]</h3>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="px-4 mt-2 pb-20">
+        <!-- 搜索框 -->
+        <form action="javascript:;" method="POST"  class="mb-4">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" id="inputId" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none search-input" placeholder="批号" autofocus>
+            </div>
+        </form>
+	                    
+        <!-- 日期选择 -->
+		<div id="myVue">
+			<el-tabs type="border-card">
+				<el-tab-pane label="材料入库">
+                    <!-- 库存表格 -->
+                    <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==5)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>
+				</el-tab-pane>
+				<el-tab-pane label="成品入库">
+                    <!-- 库存表格 -->
+                    <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==6)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>
+				    
+				</el-tab-pane>
+				
+				<el-tab-pane label="残料入库">
+                <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==9)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>   
+				
+				</el-tab-pane>
+				<el-tab-pane label="采购物品退回">
+                    <!-- 库存表格 -->
+                    <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==8)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>
+				</el-tab-pane>
+				<el-tab-pane label="销售出库"> 
+ <!-- 库存表格 -->
+                    <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==2)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>
+				
+				</el-tab-pane>
+				<el-tab-pane label="加工领用">
+                    <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==3)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>
+				    
+				</el-tab-pane>
+				<el-tab-pane label="外委领用">
+                    <div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==4)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>   
+				</el-tab-pane>
+				<el-tab-pane label="退回入库">
+<div class="card overflow-hidden mb-4">
+                        <div class="p-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 text-gray-600 text-sm">
+                                        <th class="pb-2 text-left">批号</th>
+                                        <th class="pb-2 text-left">重量</th>
+                                        <th class="pb-2 text-left">单价</th>
+                                        <th class="pb-2 text-left">总金额</th>
+                                        <th class="pb-2 text-left">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                					<script>var allkg=0;var alljine=0;var vardj=0;</script>
+                					{volist name='all' id='vom'}
+                    					{if condition="($vom.cku==7)"}
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vox.fid==$vom.id)"}
+                        					        {if condition="($vox.cpname==$kcspname)"}
+                                    						<tr class="border-b border-gray-100 text-sm table-row">
+                                                                <td class="py-3">{$vox.djia}</td>
+                                                                <td class="py-3">{$vox.cpnum}{if condition="($vox.jine=='0')"}KG{else}{$vox.jine}{/if}</td>
+                                                                <td class="py-3">{$vox.danjias}</td>
+                                                                <td class="py-3">{$vox.jineall}</td>
+                                                                <td class="py-3"><a href="/index/cgdj/dtle?id={$vox.fid}" class="px-3 py-1 rounded-full bg-blue-100 text-blue-600">详细预览</a></td>
+                                                            </tr>
+                                    						
+                                    						<script>
+                                    						    {if condition="($vox.hjzl==1)"}
+                                    						        allkg=allkg+{$vox.cpnum};
+                                    						    {/if}
+                                    						    alljine=alljine+{$vox.jineall};
+                                    						</script>
+                                					  {/if}
+                        						 {/if}
+                        					 
+                    					    {/volist}
+                    					{/if}
+                					{/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				         <!-- 合计信息 -->
+                    <div class="card p-4">
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-600">合计量: <span class="font-medium"><script>document.write(allkg.toFixed(2));</script></span></div>
+                            
+                            <script>vardj=alljine/allkg;</script>
+                            <div class="text-gray-600">加权平均单价: <span class="font-medium"><script>document.write(vardj.toFixed(2));</script></span></div>
+                            
+                            <div class="font-bold">合计: <span class="text-blue-600"><script>document.write(alljine.toFixed(2));</script></span></div>
+                        </div>
+                    </div>   
+				
+				</el-tab-pane>
+			</el-tabs>
+		</div>
+
+
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-4 text-center text-sm text-gray-500">
+        <div class="flex justify-between items-center">
+            
+        </div>
+    </footer>
+
+
+	<script type="text/javascript" src="/public/mainstyle/mytab/js/vue.min.js"></script>
+	<script src="/public/mainstyle/mytab/js/element.min.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#myVue',
+			data() {
+				return {
+					activeName: 'second',
+					activeName2: 'first',
+					tabPosition: 'top',
+					editableTabsValue2: '2',
+					editableTabs2: [{
+						title: 'Tab 1',
+						name: '1',
+						content: 'Tab 1 content'
+					}, {
+						title: 'Tab 2',
+						name: '2',
+						content: 'Tab 2 content'
+					}],
+					tabIndex: 2
+				}
+			},
+			methods: {
+				handleClick(tab, event) {
+					console.log(tab, event);
+				},
+				addTab(targetName) {
+					let newTabName = ++this.tabIndex + '';
+					this.editableTabs2.push({
+						title: 'New Tab',
+						name: newTabName,
+						content: 'New Tab content'
+					});
+					this.editableTabsValue2 = newTabName;
+				},
+				removeTab(targetName) {
+					let tabs = this.editableTabs2;
+					let activeName = this.editableTabsValue2;
+					if(activeName === targetName) {
+						tabs.forEach((tab, index) => {
+							if(tab.name === targetName) {
+								let nextTab = tabs[index + 1] || tabs[index - 1];
+								if(nextTab) {
+									activeName = nextTab.name;
+								}
+							}
+						});
+					}
+
+					this.editableTabsValue2 = activeName;
+					this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
+				}
+			}
+		})
+	</script>
+    <script>
+        // 搜索功能
+        document.getElementById('inputId').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const inputValue = this.value;
+                //alert('搜索: ' + inputValue);
+                // 实际应用中这里应该是跳转到搜索页面
+                // window.location.href = '/search?kw=' + inputValue;
+                window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+            }
+        });
+
+        // 日期选择变化
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                const year = document.querySelector('select:nth-child(1)').value;
+                const month = document.querySelector('select:nth-child(3)').value;
+                alert('日期已更改为: ' + year + '-' + month);
+                // 实际应用中这里应该是刷新页面数据
+                // window.location.href = '/skulist?y=' + year + '&m=' + month;
+            });
+        });
+    </script>
+
+
+ {include file="public/footer4" /}
+
+        

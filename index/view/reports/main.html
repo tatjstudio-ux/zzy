@@ -1,0 +1,94 @@
+ {include file="public/header" /}
+		<div class="page-content-wrapper">
+			<div class="news-today-wrapper">
+				<div class="container">
+					<div class="d-flex align-items-center justify-content-between">
+						<h5 class="mb-3 pl-1 newsten-title">欢迎您,{$myname}</h5>
+						<p class="mb-3 line-height-1" id="dashboardDate2"></p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="tabs-news-wrapper bg-gray">
+				<div class="container">
+					<nav>
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						    
+						    <a class="nav-item nav-link active"
+								id="nav-newest-tab" href="#nav-newest" data-toggle="tab" role="tab"
+								aria-controls="nav-newest" aria-selected="true">入库汇总</a>
+							<a class="nav-item nav-link " id="nav-popular-tab" href="#nav-popular"
+								data-toggle="tab" role="tab" aria-controls="nav-popular"
+								aria-selected="false">出库汇总</a>
+							<a class="nav-item nav-link" id="nav-featured-tab"
+								href="#nav-featured" data-toggle="tab" role="tab" aria-controls="nav-featured"
+								aria-selected="false">外委出汇总</a>
+							<a class="nav-item nav-link" id="nav-featured-tab"
+								href="#nav-wwrk" data-toggle="tab" role="tab" aria-controls="nav-featured"
+								aria-selected="false">外委入汇总</a>
+							</div>
+					</nav>
+					<style>.nav-link{padding:4px;}</style>
+					<div class="tab-content" id="nav-tabContent">
+						<div class="tab-pane fade show active" id="nav-newest" role="tabpanel" aria-labelledby="nav-newest-tab">
+						    
+                			{volist name='scpname' id='vo'}
+							<div class="single-news-post d-flex align-items-center">
+								<div class="post-thumbnai">
+									<img src="/public/static/newskin/picture/20.png" alt="">
+								</div>
+								<div class="post-content"><a class="post-title" href="/index/serch/rksrch?id={$vo.id}&year={$year}">{$vo.name}入库</a>
+									<div class="post-meta d-flex align-items-center"><a href="#"></a></div>
+								</div>
+							</div>
+                            {/volist}
+						</div>
+						
+						<div class="tab-pane fade" id="nav-popular" role="tabpanel"
+							aria-labelledby="nav-popular-tab">
+                			{volist name='scpname' id='vo'}
+							<div class="single-news-post d-flex align-items-center">
+								<div class="post-thumbnai">
+									<img src="/public/static/newskin/picture/22.png" alt="">
+								</div>
+								<div class="post-content"><a class="post-title" href="/index/serch/cksrch?id={$vo.id}&year={$year}">{$vo.name}出库</a>
+									<div class="post-meta d-flex align-items-center"><a href="#"></a></div>
+								</div>
+							</div>
+                            {/volist}
+						</div>
+						<div class="tab-pane fade" id="nav-featured" role="tabpanel" aria-labelledby="nav-featured-tab">
+               			{volist name='scpname' id='vo'}
+							<div class="single-news-post d-flex align-items-center">
+								<div class="post-thumbnai">
+									<img src="/public/static/newskin/picture/21.png" alt="">
+								</div>
+								<div class="post-content"><a class="post-title" href="/index/serch/wwcksrch?id={$vo.id}&year={$year}">{$vo.name}外委出库</a>
+									<div class="post-meta d-flex align-items-center"><a href="#"></a></div>
+								</div>
+							</div>
+                            {/volist}
+						</div>
+						<div class="tab-pane fade" id="nav-wwrk" role="tabpanel" aria-labelledby="nav-featured-tab">
+               			{volist name='scpname' id='vo'}
+							<div class="single-news-post d-flex align-items-center">
+								<div class="post-thumbnai">
+									<img src="/public/static/newskin/picture/23.png" alt="">
+								</div>
+								<div class="post-content"><a class="post-title" href="/index/serch/wwrksrch?id={$vo.id}&year={$year}">{$vo.name}外委入库</a>
+									<div class="post-meta d-flex align-items-center"><a href="#"></a></div>
+								</div>
+							</div>
+                            {/volist}
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+		</div>
+         {include file="public/footer" /}
+
+	</body>
+</html>
+

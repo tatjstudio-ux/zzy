@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+<script>
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+</script>
+
+

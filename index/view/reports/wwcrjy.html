@@ -1,0 +1,116 @@
+ {include file="public/headerp" /}
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">外委出入结余</h3>
+				</div>
+			</div>
+		</div>
+ 
+         <script>
+         // 启用滚动条
+            document.documentElement.style.overflow = 'auto';
+            document.body.style.overflow = 'auto';
+            
+            // 或针对移动端优化
+            document.body.style.overflowY = 'scroll';
+            function swichx(){
+                // 使用JavaScript原生方法获取select选中的文本
+                    var selectElement = document.getElementById('yearx'); // 获取select元素
+                    var selectedText = selectElement.options[selectElement.selectedIndex].text; // 获取选中选项的文本
+                    window.location.href = '/index/reports/mainwwck?idx=0&year='+selectedText;
+            }
+        </script>
+
+
+		<div class="px-4 bg-white">
+	<body class="bg-white">
+		    
+			<div class="p-3 border-bottom">
+
+				<div class="text-muted small">
+				    <i class="fa-solid fa-layer-group me-2"></i>
+				    查看年份：<select id="yearx" onchange="return swichx();" style="width:30%;font-size:1rem;padding:5px;margin:10px;">
+				        <option>{$year}</option>
+				        <option>2024</option>
+				        <option>2025</option>
+				        <option>2026</option>
+				        <option>2027</option>
+				        <option>2028</option>
+				        <option>2029</option>
+				        <option>2030</option>
+				    </select>
+					</div>
+			</div>
+
+	</body>
+
+
+{volist name='scpname2' id='vo2'}
+		    
+			<div class="my-3">
+				<div class="card rounded-4 border overflow-hidden">
+					<div class="card-header p-3 border-bottom">
+						<div class="d-flex justify-content-between">
+							<div class="d-flex gap-2">
+								<div>
+									<h5 class="mb-1">{$vo2.name}结余</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-body">
+					    
+					    <?php
+                        $amkg=0;
+		                $amje=0;
+		                $amkg2=0;
+		                $amje2=0;
+					    for($i=1;$i<$m;$i++){
+                                    for($j=0;$j<count($allcont);$j++){
+                                    $xname= $vo2['name'];
+                                            if(($xname==$allcont[$j]['name']) && ($i==$allcont[$j]['m'])){
+                                                if($allcont[$j]['c']!=0){
+                            	                $amkg=$amkg+$allcont[$j]['allkg'];
+                                                $amje=$amje+$allcont[$j]['alljine'];
+                            	            } 
+                                        }
+                                    }
+
+    	                    }
+		                
+					    for($i=1;$i<$m;$i++){
+                                    for($j=0;$j<count($allcont2);$j++){
+                                    $xname= $vo2['name'];
+                                            if(($xname==$allcont2[$j]['name']) && ($i==$allcont2[$j]['m'])){
+                                                if($allcont2[$j]['c']!=0){
+                            	                $amkg2=$amkg2+$allcont2[$j]['allkg'];
+                                                $amje2=$amje2+$allcont2[$j]['alljine'];
+                            	            } 
+                                        }
+                                    }
+
+    	                    }
+    	                    
+    	                    $amkgall=$amkg2-$amkg;
+    	                    $amjeall=$amje2-$amje;
+    	                    echo "<p class='m-2 text-danger fs-3 '>外委出总量：".$amkg2."</p>";
+    	                    echo "<p class='m-2 text-danger fs-3 '>外委入总量：".$amkg."</p>";
+    	                    echo "<p class='m-2 text-primary fs-3 '>总计重量结余：".$amkgall."</p><hr>";
+    	                    echo "<p class='m-2 text-danger fs-3 '>外委出总金额：".$amje2."</p>";
+    	                    echo "<p class='m-2 text-danger fs-3 '>外委入总金额：".$amje."</p>";
+    	                    echo "<p class='m-2 text-primary fs-3 '>总计金额结余：".$amjeall."</p>";
+	                    ?>
+	                    
+					</div>
+				</div>
+			</div>
+	    {/volist}
+
+		</div>
+		<div class="pt-5 pb-5"></div>
+
+         {include file="public/footer" /}
+

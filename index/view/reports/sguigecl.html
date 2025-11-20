@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>产品规格搜索</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-6">产品规格搜索</h1>
+        
+        <!-- 搜索框 -->
+        <div class="mb-6">
+            <input type="text" id="specSearch" placeholder="输入规格关键词..." 
+                   class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="off">
+            <div id="suggestions" class="hidden mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg absolute z-10"></div>
+        </div>
+        
+        <!-- 产品规格列表 -->
+        <div class="bg-white rounded-md shadow-md overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">规格ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">规格名称</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">规格值</th>
+                    </tr>
+                </thead>
+                <tbody id="specList" class="bg-white divide-y divide-gray-200">
+                    <!-- 列表内容将通过JS动态加载 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 规格数据（实际项目中从后端获取）
+        const specData = [
+            
+            {volist name='dataggx' id='vo'}
+                {id: {$i}, name: '{$vo['cpname']}', value: '{$vo['csl']}'},
+            {/volist}
+        ];
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSpecList(specData);
+            setupSearchAutocomplete();
+        });
+
+        // 渲染规格列表
+        function renderSpecList(specs) {
+            const listElement = document.getElementById('specList');
+            listElement.innerHTML = specs.map(spec => `
+                <tr class="cursor-pointer hover:bg-gray-50" onclick="window.location.href='ggcldetail?csl=${spec.value}&cpname=${spec.name}'">
+                    <td class="px-6 py-4 whitespace-nowrap">${spec.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${spec.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${spec.value}</td>
+                </tr>
+            `).join('');
+        }
+
+        // 设置搜索自动完成
+        function setupSearchAutocomplete() {
+            const searchInput = document.getElementById('specSearch');
+            const suggestionsElement = document.getElementById('suggestions');
+
+            searchInput.addEventListener('input', (e) => {
+                const keyword = e.target.value.toLowerCase();
+                if (keyword.length < 1) {
+                    suggestionsElement.classList.add('hidden');
+                    renderSpecList(specData);
+                    return;
+                }
+
+                // 过滤匹配的规格
+                const matchedSpecs = specData.filter(spec => 
+                    spec.name.toLowerCase().includes(keyword) || 
+                    spec.value.toLowerCase().includes(keyword)
+                );
+
+                // 显示建议
+                if (matchedSpecs.length > 0) {
+                    suggestionsElement.innerHTML = matchedSpecs.map(spec => `
+                        <div class="px-4 py-2 hover:bg-gray-100 cursor-pointer" 
+                             onclick="selectSuggestion('${spec.name}: ${spec.value}')">
+                            ${spec.name}: ${spec.value}
+                        </div>
+                    `).join('');
+                    suggestionsElement.classList.remove('hidden');
+                    renderSpecList(matchedSpecs);
+                } else {
+                    suggestionsElement.classList.add('hidden');
+                    renderSpecList([]);
+                }
+            });
+
+            // 点击空白处隐藏建议
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !suggestionsElement.contains(e.target)) {
+                    suggestionsElement.classList.add('hidden');
+                }
+            });
+        }
+
+        // 选择建议项
+        function selectSuggestion(value) {
+            document.getElementById('specSearch').value = value;
+            document.getElementById('suggestions').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

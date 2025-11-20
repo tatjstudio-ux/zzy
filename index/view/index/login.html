@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{$mainame}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="stylesheet" href="/public/static/login/style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<svg display="none">
+
+	<symbol id="logo" viewBox="0 0 16 16">
+		<path fill="currentColor" d="M0 10l8 4 8-4v2l-8 4-8-4v-2zm0-4l8 4 8-4v2l-8 4-8-4V6zm8-6l8 4-8 4-8-4 8-4z" />
+	</symbol>
+	<symbol id="warning" viewBox="0 0 24 24">
+		<path fill="currentColor" d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,16a1,1,0,1,1,1-1A1,1,0,0,1,12,18Zm1-5a1,1,0,0,1-2,0V7a1,1,0,0,1,2,0Z" />
+	</symbol>
+</svg>
+<form class="login" action="{:url('Index/index/upphone')}" method="post">
+	<div class="login__wrapper">
+		<svg class="login__logo" width="36px" height="36px" role="img" aria-label="Logo">
+			<use href="#logo" />
+		</svg>
+		<div class="login__cta">
+			<div class="login__cta-text">
+				<h1>{$mainame}</h1>
+				<p>卓越的解决方案，为企业打造技术创新的云</p>
+			</div>
+			<div class="login__form">
+				<h2>登录</h2>
+				<div class="login__field">
+					<label class="login__label login__label--sm" for="username">手机号</label>
+					<input class="login__input-text" id="username" type="text" name="phone" autocomplete="off">
+					<div class="login__error">
+						<svg class="login__icon" width="12px" height="12px" aria-hidden="true">
+							<use href="#warning" />
+						</svg>
+						<span id="username-error" aria-live="assertive"></span>
+					</div>
+				</div>
+				<input type="text" name="idx" value="{$id}" class="inpt-lag" style="display: none;" />
+				<div class="login__field">
+					<label class="login__label login__label--sm" for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+					<input class="login__input-password" id="password" type="password" name="password" autocomplete="off">
+					<div class="login__error">
+						<svg class="login__icon" width="12px" height="12px" aria-hidden="true">
+							<use href="#warning" />
+						</svg>
+						<span id="password-error" aria-live="assertive"></span>
+					</div>
+					<button class="login__button-eye" type="button" title="Show password" data-password-show>
+						<svg class="login__icon" width="24px" height="24px" data-icon="eye-off" aria-hidden="true">
+							<use href="#eye-off" />
+						</svg>
+						<svg class="login__icon" width="24px" height="24px" data-icon="eye-on" aria-hidden="true" display="none">
+							<use href="#eye-on" />
+						</svg>
+					</button>
+				</div>
+				<button class="login__button" type="submit" data-login>登录</button>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- partial -->
+
+
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" href="/public/mainstyle/static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/icofont.min.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick.css">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/slick-theme.css">
+		<link href="/public/mainstyle/static/css/all.min.css" rel="stylesheet">
+		<link href="/public/mainstyle/static/css/demo.css" rel="stylesheet">
+		<link rel="stylesheet" href="/public/mainstyle/static/css/style.css">
+	</head>
+<script>
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+</script>
+	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">加工领用</h3>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="px-4 mt-2">
+		    <form action="javascript:;" method="POST">
+			<div class="input-group bg-white rounded-pill overflow-hidden border p-1 mb-3"><span
+					class="input-group-text border-0 bg-white"><i
+						class="fa-solid fa-magnifying-glass text-danger"></i></span><input type="text"
+					class="shadow-none form-control border-0" placeholder="批号" id="inputId" autofocus onkeydown="handleEnter(event)"></div></form>
+	
+
+	<p class="mb-3 line-height-1"><a href="/index/cgdj/cklist?id={$id}" >看出库</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/index/cgdj/rklist?id={$id}">看入库</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/index/cgdj/myku?idx=rk&phone=<?php echo cookie('xphone');?>">采购入</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/index/cgdj/myku?idx=ck&phone=<?php echo cookie('xphone');?>">销售出</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/index/cgdj/myku?idx=ck&phone=<?php echo cookie('xphone');?>">加工出</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/index/cgdj/mylist?id={$id}">库存记录</a></p>
+	
+				    
+				    
+			{volist name='db2' id='vo'}
+
+        			<div class="bg-white my-3">
+        				<div class="card rounded-4 border overflow-hidden">
+        					<div class="card-header p-3 border-bottom">
+        						<div class="d-flex justify-content-between">
+
+                            				<div class="d-flex gap-2">
+                								<div><img src="/public/static/newskin/picture/ck.png" alt=""
+                										class="img-fluid rounded-pill ch-50"></div>
+                								<div>
+                									<h5 class="mb-1">{$vo.name}</h5>
+                									<p class="text-muted my-0">库存量：[{$vo.kcl}]</p>
+                									<div class="text-muted small">库存预警：{$vo.kcyj}</div>
+                								</div>
+                							</div>
+
+        						</div>
+        					</div>
+        			    </div>
+        			</div>
+
+
+			{/volist}
+
+		</div>
+		<div class="pt-5 pb-5"></div>
+    <div class="pt-4 pb-5"></div>
+ {include file="public/footer4" /}
+
+        

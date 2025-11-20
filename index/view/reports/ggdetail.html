@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>产品明细数据 - 带加权平均计算</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">产品明细数据</h1>
+            <button onclick="window.location.href='product_spec_search.html'" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">返回列表</button>
+        </div>
+        
+        <!-- 筛选条件 -->
+        <div class="bg-white rounded-md p-4 mb-6">
+            <div class="flex flex-wrap gap-4">
+                <div>
+                    <span class="text-gray-600">产品名称:</span>
+                    <span class="font-medium ml-2">{$cpname}</span>
+                </div>
+                <div>
+                    <span class="text-gray-600">规格值:</span>
+                    <span class="font-medium ml-2">{$csl}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 数据表格 -->
+        <div class="bg-white rounded-md shadow-md overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">质量(cpnum)</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">数量(csl)</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">单价(danjias)</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">金额(jineall)</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {volist name="stockData" id="item"}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 rounded-full text-xs {eq name='item.stock_type' value='入库'}bg-green-100 text-green-800{else}bg-red-100 text-red-800{/eq}">
+                                {$item.stock_type}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap {lt name='item.cpnum' value='0'}text-red-600{/lt}">{$item.cpnum}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$item.csl}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$item.danjias}</td>
+                        <td class="px-6 py-4 whitespace-nowrap {lt name='item.jineall' value='0'}text-red-600{/lt}">{$item.jineall}</td>
+                    </tr>
+                    {/volist}
+                    <!-- 合计行（新增加权平均单价） -->
+                    <tr class="bg-gray-50 font-bold">
+                        <td class="px-6 py-4 whitespace-nowrap">合计</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$totalCpnum}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">-</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{$weightedAvg}</td> <!-- 加权平均单价 -->
+                        <td class="px-6 py-4 whitespace-nowrap">{$totalJineall}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

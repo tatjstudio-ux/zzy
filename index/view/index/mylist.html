@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+		<title><?php echo cookie('mainame');?></title>
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/style.css">
+		<link href="/public/static/newassets/css/css.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/public/static/newassets/css/fontawesome-all.min.css">
+        <script>
+        isdt();
+        function isDesktop() {
+          const userAgent = navigator.userAgent.toLowerCase();
+          // 检测是否是移动设备的常见关键词
+          const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'windows phone'];
+          
+          // 如果包含移动设备关键词，则不是电脑端
+          for (const keyword of mobileKeywords) {
+            if (userAgent.includes(keyword)) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+        function isdt(){
+        // 使用示例
+        if (isDesktop()) {
+        window.location.href = "{:url('pc/index/mylist')}?id=rk&y=0&m=0";
+        } else {
+          console.log('这是移动端访问');
+        }
+        }
+        </script>
+	</head>
+	<body class="theme-light" data-highlight="blue2">
+		<div id="preloader">
+			<div class="spinner-border color-highlight" role="status"></div>
+		</div>
+		<div>
+			<div class="header header-fixed header-auto-show header-logo-app"><a href="#" data-back-button=""
+					class="header-title header-subtitle">加工单据记录</a><a href="#" data-back-button=""
+					class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a><a href="#"
+					data-toggle-theme="" class="header-icon header-icon-2 show-on-theme-dark"><i
+						class="fas fa-sun"></i></a><a href="#" data-toggle-theme=""
+					class="header-icon header-icon-2 show-on-theme-light"><i class="fas fa-moon"></i></a>
+			</div>
+
+			<div class="page-content">
+				<div class="page-title page-title-small">
+					<h2><a href="#" data-back-button=""><i class="fa fa-arrow-left"></i></a>加工单据记录</h2>
+				</div>
+				<div class="card header-card" data-card-height="150">
+					<div class="card-overlay bg-highlight opacity-95"></div>
+					<div class="card-overlay dark-mode-tint"></div>
+					<div class="card-bg preload-img" data-src="/public/static/newassets/image/20.jpg"></div>
+				</div>
+
+
+						    <form action="javascript:;" method="POST">
+						        
+                                <div class="input-style input-style-2 has-icon input-required card card-style"><i
+								class="input-icon fa fa-search"></i><input class="form-control"
+								type="name"  placeholder="批号" id="inputId" autofocus onkeydown="handleEnter(event)"></div>
+
+					        </form>
+				
+
+<script>
+function serchall() {
+        var inputValue = document.getElementById("inputId").value;
+        window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+}
+function handleEnter(event) {
+    if (event.key === "Enter") {
+    var inputValue = document.getElementById("inputId").value;
+    window.location.href = '/index/serch/serch?id=1&kw='+inputValue;  
+    }
+}
+
+
+function del(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#4A89DC; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要作废这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('index/index/del')}?idx="+idx+"&id={$id}&y={$y}&m={$m}";
+	}
+  });
+  }
+  
+ function reprint(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#4A89DC; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要重新打印这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('index/index/rprint')}?idx="+idx+"&id={$id}&y={$y}&m={$m}";
+	}
+  });
+  }
+
+
+function chdate(){
+    var xy=document.getElementById("xy").value;
+    var xm=document.getElementById("xm").value;
+    var yd=xy+"-"+xm;
+    window.location.href = '/index/index/mylist?id=rk&y='+xy+'&m='+xm;
+}
+
+  
+</script>
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+
+                <div class="card card-style mb-3 mt-4">
+						<div class="content mb-0 mt-3 row">
+						    <a href="#" onclick="window.location.href='/index/index/rklist?id={$id}&y={$y}&m={$m}'" class="btn btn-success btn-xs small rounded-xs text-uppercase shadow-s col-5 ml-1 mr-1">看入库</a>
+						    <a href="#" onclick="window.location.href='/index/index/cklist?id={$id}&y={$y}&m={$m}'"  class="btn btn-danger btn-xs small rounded-xs text-uppercase shadow-s col-5 ml-1 mr-1">看出库</a>
+						</div>
+						    <hr>
+				<div class="content row m-1 p-1">	
+				    <label class="col-5 text-end">选择显示月份:</label>
+				    <span class="col-4">
+				    <select id="xy" class="w-100 p-1"  onchange="return chdate()">
+            	       <option>{$y}</option>
+            	        <?php
+            	            for($i=2024;$i<2100;$i++){
+            	                echo "<option value='".$i."'>".$i."</option>";
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				    <span class="col-3">
+				    <select id="xm"  class="w-100 p-1"  onchange="return chdate()">
+            	       <option>{$m}</option>
+            	        <?php
+            	            for($i=1;$i<13;$i++){
+            	                if($i<10){
+            	                echo "<option value='0".$i."'>0".$i."</option>";
+            	                }else{
+            	                echo "<option value='$i'>".$i."</option>";
+            	                }
+            	            }
+            	         ?>
+					</select>
+				    </span>
+				</div>
+				</div>		
+						
+			{volist name='all' id='vo'}
+						{if condition="($vo.she==1)"}
+    						{if condition="($vo.zf==1)"}
+    						{else}
+				<div class="card card-style mb-3">
+   					{if condition="($vo.cku==2)"}
+       					<div class="content mb-4" onclick="window.location.href='/index/index/dtle?id={$vo.id}&y={$y}&m={$m}'">
+    						<h6 class="font-700">{$vo.myname}<span class="text-danger">[出库]</span></h6>
+    						<p class="font-11">[加工方式:{$vo.madd}]&nbsp;&nbsp;&nbsp;&nbsp;[操作员:{$vo.name}]</p>
+    					</div>
+					{else}
+       					<div class="content mb-2" onclick="window.location.href='/index/index/dtle?id={$vo.id}&y={$y}&m={$m}'">
+    						<h6 class="font-700">{$vo.myname}<span class="text-success">[入库]</span></h5>
+    						<p class="font-11">[加工方式:{$vo.madd}]&nbsp;&nbsp;&nbsp;&nbsp;[操作员:{$vo.name}]</p>
+    					</div>
+					{/if}
+				    
+
+					<div class="accordion m-0" id="accordion-{$vo.id}">
+
+						<div class="mb-0"><button class="btn accordion-btn border-0 pt-0 pb-2" data-toggle="collapse"
+								data-target="#collapse{$vo.id}"><i class="fa fa-star color-yellow1-dark mr-2"></i>单号：[{$vo.dhao}]<i class="fa fa-chevron-down font-10 accordion-icon"></i></button>
+							<div id="collapse{$vo.id}" class="collapse" data-parent="#accordion-{$vo.id}">
+								<div class="pt-1 pb-2 pl-3 pr-3">
+								    <table class="table table-borderless text-center rounded-sm shadow-l" style="overflow: hidden;">
+            							<thead>
+            								<tr class="bg-gray1-dark">
+            									<th scope="col" class="color-theme">名称</th>
+            									<th scope="col" class="color-theme">规格</th>
+            									<th scope="col" class="color-theme">重量</th>
+            								</tr>
+            							</thead>
+            							<tbody>
+                							<script>var allkg=0;var alljine=0;</script>
+                        					{volist name='db2' id='vox'}
+                        					    {if condition="($vo.id==$vox.fid)"}
+                								<tr>
+                									<th class="text-left">{$vox.cpname}</th>
+                									<td class="text-left">{$vox.djia}</td>
+                									<td>{$vox.cpnum}</td>
+                								</tr>
+                        						<script>
+                        						    {if condition="($vox.hjzl==1)"}
+                        						        allkg=allkg+{$vox.cpnum};
+                        						    {/if}
+                        						    alljine=alljine+{$vox.jineall};
+                        						</script>
+                        						{/if}
+                        					{/volist}
+            							</tbody>
+                    				</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr class="m-0">
+					<div class="content row mb-1 mt-1">
+						<div class="col-6">合计量:<script>document.write(allkg.toFixed(2));</script></div>
+						<div class="col-6">合计:<script>document.write(alljine.toFixed(2));</script>元</div>
+					</div>
+					<hr class="m-0">
+						<div class="content row mb-2 mt-2">
+						<div class="col-12"><a href="#" onclick="window.location.href='/index/index/editshow?id={$vo.id}'"  class="btn btn-success btn-xs small rounded-xs text-uppercase shadow-s">&nbsp;修改&nbsp;</a>&nbsp;<a href="#" onclick="del({$vo.id})" class="btn btn-danger btn-xs  small rounded-xs text-uppercase  shadow-s">&nbsp;删除&nbsp;</a>&nbsp;<a href="#" onclick="reprint({$vo.id})" class="btn btn-xs small rounded-xs text-uppercase shadow-s"style="background-color:#bdbdbd;">&nbsp;补打&nbsp;</a></div>
+						
+					</div>
+
+				</div>
+
+    						{/if}
+
+						{/if}
+
+			{/volist}
+			<hr class="mb-5">
+			<hr class="mb-4">
+
+ {include file="public/footer2" /}

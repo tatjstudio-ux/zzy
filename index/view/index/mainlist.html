@@ -1,0 +1,50 @@
+ {include file="public/header" /}
+		<div class="page-content-wrapper">
+			<div class="news-today-wrapper">
+				<div class="container">
+					<div class="d-flex align-items-center justify-content-between">
+						<p class="mb-3 line-height-1" id="dashboardDate2"></p>
+					</div>
+				</div>
+			</div>
+
+			<div>
+
+				<div class="container">
+					<div class="row">
+					    
+						<div class="col-6 col-md-4">
+						    <a href="{:url('Index/mylist')}?id={$id}">
+							<div class="single-recommended-post mt-3">
+								<div class="post-thumbnail"><img src="/public/static/newskin/picture/18.jpg" alt=""></div>
+								<div class="post-content"><a
+										 class="post-catagory"  href="{:url('Index/mylist')}?id={$id}">单据列表</a>
+										 <a class="post-title" href="{:url('Index/mylist')}?id={$id}">所有出入库列表</a>
+										 </div>
+							</div>
+							</a>
+						</div>
+						
+						<div class="col-6 col-md-4">
+						    <a href="{:url('Wwdj/mylist')}?id={$id}">
+							<div class="single-recommended-post mt-3">
+								<div class="post-thumbnail"><img src="/public/static/newskin/picture/19.jpg" alt=""></div>
+								<div class="post-content">
+								 <div class="post-content"><a
+										 class="post-catagory"  href="{:url('Wwdj/mylist')}?id={$id}">外委单据</a>
+								    <a class="post-title" href="{:url('Wwdj/mylist')}?id={$id}">外委业务列表</a></div></div>
+							</div>
+							</a>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+         {include file="public/footer2" /}
+
+	</body>
+</html>
+
