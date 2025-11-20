@@ -1,0 +1,60 @@
+ {include file="public/headerny" /}
+ 
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+  <script>
+function del(xid) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要删除这个公司？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/cpnamedel')}?xid="+xid+"&id={$id}";
+	}
+  });
+  }
+ </script>
+  
+<div style="margin-top:30px;"></div>
+		<div class="mx-4 mb-4 card card-style rounded-4 shadow overflow-hidden">
+			<div class="  p-4 border-bottom">
+				<div class="d-flex gap-2 fl" onclick="location.reload();"><label class="btn btn-outline-success btn-sm rounded-pill" for="btnradio4"><i class="bi bi-wallet me-1"></i>刷新 </label><a href="{:url('addcpname')}?id={$id}"><label class="btn btn-outline-danger btn-sm rounded-pill" for="btnradio4"><i class="bi bi-wallet me-1"></i>新增</label></a></div>
+				
+			</div>
+
+		</div>
+
+		{volist name='cls' id='vocls'}
+		<?php 
+		$i=1;
+		?>
+		
+
+			{volist name='all' id='vo'}
+				{if condition="($vocls.id==$vo.class)"}
+
+                    <div class="mx-4 mb-2 rounded-2 shadow overflow-hidden">
+            			<div class="p-3 border-bottom card">
+            				<div class="accordion">
+            					<div class="accordion-item   border-0">
+            						<h4>{$vo.name}</h4>
+            					</div>
+            				</div>
+            			</div>
+            			<a href="{:url('cpnmedit')}?id={$id}&xid={$vo.id}" class="btn fl"><label class="btn btn-outline-success btn-sm rounded-pill">修改</label></a> 
+            			<a onclick="del({$vo.id})" class="btn fl"><label class="btn btn-outline-danger btn-sm rounded-pill" for="btnradio4">删除</label></a>
+            		</div>
+
+
+				{/if}
+			{/volist}
+		{/volist}
+		
+
+			<hr class="mb-5">
+			<hr class="mb-4">
+ {include file="public/footer" /}
+        

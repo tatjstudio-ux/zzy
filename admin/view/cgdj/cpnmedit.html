@@ -1,0 +1,116 @@
+ {include file="public/headerny" /}
+	<div id="register-b">
+		<!--html5 nav-->
+		<nav class="j-nav navbar">
+	        <div class="logo fl">
+				<a href="{:url('cpmg')}?id={$id}"></a>
+			</div>
+			<span class="user-title">请填写产品信息</span>
+	    </nav>
+		
+		<div class="register-box mb-1">
+			<form class="am-form" action="{:url('admin/index/upcpnmedit')}" id="fall" name="form" method="post" onsubmit="return check();">
+				<fieldset>
+					
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							1序号:
+						</label>
+						<input type="text" id="myorder" name="myorder" class="inpt-lag" value="{$all[0]['myorder']}" />
+					</div>
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							产品名：
+						</label>
+						<input type="text" id="myname" name="myname" class="inpt-lag" value="{$all[0]['name']}">
+					</div>
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							价格：
+						</label>
+						<input type="text" id="myjiag" name="myjiag" class="inpt-lag" value="{$all[0]['jine']}"/>
+					</div>
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							会员价：
+						</label>
+						<input type="text" id="myvip" name="myvip" class="inpt-lag" value="{$all[0]['vjine']}" />
+					</div>
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							库存预警：
+						</label>
+						<input type="text" id="kcyj" name="kcyj" class="inpt-lag" value="{$all[0]['kcyj']}" />
+					</div>
+					<div class="am-form-group">
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							图片：
+						</label>
+						<input type="text" id="mypath" name="mypath" class="inpt-lag" value="{$all[0]['mypath']}" />
+					</div>
+					
+					<div class="am-form-group">
+							介绍：
+						<textarea id="mytext" name="mytext" height="200px">{$all[0]['mytext']}</textarea>
+						<!--<input type="text" id="mytext" name="mytext" class="inpt-lag" value="{$all[0]['mytext']}" />-->
+					</div>
+					
+					<div class="am-form-group">
+
+							分类：
+						<select id="mytd" name="mytd">
+							{volist name='cls' id='vox'}
+								{if condition="($all[0]['tdjg']==$vox.id)"}
+								<option value="{$vox.id}">{$vox.name}</option>
+								{/if}
+							{/volist}
+							
+							{volist name='cls' id='vox'}
+								<option value="{$vox.id}">{$vox.name}</option>
+							{/volist}
+						</select>
+						<input type="text" name="myid" style="display: none;" value="{$id}" />
+						<input type="text" name="xid" style="display: none;" value="{$all[0]['id']}" />
+					</div>
+					<div class="text-left">
+						<div id="msg" class="msg"></div>
+					</div>	
+					<!--<a href="/public/static/upload/index.html"><div class="btn am-btn am-btn-primary but-lag">修改图片</button></div>-->
+				    <button class="btn am-btn am-btn-primary but-lag">确定</button>
+				</fieldset>
+			</form>
+		</div>
+		
+	</div>
+
+<style>
+	.mb-1{
+		margin-bottom: 120px;
+	}
+	.inpt-del{
+		text-align: center;
+	}
+	.inpt-add{
+		height: 60px;
+		padding-top: 15px;
+		width: 35%;
+		font-size:20px;
+		margin-top: 10px;
+		text-align: center;
+	}
+		.inpt-lag{
+			height: 80px;
+			font-size: 24px;
+		}
+		.but-lag{
+			height: 80px;
+			width: 100%;
+			font-size:20px;
+			margin-top: 10px;
+		}
+		.msg{
+			color: red;
+			font-size: 18px;
+		}
+	</style>
+ {include file="public/footer" /}

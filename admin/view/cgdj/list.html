@@ -1,0 +1,205 @@
+ {include file="public/headerny" /}
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+  <script>
+function del(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要作废这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/cgdj/del')}?idx="+idx+"&id={$u}";
+	}
+  });
+  }
+  
+ function reprint(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要重新打印这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/cgdj/reprint')}?idx="+idx+"&d=0"+"&u={$u}"
+	}
+  });
+  }
+  
+function upok(idm) {
+	var ck=document.getElementById("ck"+idm).value;
+	if(ck==0){
+	    alert("请选择方向");
+	    return false;
+	}else if(ck==1){
+	    cstr="[入库]";
+	}else if(ck==2){
+	    cstr="[出库]";
+	}
+	
+	var idx=idm+"&id={$id}&ck="+ck;
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否通过这条订单？'+cstr
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/cgdj/pass')}?idx="+idx+"&d=0"+"&u={$u}"
+	}
+  });
+  }
+  
+function xupok(idm) {
+	var ck=document.getElementById("ck"+idm).value;
+	if(ck==0){
+	    alert("选择方向");
+	    return false;
+	}else if(ck==1){
+	    cstr="[入库]";
+	}else if(ck==2){
+	    cstr="[出库]";
+	}
+	
+	var idx=idm+"&id={$id}&ck="+ck;
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否恢复作废的订单？'+cstr
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/cgdj/passx')}?idx="+idx+"&d=0"+"&u={$u}"
+	}
+  });
+  }
+function x2upok(idm) {
+	var ck=document.getElementById("ck"+idm).value;
+	if(ck==0){
+	    alert("选择方向");
+	    return false;
+	}else if(ck==1){
+	    cstr="[入库]";
+	}else if(ck==2){
+	    cstr="[出库]";
+	}
+	
+	var idx=idm+"&id={$id}&ck="+ck;
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否更换方向？'+cstr
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/cgdj/passx2')}?idx="+idx+"&d=0"+"&u={$u}"
+	}
+  });
+  }
+  </script>
+
+		<div class="mx-4 mb-3  shadow overflow-hidden">
+			<div class=" p-2 mt-2 border-bottom">
+				<button class="btn btn-success btn-sm" onclick="location.reload();">刷新</button>
+			</div>
+
+		</div>
+{volist name='all' id='vo'}
+		<div class="card card-style mx-4 rounded-4 shadow overflow-hidden">
+			<div class="p-2 border-bottom"><a href="#"  onclick="window.location.href='/admin/cgdj/dtle?id={$vo.id}'">
+					<div class="d-flex justify-content-between">
+						<div class="d-flex h7 m-0">
+							{if condition="($vo.zf==1)"}
+							<div class="text-muted text-danger">
+							    单号：{$vo.dhao}
+							    {if condition="($vo.cku==1)"}
+							        [入库](已作废)
+                				{else}
+                				    [出库](已作废)
+                				{/if}
+                			</div>
+                			{else}
+                			<div class="text-muted">
+							    单号：{$vo.dhao}
+							    {if condition="($vo.cku==1)"}
+							        [入库]
+                				{else}
+                				    [出库]
+                				{/if}
+                			</div>
+                			{/if}
+						</div>
+					</div>
+				</a></div>
+			<div class="p-2  pl-3 border-bottom">
+				<div class="accordion">
+					<div class="accordion-item border-0">
+						<h7>公司名：{$vo.myname}</h7>
+					</div>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div>加工方式：{$vo.madd}</div>
+					<div></div>
+				</div>
+				<div class="d-flex  pl-4   justify-content-between h8 fw-bold m-0">
+				    	{volist name='db2' id='vox'}
+						    {if condition="($vo.id==$vox.fid)"}
+							    {$vox.cpname}x{$vox.cpnum}<br/>
+							{/if}
+						{/volist}
+					
+					<div></div>
+				</div>
+			</div>
+			
+            {if condition="($vo.zf==1)"}
+                <div class="p-2 border-bottom">
+                    <select class="btn  btn-danger  btn-sm" id="ck{$vo.id}">
+                        <option value="0">请选择方向</option>
+    					<option value="1">入库</option>
+    					<option value="2">出库</option>
+    				</select>
+				    <label class="btn btn-success btn-sm mt-2" onclick="xupok({$vo.id})">恢复</label>
+				</div>
+				{else}
+                    <div class="p-2 border-bottom">
+        				<div class="mb-1">
+        					<h7 class="fw-bold mb-1">请选择要更换的方向，然后点确认。</h7>
+        					
+        					    <select class="btn btn-success btn-sm" id="ck{$vo.id}">
+                                    <option value="0">请选择方向</option>
+            						<option value="1">入库</option>
+            						<option value="2">出库</option>
+            					</select> 
+            					<label class="btn btn-success btn-sm mt-2" onclick="x2upok({$vo.id})">&nbsp;确认更换</label>
+        				</div>
+        				<!--<div>
+        						<a href="/admin/index/dtle?id={$vo.id}">
+        						    <label class="btn btn-outline-success btn-sm rounded-pill">
+        						    <i class="bi bi-wallet me-1"></i>&nbsp;详情</label></a>
+        						<label class="btn btn-outline-danger btn-sm rounded-pill" onclick="del({$vo.id})"><i
+        							class="bi bi-wallet me-1"></i>&nbsp;作废</label></div>-->
+        			</div>
+
+				
+            {/if}
+			
+		</div>
+
+
+
+			{/volist}
+
+ {include file="public/footer" /}
+        

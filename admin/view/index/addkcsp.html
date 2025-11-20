@@ -1,0 +1,70 @@
+ {include file="public/headerny" /}
+  	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">库存商品管理</h3>
+				</div>
+			</div>
+		</div>
+ 
+<link rel="stylesheet" href="/public/static/setting/css/style.css">
+
+<form id="contant-form" class="form" name="contact-form" action="{:url('admin/index/upkcspadd')}" method="post"  style="margin-top:20px;">
+  <h1 class="form__headline">库存商品设置</h1>
+  <div class="form__description">
+    <p>请填写库存商品信息。</p>
+  </div>
+  
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">1.序号</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="oldpass" class="text-input__body -placeholder-visible" type="text" name="myorder" value="{$cnum}" readonly="isReadonly">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">2.名称</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="exdh" class="text-input__body -placeholder-visible" type="text"  id="myname" name="myname">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__validation" data-validation="tel" role="alert" aria-live="assertive"></p>
+    </div>
+  </div>
+
+
+	<div style="display: none;" >
+		<select id="mytd" name="mytd">
+			{volist name='cls' id='vox'}
+				<option value="{$vox.id}">{$vox.name}</option>
+			{/volist}
+		</select>
+		<input type="text" name="myid" value="{$id}" />
+	</div>
+
+
+  <div class="form__submit">
+    <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+    <button class="button" type="submit">保存</button>
+  </div>
+</form>
+
+ {include file="public/footer" /} 
+
+
+
+
+

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>设置</title>
+<link href="/public/pc/ui/css/bootstrap.min.css" rel="stylesheet">
+<link href="/public/pc/ui/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="/public/pc/ui/css/style.min.css" rel="stylesheet">
+<style>
+  .inline-option-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  .inline-option-item {
+    flex: 1;
+    min-width: 180px;
+  }
+</style>
+</head>
+  
+<body>
+<div class="container-fluid p-t-15">
+  
+  <div class="row">
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <ul class="nav nav-tabs page-tabs pt-2 pl-3 pr-3">
+          <li class="nav-item"> <a href="#!" class="nav-link active">基本</a> </li>
+          <li class="nav-item"> <a href="lyear_pages_config_system.html" class="nav-link">系统</a> </li>
+          <li class="nav-item"> <a href="lyear_pages_config_upload.html" class="nav-link">上传</a> </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active">
+            
+            <form action="{:url('admin/setting/edit')}" method="post" name="edit-form" class="edit-form">
+              <!-- 原有表单内容保持不变 -->
+              <div class="form-group">
+                <label for="web_site_title">1.公司名称</label>
+                <input class="form-control" type="text" id="web_site_title" name="cpname" value="{$setting[0]['name']}" placeholder="公司名称">
+              </div>
+               <div class="form-group">
+                <label for="web_site_title">2.加工单据前缀</label>
+                <input class="form-control" type="text" id="web_site_title" name="exdh" value="{$setting[0]['exdh']}" placeholder="加工单据前缀">
+              </div>
+              <div class="form-group">
+                <label for="web_site_title">3.外委单据前缀</label>
+                <input class="form-control" type="text" id="web_site_title" name="wwexdh" value="{$setting[0]['wwexdh']}" placeholder="外委单据前缀">
+              </div>
+              <div class="form-group">
+                <label for="web_site_title">4.采购单号前缀</label>
+                <input class="form-control" type="text" id="web_site_title" name="excg" value="{$setting[0]['excg']}" placeholder="采购单号前缀">
+              </div>
+              <div class="form-group">
+                <label for="web_site_title">5.接收邮件1</label>
+                <input class="form-control" type="text" id="web_site_title" name="semail" value="{$setting[0]['semail']}">
+              </div>
+              <div class="form-group">
+                <label for="web_site_title">6.接收邮件2</label>
+                <input class="form-control" type="text" id="web_site_title" name="semail2" value="{$setting[0]['semail2']}">
+              </div>
+              <div class="form-group">
+                <label for="web_site_title">7.接收邮件3</label>
+                <input class="form-control" type="text" id="web_site_title" name="semail3" value="{$setting[0]['semail3']}">
+              </div>
+              
+              <div class="form-group">
+                <label for="app_trace">8.是否自动批号</label>
+                <div class="controls-box clearfix">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="inlineRadio1" name="sphao" class="custom-control-input" value="1" {if condition="($setting[0]['autoph']==1)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="inlineRadio1">是</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="inlineRadio2" name="sphao" class="custom-control-input" value="0" {if condition="($setting[0]['autoph']==0)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="inlineRadio2">否</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="app_trace">9.是否同步产品</label>
+                <div class="controls-box clearfix">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="sguige1" name="sguige" class="custom-control-input" value="1" {if condition="($setting[0]['sguige']==1)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="sguige1">是</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="sguige2" name="sguige" class="custom-control-input" value="0" {if condition="($setting[0]['sguige']==0)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="sguige2">否</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="app_trace">10.是否自动关联出库</label>
+                <div class="controls-box clearfix">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="autogl1" name="autogl" class="custom-control-input" value="1" {if condition="($setting[0]['autogl']==1)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="autogl1">是</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="autogl2" name="autogl" class="custom-control-input" value="0" {if condition="($setting[0]['autogl']==0)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="autogl2">否</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="app_trace">11.是否显示销售员</label>
+                <div class="controls-box clearfix">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="xiaoshou1" name="xiaoshou" class="custom-control-input" value="1" {if condition="($setting[0]['xiaoshou']==1)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="xiaoshou1">是</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="xiaoshou2" name="xiaoshou" class="custom-control-input" value="0" {if condition="($setting[0]['xiaoshou']==0)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="xiaoshou2">否</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="app_trace">12.是否在线打印</label>
+                <div class="controls-box clearfix">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="onlineprt1" name="onlineprt" class="custom-control-input" value="1" {if condition="($setting[0]['onlineprt']==1)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="onlineprt1">是</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="onlineprt2" name="onlineprt" class="custom-control-input" value="0" {if condition="($setting[0]['onlineprt']==0)"}checked="checked"{/if}>
+                    <label class="custom-control-label" for="onlineprt2">否</label>
+                  </div>
+                </div>
+              </div>
+<hr>
+              <!-- 新增的9个选项（水平排列） -->
+              <div class="form-group">
+                <label><h5>是否显示数量</h5></label>
+                <div class="inline-option-group">
+                  <div class="inline-option-item">
+                    <label for="app_trace">13.材料入库</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_1_1" name="shuliang_1" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][0] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_1_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_1_0" name="shuliang_1" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][0] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_1_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">14.成品入库</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_2_1" name="shuliang_2" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][1] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_2_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_2_0" name="shuliang_2" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][1] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_2_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">15.残料入库</span></label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_3_1" name="shuliang_3" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][2] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_3_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_3_0" name="shuliang_3" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][2] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_3_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">16.其他入库</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_4_1" name="shuliang_4" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][3] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_4_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_4_0" name="shuliang_4" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][3] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_4_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">17.入库退回</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_5_1" name="shuliang_5" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][4] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_5_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_5_0" name="shuliang_5" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][4] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_5_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">18.销售出库</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_6_1" name="shuliang_6" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][5] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_6_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_6_0" name="shuliang_6" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][5] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_6_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">19.车间加工领用</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_7_1" name="shuliang_7" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][6] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_7_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_7_0" name="shuliang_7" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][6] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_7_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">20.外委加工领用</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_8_1" name="shuliang_8" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][7] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_8_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_8_0" name="shuliang_8" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][7] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_8_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="inline-option-item">
+                    <label for="app_trace">21.出库退回</label>
+                    <div class="controls-box clearfix">
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_9_1" name="shuliang_9" class="custom-control-input" value="1" {if condition="($setting[0]['shuliang'] && $setting[0]['shuliang'][8] == '1')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_9_1">是</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="shuliang_9_0" name="shuliang_9" class="custom-control-input" value="0" {if condition="(!$setting[0]['shuliang'] || $setting[0]['shuliang'][8] == '0')"}checked="checked"{/if}>
+                        <label class="custom-control-label" for="shuliang_9_0">否</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<hr>
+              <input type="text" name="id" value="{$id}" style="display:none;">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary m-r-5">确 定</button>
+                <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+
+      </div>
+    </div>
+        
+  </div>
+  
+</div>
+
+<script type="text/javascript" src="/public/pc/ui/js/jquery.min.js"></script>
+<script type="text/javascript" src="/public/pc/ui/js/popper.min.js"></script>
+<script type="text/javascript" src="/public/pc/ui/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/public/pc/ui/js/main.min.js"></script>
+</body>
+</html>

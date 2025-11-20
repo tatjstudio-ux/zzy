@@ -1,0 +1,85 @@
+ {include file="public/headerny" /}
+  	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">产品管理</h3>
+				</div>
+			</div>
+		</div>
+ <link rel="stylesheet" href="/public/static/setting/css/style.css">
+
+<form id="contant-form" class="form" name="contact-form" action="{:url('admin/index/addsymboledit')}" method="post"  style="margin-top:20px;">
+  <h1 class="form__headline">编辑产品</h1>
+  <div class="form__description">
+    <p>请输入必要事项后，点确定后保存。</p>
+  </div>
+  
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">1.序号</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="myorder" class="text-input__body -placeholder-visible" type="text" name="myorder" value="{$all[0]['myorder']}"  readonly="isReadonly">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__notion">公司名称序号</p>
+      <p class="form__validation" data-validation="tel" role="alert" aria-live="assertive"></p>
+    </div>
+  </div>
+
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">2.公司名</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="myorder" class="text-input__body -placeholder-visible" type="text" name="myname" value="{$all[0]['name']}">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__notion">公司的名称</p>
+      <p class="form__validation" data-validation="tel" role="alert" aria-live="assertive"></p>
+    </div>
+  </div>
+  
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">3.备注信息</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="myorder" class="text-input__body -placeholder-visible" type="text" name="mytext" value="{$all[0]['mytext']}">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__notion">公司的名称</p>
+      <p class="form__validation" data-validation="tel" role="alert" aria-live="assertive"></p>
+    </div>
+  </div>
+  
+    <div style="display: none;">
+    <input type="text" id="myjiag" name="myjiag" class="inpt-lag" value="{$all[0]['jine']}"/>
+    <input type="text" id="myvip" name="myvip" class="inpt-lag" value="{$all[0]['vjine']}" />
+    <input type="text" id="kcyj" name="kcyj" class="inpt-lag" value="{$all[0]['kcyj']}" />
+    <input type="text" id="mypath" name="mypath" class="inpt-lag" value="{$all[0]['mypath']}" />
+    <input type="text" name="myid" style="display: none;" value="{$id}" />
+    <input type="text" name="xid" style="display: none;" value="{$all[0]['id']}" />
+    </div>
+    
+  <div class="form__submit">
+    <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+    <button class="button" type="submit">保存</button>
+  </div>
+</form>
+ 
+
+
+ {include file="public/footer" /}
+

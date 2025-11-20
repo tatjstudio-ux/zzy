@@ -1,0 +1,142 @@
+ {include file="public/header" /}
+ <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function  () {
+	//获取短信验证码
+	var validCode=true;
+	$(".msgs").click (function  () {
+		if(form.bm_phone.value==''){
+			alert('电话不能为空！');
+			form.bm_phone.focus();
+			return false;
+		}
+		var time=60;
+		var code=$(this);
+		if (validCode) {
+			validCode=false;
+			code.addClass("msgs1");
+		var t=setInterval(function  () {
+			time--;
+			code.html(time+"秒");
+			if (time==0) {
+				clearInterval(t);
+			code.html("重新获取");
+				validCode=true;
+			code.removeClass("msgs1");
+
+			}
+		},1000)
+		}
+	var phone=document.getElementById("t_yzm").value; 
+    $.ajax({
+     type:"GET",
+     url:"{:url('Index/index/add')}"+"?phone="+phone,  //数据传输的控制器方法
+     dataType: "json",
+     success:function(data){
+      alert(data);//获取成功以后输出返回值
+     }
+    });
+		
+	})
+})
+	function check(){
+		if(form.bm_name.value==''){
+			alert('姓名不能为空！');
+			form.bm_name.focus();
+			return false;
+		}
+		
+		if(form.bm_sc.value==''){
+			alert('学校不能为空！');
+			form.bm_sc.focus();
+			return false;
+		}
+		if(form.bm_class.value==''){
+			alert('班级不能为空！');
+			form.bm_class.focus();
+			return false;
+		}
+		if(form.bm_phone.value==''){
+			alert('电话不能为空！');
+			form.bm_phone.focus();
+			return false;
+		}
+		if(form.bm_yzm.value==''){
+			alert('验证码不能为空！');
+			form.bm_yzm.focus();
+			return false;
+		}
+		if(form.bm_add.value==''){
+			alert('地址不能为空！');
+			form.bm_add.focus();
+			return false;
+		}
+		if(form.bm_nj.value==''){
+			alert('年级不能为空！');
+			return false;
+		}
+		if(form.bm_xq.value==''){
+			alert('校区不能为空！');
+			return false;
+		}
+                var phone = document.getElementById('t_yzm').value;
+                if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
+                    alert("手机号码有误，请重填！");
+                    return false;
+                }
+	}
+</script>
+
+
+<style>
+.msgs{display:inline-block;width:104px;color:#fff;font-size:12px;border:1px solid #0697DA;text-align:center;height:40px;line-height:40px;background:#0697DA;cursor:pointer;}
+form .msgs1{background:#E6E6E6;color:#818080;border:1px solid #CCCCCC;}
+</style>
+	
+<!--页面主要内容-->
+    <main class="lyear-layout-content">
+      
+      <div class="container-fluid">
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header"><h4>发送面试短信</h4></div>
+              <div class="card-body">
+                
+                <form class="form-horizontal" action="{:url('index/upsms')}" name="form" method="post" onsubmit="return check();">
+                  <div class="form-group">
+                    <label class="col-xs-12" for="example-text-input">短信内容</label>
+                    <div class="col-xs-12">
+						<textarea class="form-control" name="bm_nj" >{$name}同学,我们已经收到您的报名申请，请于2021年6月28日上午9点来博立镇海校区面试。</textarea>
+                    </div>
+                  </div>
+                  <input type="text" name="phone" value="{$phone}" style="display:none;"/>
+                  <input type="text" name="name" value="{$name}" style="display:none;"/>
+                  <div class="form-group">
+                    <div class="col-xs-12">
+                      <button class="btn btn-primary" style="width:100%;" type="submit">提交</button>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <div class="col-xs-12">
+                      <a href="{:url('index/pross')}?id={$id}&cont={$name}同学,我们已经收到您的报名申请，请于2021年6月28日上午9点来博立镇海校区面试。&phone={$phone}"<button class="btn btn-danger" style="width:100%;">已通过其他渠道发送</button></a>
+                    </div>
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+          </div>
+          
+   
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+
+
+ {include file="public/footer" /}

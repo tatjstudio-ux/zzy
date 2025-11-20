@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>编辑产品分类</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>编辑产品分类</h2>
+    <form method="post">
+        <div class="form-group">
+            <label>产品名称</label>
+            <input type="text" name="name" class="form-control" value="{$product.name}" required>
+        </div>
+        <div class="form-group">
+            <label>金额</label>
+            <input type="text" name="jine" class="form-control" value="{$product.jine}" required>
+        </div>
+        <div class="form-group">
+            <label>VIP金额</label>
+            <input type="text" name="vjine" class="form-control" value="{$product.vjine}" required>
+        </div>
+        <div class="form-group">
+            <label>库存量</label>
+            <input type="number" name="kcl" class="form-control" value="{$product.kcl}" required>
+        </div>
+        <div class="form-group">
+            <label>父级分类</label>
+            <select name="class" class="form-control">
+                <option value="0">顶级分类</option>
+                {volist name="products" id="p"}
+                <option value="{$p.id}" {if condition="$p.id eq $product.class"}selected{/if}>{$p.name}</option>
+                {/volist}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">提交</button>
+    </form>
+</div>
+</body>
+</html>

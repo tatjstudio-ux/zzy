@@ -1,0 +1,239 @@
+ {include file="public/headerny" /}
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+  <script>
+function del(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要作废这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/del')}?idx="+idx+"&id={$u}";
+	}
+  });
+  }
+  
+ function reprint(idx) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要重新打印这条订单？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/reprint')}?idx="+idx+"&id={$u}";
+	}
+  });
+  }
+  
+function upok(idm) {
+	var ck=document.getElementById("ck"+idm).value;
+	if(ck==0){
+	    alert("请选择仓库");
+	    return false;
+	}else if(ck==1){
+	    cstr="[入库]";
+	}else if(ck==2){
+	    cstr="[出库]";
+	}
+	
+	var idx=idm+"&id={$id}&ck="+ck;
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否通过这条订单？'+cstr
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/pass')}?idx="+idx
+	}
+  });
+  }
+  
+function xupok(idm) {
+	var ck=document.getElementById("ck"+idm).value;
+	if(ck==0){
+	    alert("请选择仓库");
+	    return false;
+	}else if(ck==1){
+	    cstr="[入库]";
+	}else if(ck==2){
+	    cstr="[出库]";
+	}
+	
+	var idx=idm+"&id={$id}&ck="+ck;
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否重新审核订单？'+cstr
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/passx')}?idx="+idx
+	}
+  });
+  }
+function x2upok(idm) {
+	var ck=document.getElementById("ck"+idm).value;
+	if(ck==0){
+	    alert("请选择仓库");
+	    return false;
+	}else if(ck==1){
+	    cstr="[入库]";
+	}else if(ck==2){
+	    cstr="[出库]";
+	}
+	
+	var idx=idm+"&id={$id}&ck="+ck;
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否更换方向？'+cstr
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/passx2')}?idx="+idx
+	}
+  });
+  }
+  
+ function slcdate() {
+ 
+     var myselect=document.getElementById("mysel");
+     var index=myselect.selectedIndex ; // selectedIndex代表的是你所选中项的index
+     var idx=myselect.options[index].value;
+     window.location.href="{:url('admin/index/list')}?id={$id}&d="+idx;
+  }
+  
+  </script>
+  
+<body>
+    <div id="user-b">
+        <!--html5 nav-->
+        <nav class="j-nav navbar">
+            <div class="logo fl">
+                <a href="{:url('index')}?id=1"></a>
+            </div>
+            <span class="user-title">订单列表</span>
+            <div class="city">
+ 			<a id="showSiteBtn" href="#" onclick="location.reload();">刷新</a>
+ 			<input id="switchGPS" name="switchGPS" type="hidden">
+ 		</div>
+        </nav>
+        <!--<div class="groups-box">
+            <div class="groups-m mc-sum-box">
+                    <div class="myorder-text">
+                        <select style="font-size:24pt;color:#666;" id="mysel" onchange="slcdate()">
+                            <option value="{$d}">{$d}</option>
+                            <?php
+                            for($i=1;$i<32;$i++){
+                            if($i<10){
+                                $i="0".$i;
+                            }
+                            echo "<option value='".date('Y-m')."-".$i."'>".date('Y-m')."-".$i."</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+            </div>
+        </div>-->
+        
+        <div class="groups-box">
+            <!-- 我的拼团列表 -->
+			{volist name='all' id='vo'}
+            <div class="groups-m mc-sum-box">
+                <div>
+                    
+                    <div class="myorder-text">
+                        {if condition="($vo.cku==1)"}
+						<span style="font-size:14pt;color:green;">[入库单]</span></br>
+						{else}
+						<span style="font-size:16pt;color:red;">[出库单]</span></br>
+						{/if}
+                        <h1>{$vo.dhao} </h1>
+					<!--	{volist name='db2' id='vox'}
+						    {if condition="($vo.id==$vox.fid)"}
+							<h2>{$vox.cpname}x{$vox.cpnum}</h2>
+							{/if}
+							
+						{/volist}-->
+							<h2>客户:{$vo.myname}</h2>
+						{if condition="($vo.she==0)"}
+                                    {if condition="($vo.zf==0)"}
+                    						<span style="color: red;">等待审核中</span>
+                                        </div>
+                                    </div>
+                                    <div class="groups-dowm-bnt">
+                                            {volist name='db3' id='voxb'}
+                    						    {if condition="($vo.userx==$voxb.bm_id)"}
+                                                <a href="tel:{$voxb.bm_phone}" class="btn fr">联系客户</a>
+                    							{/if}
+                    						{/volist}
+                                        
+                                        <a onclick="upok({$vo.id})" class="btn fr">审核通过</a>
+                                        <select class="btn fr" id="ck{$vo.id}">
+                                            <option value="0">请选择方向</option>
+                    						<option value="1">入库</option>
+                    						<option value="2">出库</option>
+                    					</select>
+                    					<a onclick="del({$vo.id})" class="btn fr" style="background-color: #AA3333;color: #FFFFFF;">作废订单</a>
+                    					<a href="/admin/index/dtle?id={$vo.id}" class="btn fr">订单详情</a>
+                                    </div>
+                                </div>
+                                        {else}
+                    						<span style="color: red;">等待审核中</span>
+                                        </div>
+                                    </div>
+                                    <div class="groups-dowm-bnt">
+
+                                        <a onclick="xupok({$vo.id})" class="btn fr">重新审核</a>
+                                        <select class="btn fr" id="ck{$vo.id}">
+                                            <option value="0">请选择方向</option>
+                    						<option value="1">入库</option>
+                    						<option value="2">出库</option>
+                    					</select>
+                    					<a href="/admin/index/dtle?id={$vo.id}" class="btn fr">订单详情</a>
+                                    </div>
+                                </div>
+                                        {/if}
+						{else}
+                						<span>
+                                            {volist name='db3' id='voxb'}
+                        						    {if condition="($vo.userx==$voxb.bm_id)"}
+                                                    <h2 style="color:green;">录入：{$voxb.bm_name}</h2>
+                        							{/if}
+                        					{/volist}
+                						</span>
+                                    </div>
+                                </div>
+                                <div class="groups-dowm-bnt">
+                					<a onclick="del({$vo.id})" class="btn fl" style="background-color: #AA3333;color: #FFFFFF;">作废订单</a>
+                					<a href="/admin/index/dtle?id={$vo.id}" class="btn fl">订单详情</a>
+                					<div style="clear:both;"></div>
+                					<hr/>
+                					    <select class="btn fl" id="ck{$vo.id}">
+                                            <option value="0">请选择方向</option>
+                    						<option value="1">入库</option>
+                    						<option value="2">出库</option>
+                    					</select>
+                					<a onclick="x2upok({$vo.id})" class="btn fl">更换方向</a>
+                                </div>
+                            </div>
+						{/if}
+
+			{/volist}
+			
+        </div>
+ {include file="public/footer" /}
+        

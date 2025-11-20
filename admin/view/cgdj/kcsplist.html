@@ -1,0 +1,56 @@
+ {include file="public/headerny" /}
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+  <script>
+function del(xid) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要删除这个牌号？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/jldwdel')}?xid="+xid+"&id={$id}";
+	}
+  });
+  }
+ </script>
+  
+<body>
+    <div id="user-b" style="margin-top:50px;">
+        <!--html5 nav-->
+        <nav class="j-nav navbar">
+            <div class="logo fl">
+                <a href="{:url('index')}?id=1"></a>
+            </div>
+            <span class="user-title">库存商品设置</span>
+            <div class="city">
+ 			<a id="showSiteBtn" href="{:url('addkcsp')}?id={$id}">新增</a>
+ 			<input id="switchGPS" name="switchGPS" type="hidden">
+        </nav>
+        <div class="groups-box">
+            <!-- 我的拼团列表 -->
+		{volist name='cls' id='vocls'}
+		<?php 
+		$i=1;
+		?>
+		<div style="margin:20px 0 20px 0;"><center><span style="font-size:16px;font-weight:bold;color:#D6964E;">{$vocls.name}</span></center></div>
+			{volist name='all' id='vo'}
+				{if condition="($vocls.id==$vo.class)"}
+					<div class="groups-m mc-sum-box">
+						<div class="groups-dowm-bnt">
+							<h4>（{$vo.name}）</h4>
+							<a href="{:url('kcspedit')}?id={$id}&xid={$vo.id}" class="btn fr">修改</a> 
+							<a onclick="delkcsp({$vo.id})" class="btn fr">删除</a>
+						</div>
+					</div>
+				{/if}
+			{/volist}
+		{/volist}
+
+        </div>
+    </div>
+	
+ {include file="public/footer" /}
+        

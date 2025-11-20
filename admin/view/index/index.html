@@ -1,0 +1,79 @@
+ {include file="public/header" /}
+ <div class="card card-style">
+					<div class="content mt-1 mb-0">
+						<div class="list-group list-custom-large">
+						    <a href="#"  onclick="window.location.href='{:url('admin/index/list')}?id=2&d=0&u={$xphone}'" >
+						    <i class="fa fa-square font-16 color-teal-dark"></i><span>加工单据回收站({$num1})</span><strong>操作所有的加工单据</strong>
+							<i class="fa fa-angle-right"></i></a>
+							<a  href="#"  onclick="window.location.href='{:url('admin/index/wwlist')}?id=2&d=0&u={$xphone}'">
+							    <i class="fa fa-star font-16 color-magenta2-dark"></i><span>外委单据回收站({$numww})</span><strong>操作所有的外委单据</strong><i
+									class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('admin/cgdj/list')}?id=2&d=0&u={$xphone}'"><i
+									class="far fa-clock font-20 color-brown1-dark"></i><span>采购单据回收站({$numcg})</span><strong>操作所有的采购单据</strong><i
+									class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('admin/index/cpnamemg')}?id=1'"><i
+									class="fa fa-mobile-alt font-20 color-gray2-dark"></i><span>客户管理</span><strong>用于管理所有的客户资料</strong><i
+									class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('admin/index/cpmg')}?id=1'"><i
+									class="fa fa-server font-16 color-blue2-dark"></i><span>产品管理</span><strong>用于管理所有的产品信息</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('category/index')}?id=1'">
+								<i class="fa fa-bookmark font-16 color-red2-dark"></i>
+								<span>库存商品</span>
+								<strong>用于管理计量库存的产品</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('index/phaomg')}?id=1'">
+								<i class="fa fa-square font-16 color-green1-dark"></i>
+								<span>牌号管理</span>
+								<strong>用于管理牌号</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('index/jldw')}?id=1'">
+								<i class="fa fa-lightbulb font-16 color-yellow1-dark"></i>
+								<span>计量单位</span>
+								<strong>用来控制计量单位</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('index/jgfs')}?id=1'">
+								<i class="fa fa-hand-pointer font-16 color-green2-dark"></i>
+								<span>加工方式</span>
+								<strong>修改加工方式</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('index/symbollist')}?id=1'">
+								<i class="fa fa-arrow-up font-16 color-magenta2-dark"></i>
+								<span>符号管理</span>
+								<strong>修改规格中可插入的字符</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('admin/user/main')}?id={$auth}&user=<?php echo cookie('xphone');?>'">
+								<i class="fa fa-chart-pie font-16 color-gray2-dark"></i>
+								<span>账户设置</span>
+								<strong>控制管理员及操作员</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('admin/setting/main')}?id={$auth}'">
+								<i class="fa fa-sun font-16 color-yellow1-dark"></i>
+								<span>系统设置</span>
+								<strong>用于设置必要的系统项目</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							<a href="#" onclick="window.location.href='{:url('Index/logout')}'">
+								<i class="fa fa-check font-16 color-green1-dark"></i>
+								<span>退出登录</span>
+								<strong>用于注销当前登录的用户</strong>
+								<i class="fa fa-angle-right"></i>
+							</a>
+							
+						</div>
+					</div>
+				</div>
+			<hr class="mb-5">
+			<hr class="mb-4">
+ {include file="public/footer" /}
+        

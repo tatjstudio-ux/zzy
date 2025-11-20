@@ -1,0 +1,40 @@
+{include file="public/headerny" /}
+<link rel="stylesheet" href="/public/static/setting/css/style.css">
+
+<div id="contant-form" class="form"  style="margin-top:20px;">
+  <h1 class="form__headline">账户设置</h1>
+  <div class="form__description">
+    <p>选择相应的用户进行修改。</p>
+  </div>
+		{volist name='admin' id='vox'}
+          <div class="form__group">
+            <div class="form__group-content">
+              <div class="form__text-input">
+                <p class="text-input">
+                    <a href="{:url('admin/user/adminedit')}?id=1&uid={$vox.bm_id}">
+                        <button class="button" style="width:100%;text-align:center;">{$vox.bm_name}</button>
+                    </a>
+                  <span class="text-input__validator"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+			
+		{/volist}
+          <div class="form__group">
+            <div class="form__group-content">
+              <div class="form__text-input">
+                <p class="text-input">
+                    <a href="{:url('admin/user/adminadd')}?id={$id}&user={$user[0]['bm_phone']}">
+                        <button class="button" style="width:100%;text-align:center;background-color:#09c;">新增用户</button>
+                    </a>
+                  <span class="text-input__validator"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+</div>
+
+			<hr class="mb-5">
+			<hr class="mb-4">
+ {include file="public/footer" /}

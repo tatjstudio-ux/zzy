@@ -1,0 +1,64 @@
+ {include file="public/header" /}
+<body>
+	<div id="register-b">
+		<!--html5 nav-->
+		<nav class="j-nav navbar">
+	        <div class="logo fl">
+				<a href="#"></a>
+			</div>
+			<span class="user-title">输入会员手机号码</span>
+	    </nav>
+		<div class="register-box">
+				<fieldset>
+					<div class="am-form-group">
+						<input type="text" id="phone" name="phone" class="inpt-lag" placeholder="会员手机号!"/>
+						<input type="text" name="id" value="{$id}" class="inpt-lag" style="display: none;" />
+					</div>
+					<div class="text-left">
+						<div id="msg" class="msg"></div>
+					</div>	
+				    <button class="btn am-btn am-btn-primary but-lag" onclick="check()">下一步</button>
+				</fieldset>
+		</div>
+	</div>
+	<style>
+		.inpx{
+			height: 80px;
+			margin-bottom: 0;
+			font-weight: normal;
+			line-height: 1;
+			color: #555;
+			text-align: center;
+			background-color: #EEE;
+			border: 1px solid #CCC;
+			border-radius: 4px;
+			padding-top: 30px;
+		}
+		.inpt-lag{
+			height: 80px;
+			font-size: 24px;
+			width: 100%;
+		}
+		.but-lag{
+			height: 80px;
+			width: 100%;
+			font-size:16px;
+			margin-top: 10px;
+		}
+		.msg{
+			color: red;
+			font-size: 18px;
+		}
+	</style>
+<script type="text/javascript">
+	function check(){
+		var phone = document.getElementById('phone').value;
+		if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
+			document.getElementById("msg").innerHTML="手机号码错误！";
+			return false;
+		}else{
+		    window.location.href="{:url('admin/index/showmember')}?id={$id}&idx="+phone;
+		}
+	}
+	</script>
+ {include file="public/footer" /}

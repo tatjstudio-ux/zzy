@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>编辑权限 - 系统后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f5f7fa;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 100%;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        /* 卡片样式 */
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card-header {
+            background: #fff;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+            color: #2d3748;
+        }
+        .card-body {
+            padding: 25px;
+        }
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 14px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #4299e1;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .form-text {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #718096;
+            display: block;
+        }
+        .text-danger {
+            color: #e53e3e;
+        }
+        /* 菜单选择框样式 */
+        .menu-checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .menu-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+            min-width: 120px;
+        }
+        .menu-checkbox-item input[type="checkbox"] {
+            margin-top: 2px;
+        }
+        .menu-checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        /* 按钮样式 */
+        .btn {
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background-color: #4299e1;
+            border-color: #4299e1;
+        }
+        .btn-primary:hover {
+            background-color: #3182ce;
+            border-color: #3182ce;
+        }
+        .btn-secondary {
+            background-color: #718096;
+            border-color: #718096;
+        }
+        .btn-secondary:hover {
+            background-color: #4a5568;
+            border-color: #4a5568;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 15px;
+            }
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .menu-checkbox-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 编辑权限</h3>
+        </div>
+        <div class="card-body">
+            <form action="{:url('auth/doEdit')}" method="post">
+                <input type="hidden" name="id" value="{$auth.id}">
+                
+                <div class="form-group">
+                    <label for="auth_name">权限名称 <span class="text-danger">*</span></label>
+                    <input type="text" name="auth_name" id="auth_name" class="form-control" 
+                           value="{$auth.auth_name}" required>
+                    <span class="form-text">权限名称唯一，不能超过50个字符</span>
+                </div>
+                <div class="form-group">
+                    <label for="auth_rule">权限标识 <span class="text-danger">*</span></label>
+                    <input type="text" name="auth_rule" id="auth_rule" class="form-control" 
+                           value="{$auth.auth_rule}" required>
+                    <span class="form-text">权限标识唯一，用于程序判断权限，不能超过200个字符</span>
+                </div>
+                <div class="form-group">
+                    <label>可访问菜单 <span class="text-danger">*</span></label>
+                    <div class="menu-checkbox-group">
+                        {php}$selectedMenus = explode(',', $auth['menu_ids']);{/php}
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu1" name="menu_ids[]" value="1" {:in_array('1', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu1">1-首页</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu2" name="menu_ids[]" value="2" {:in_array('2', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu2">2-工作流</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu3" name="menu_ids[]" value="3" {:in_array('3', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu3">3-车间加工</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu4" name="menu_ids[]" value="4" {:in_array('4', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu4">4-外委加工</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu5" name="menu_ids[]" value="5" {:in_array('5', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu5">5-库房入</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu6" name="menu_ids[]" value="6" {:in_array('6', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu6">6-库房出</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu7" name="menu_ids[]" value="7" {:in_array('7', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu7">7-报表及统计数据</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu8" name="menu_ids[]" value="8" {:in_array('8', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu8">8-期初数据及设置</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu9" name="menu_ids[]" value="9" {:in_array('9', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu9">9-单据管理</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu10" name="menu_ids[]" value="10" {:in_array('10', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu10">10-用户设置</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu11" name="menu_ids[]" value="11" {:in_array('11', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu11">11-系统设置</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu12" name="menu_ids[]" value="12" {:in_array('12', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu12">12-帮助中心</label>
+                        </div>
+                        <div class="menu-checkbox-item">
+                            <input type="checkbox" id="menu13" name="menu_ids[]" value="13" {:in_array('13', $selectedMenus) ? 'checked' : ''}>
+                            <label for="menu13">13-退出登录</label>
+                        </div>
+                    </div>
+                    <span class="form-text">勾选该权限可访问的菜单（序号对应菜单顺序）</span>
+                </div>
+                <div class="form-group">
+                    <label for="auth_desc">权限描述</label>
+                    <textarea name="auth_desc" id="auth_desc" class="form-control" rows="4" 
+                              placeholder="请输入权限描述（可选）">{$auth.auth_desc|default=''}</textarea>
+                    <span class="form-text">描述权限的功能范围，不超过255个字符</span>
+                </div>
+                <!-- 隐藏字段：拼接菜单ID -->
+                <input type="hidden" name="menu_ids" id="menu_ids" value="{$auth.menu_ids}">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save" aria-hidden="true"></i> 保存修改
+                    </button>
+                    <a href="{:url('auth/index')}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> 返回列表
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+$(function() {
+    // 初始化选中状态
+    let defaultIds = '{$auth.menu_ids}'.split(',');
+    $('input[name="menu_ids[]"]').each(function() {
+        if (defaultIds.includes($(this).val())) {
+            $(this).prop('checked', true);
+        }
+    });
+
+    // 监听复选框变化，更新隐藏字段
+    $('input[name="menu_ids[]"]').change(function() {
+        let selected = [];
+        $('input[name="menu_ids[]"]:checked').each(function() {
+            selected.push($(this).val());
+        });
+        $('#menu_ids').val(selected.join(','));
+    });
+
+    // 按钮点击反馈
+    $('.btn').click(function() {
+        $(this).css('transform', 'scale(0.98)');
+        setTimeout(() => {
+            $(this).css('transform', 'scale(1)');
+        }, 100);
+    });
+});
+</script>
+</body>
+</html>

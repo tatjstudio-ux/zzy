@@ -1,0 +1,78 @@
+{include file="public/headerny" /}
+<link rel="stylesheet" href="/public/static/setting/css/style.css">
+
+<form id="contant-form" class="form" name="contact-form" action="{:url('admin/index/addsymbol')}" method="post"  style="margin-top:20px;">
+  <h1 class="form__headline">符号名称设置</h1>
+  <div class="form__description">
+    <p>请填写名称信息。</p>
+  </div>
+  
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">1.序号</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="oldpass" class="text-input__body -placeholder-visible" type="text" name="myorder" value="{$cnum}" readonly="isReadonly">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="tel">2.产品名称</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="exdh" class="text-input__body -placeholder-visible" type="text"  id="myname" name="myname">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__validation" data-validation="tel" role="alert" aria-live="assertive"></p>
+    </div>
+  </div>
+
+
+	<div style="display: none;" >
+		<select id="mytd" name="mytd">
+			{volist name='cls' id='vox'}
+				<option value="{$vox.id}">{$vox.name}</option>
+			{/volist}
+		</select>
+					<div class="am-form-group" style="display: none;" >
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							价格：
+						</label>
+						<input type="text" id="myjiag" name="myjiag" class="inpt-lag" value="0"/>
+					</div>
+					<div class="am-form-group" style="display: none;" >
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							会员价：
+						</label>
+						<input type="text" id="myvip" name="myvip" class="inpt-lag" value="0" />
+					</div>
+					<div class="am-form-group" style="display: none;" >
+						<label for="doc-ipt-3" class="am-u-sm-2 j-form-label">
+							库存预警：
+						</label>
+						<input type="text" id="kcyj" name="kcyj" class="inpt-lag" value="0" />
+					</div>
+		<input type="text" name="myid" style="display: none;" value="{$id}" />
+		<input type="text" name="mypath" style="display: none;" value="0" />
+		<input type="text" name="mytext" style="display: none;" value="0" />
+	</div>
+
+
+  <div class="form__submit">
+    <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+    <button class="button" type="submit">保存</button>
+  </div>
+</form>
+
+			<hr class="mb-5">
+			<hr class="mb-4">
+ {include file="public/footer" /} 
+

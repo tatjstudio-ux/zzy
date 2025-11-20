@@ -1,0 +1,141 @@
+{include file="public/headerny" /}
+<script>
+// 表单验证：包含权限选择校验，支持更换权限
+function checkForm() {
+  var myname = document.getElementById('myname').value;
+  var myphone = document.getElementById('myphone').value;
+  var repass = document.getElementById('repass').value;
+  var authId = document.getElementById('auth_id').value;
+
+  // 姓名校验
+  if (myname === '') {
+    alert('用户姓名不能为空！');
+    return false;
+  }
+  // 手机号校验
+  if (myphone === '') {
+    alert('手机号不能为空！');
+    return false;
+  } else if (!/^1[3-9]\d{9}$/.test(myphone)) {
+    alert('请输入有效的11位手机号！');
+    return false;
+  }
+  // 密码校验（可选修改，填写则需≥6位）
+  if (repass !== '' && repass.length < 6) {
+    alert('密码长度不能少于6位！');
+    return false;
+  }
+  // 权限校验（必须选择）
+  if (authId == 0) {
+    alert('请选择用户权限！');
+    return false;
+  }
+
+  return true;
+}
+</script>
+<link rel="stylesheet" href="/public/static/setting/css/style.css">
+
+<form id="contant-form" class="form" name="contact-form" action="{:url('admin/user/adminupdata')}" method="post" onsubmit="return checkForm();" style="margin-top:20px;">
+  <h1 class="form__headline">编辑用户信息</h1>
+  <div class="form__description">
+    <p>修改用户基本信息和权限，密码为空则不修改。</p>
+  </div>
+  
+  <!-- 1. 用户姓名 -->
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="myname">1.用户姓名</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="myname" class="text-input__body -placeholder-visible" type="text" name="myname" value="{$user[0]['bm_name']}" placeholder="请输入用户姓名">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 手机号 -->
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="myphone">2.手机号</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="myphone" class="text-input__body -placeholder-visible" type="text" name="myphone" value="{$user[0]['bm_phone']}" placeholder="请输入手机号">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__validation" data-validation="tel" role="alert" aria-live="assertive"></p>
+    </div>
+  </div>
+  
+  <!-- 3. 密码（可选修改） -->
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="repass">3.密码（选填）</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <input id="repass" class="text-input__body -placeholder-visible" type="password" name="repass" value="" placeholder="不修改请留空，修改请输入6位以上">
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__text" style="margin-top:8px; font-size:12px; color:#718096;">
+        留空则保持原密码不变，填写则更新为新密码
+      </p>
+    </div>
+  </div>
+
+  <!-- 4. 用户权限（可更换，默认选中当前权限） -->
+  <div class="form__group">
+    <p class="form__group-header">
+      <label class="form__group-label" for="auth_id">4.用户权限（可更换）</label>
+    </p>
+    <div class="form__group-content">
+      <div class="form__text-input">
+        <p class="text-input">
+          <select id="auth_id" name="auth_id" class="text-input__body -placeholder-visible" style="height:40px; padding:0 12px;">
+            <option value="0">-- 请选择用户权限 --</option>
+            {volist name="authList" id="auth"}
+            <!-- 默认选中用户当前的权限（bl_user.auth 字段） -->
+            <option value="{$auth.id}" {:$user[0]['auth'] == $auth.id ? 'selected' : ''}>
+              {$auth.auth_name}（可访问：{php}
+              // 解析权限对应的可访问菜单
+              $menuMap = ['1'=>'首页','2'=>'工作流','3'=>'车间加工','4'=>'外委加工','5'=>'库房入','6'=>'库房出','7'=>'报表','8'=>'期初设置','9'=>'单据管理','10'=>'用户设置','11'=>'系统设置','12'=>'帮助中心','13'=>'退出登录'];
+              $menuIds = explode(',', $auth['menu_ids']);
+              $menuNames = [];
+              foreach($menuIds as $mid){
+                $menuNames[] = $menuMap[$mid] ?? $mid;
+              }
+              echo implode('、', $menuNames);
+              {/php}）
+            </option>
+            {/volist}
+          </select>
+          <span class="text-input__validator"></span>
+        </p>
+      </div>
+      <p class="form__text" style="margin-top:8px; font-size:12px; color:#718096;">
+        更换权限后，用户仅能访问对应权限的菜单功能
+      </p>
+    </div>
+  </div>
+
+  <!-- 隐藏字段：传递必要参数 -->
+  <input type="text" name="user" value="{$user[0]['bm_phone']}" style="display:none;">
+  <input type="text" name="id" value="{$id}" style="display:none;">
+
+  <div class="form__submit">
+    <p class="form__validation" data-validation="submit" role="alert" aria-live="assertive"></p>
+    <button class="button" type="submit">保存修改</button>
+  </div>
+</form>
+
+<hr class="mb-5">
+<hr class="mb-4">
+{include file="public/footer" /}

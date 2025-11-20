@@ -1,0 +1,73 @@
+{include file="public/headerny" /}
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">分类信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{:url('doAdd')}">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">分类名称</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="parent_id" class="form-label">父分类</label>
+                                <select class="form-select" id="parent_id" name="parent_id">
+                                    <option value="0">顶级分类</option>
+                                    {volist name="categoryList" id="category"}
+                                    <option value="{$category.id}">{$category.name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="class" class="form-label">分类类型</label>
+                                <input type="number" class="form-control" id="class" name="class" value="1" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="myorder" class="form-label">排序</label>
+                                <input type="number" class="form-control" id="myorder" name="myorder" value="0" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="jine" class="form-label">金额</label>
+                                <input type="number" class="form-control" id="jine" name="jine" value="0" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="vjine" class="form-label">虚拟金额</label>
+                                <input type="number" class="form-control" id="vjine" name="vjine" value="0" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="tdjg" class="form-label">团队价格</label>
+                                <input type="number" class="form-control" id="tdjg" name="tdjg" value="0" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="kcyj" class="form-label">库存预警</label>
+                                <input type="number" class="form-control" id="kcyj" name="kcyj" value="0" required>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end">
+                                <a href="{:url('index')}" class="btn btn-outline-secondary me-2">返回</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i> 保存分类
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+			<hr class="mb-5">
+			<hr class="mb-4">
+ {include file="public/footer" /}

@@ -1,0 +1,67 @@
+ {include file="public/headerny" /}
+  	<body class="bg-light">
+		<div class="osahan-header-main py-3 px-4 sticky-top bg-white">
+			<div class="d-flex align-items-center">
+				<div class="gap-3 d-flex align-items-center"><a href="#" onclick="history.go(-1);"><i
+							class="bi bi-arrow-left d-flex text-success h3 m-0 back-page"></i></a>
+					<h3 class="fw-bold m-0">符号管理</h3>
+				</div>
+			</div>
+		</div>
+  <script src="/public/static/main/css/layer_mobile/layer.js"></script>
+  <script>
+function del(xid) {
+  layer.open({
+    title: [
+      '系统消息',
+      'background-color:#8DCE16; color:#fff;'
+    ]
+    ,anim: 'up'
+    ,content: '是否要删除这个牌号？'
+    ,btn: ['确认', '取消']
+	,yes: function(index){
+	  window.location.href="{:url('admin/index/jldwdel')}?xid="+xid+"&id={$id}";
+	}
+  });
+  }
+ </script>
+  
+<div style="margin-top:30px;"></div>
+		<div class="mx-4 mb-4 bg-white rounded-4 shadow overflow-hidden">
+			<div class="bg-white p-4 border-bottom">
+				<div class="d-flex gap-2 fl" onclick="location.reload();"><label class="btn btn-outline-success btn-sm rounded-pill" for="btnradio4"><i class="bi bi-wallet me-1"></i>刷新 </label><a href="{:url('symbol')}?id={$id}"><label class="btn btn-outline-danger btn-sm rounded-pill" for="btnradio4"><i class="bi bi-wallet me-1"></i>新增</label></a></div>
+				
+			</div>
+
+		</div>
+
+		{volist name='cls' id='vocls'}
+		<?php 
+		$i=1;
+		?>
+	
+			{volist name='all' id='vo'}
+				{if condition="($vocls.id==$vo.class)"}
+
+                    <div class="mx-4 mb-4 bg-white rounded-4 shadow overflow-hidden">
+            			<div class="bg-white p-2 border-bottom">
+            				<div class="accordion">
+            					<div class="accordion-item bg-white border-0">
+            						<h3 class="accordion-header p-3 fl" >{$vo.name}<a onclick="del({$vo.id})"><label class="btn btn-outline-danger btn-sm rounded-pill fr m-2" style="float:right;" >删除</label></a><a href="{:url('symboledit')}?id={$id}&xid={$vo.id}"><label class="btn btn-outline-success btn-sm rounded-pill fr m-2" style="float:right;"  >修改</label></a>
+            			</h2>
+            			<div style="clear:both;"></div>
+            					</div>
+            				</div>
+            			</div>
+            			
+            		</div>
+
+
+				{/if}
+			{/volist}
+		{/volist}
+		
+
+
+ {include file="public/footer" /}
+
